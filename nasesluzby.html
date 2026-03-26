@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ponúkame – CSS Studienka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #1E3055;
+      --teal:    #4A6DB8;
+      --teal-lt: #7A9ED4;
+      --gold:    #E07818;
+      --green:   #5A8F18;
+      --cream:   #FAFAF7;
+      --white:   #ffffff;
+      --gray-lt: #F2F0EB;
+      --gray-md: #8A8A82;
+      --text:    #252520;
+      --radius:  8px;
+      --shadow:  0 4px 24px rgba(30,48,85,.09);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 200px; }
+    body { font-family: 'Source Sans 3', sans-serif; color: var(--text); background: var(--cream); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HLAVIČKA ── */
+    header { background: var(--navy); color: var(--white); position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    .header-top { background: #4A6A10; text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .04em; padding: .45rem 1rem; color: rgba(255,255,255,.95); }
+    .header-top a { color: inherit; }
+    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: .5rem 2rem; }
+    .logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
+    .logo-icon { width: 140px; height: 140px; flex-shrink: 0; overflow: hidden; }
+    .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white); }
+    .logo-text .logo-sub { font-size: 1.3rem; font-weight: 600; color: var(--white); display: block; }
+    .logo-text .tagline { font-size: .8rem; color: #E07818; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; display: block; margin-top: .25rem; }
+    /* ── NAV s dropdown ── */
+    nav { display: flex; align-items: center; gap: .1rem; flex-wrap: nowrap; position: relative; }
+    nav > a, nav > .nav-item > a {
+      font-size: .88rem; font-weight: 500; letter-spacing: .02em;
+      padding: .5rem .75rem; border-radius: var(--radius);
+      transition: background .2s, color .2s;
+      color: rgba(255,255,255,.88); white-space: nowrap;
+      display: flex; align-items: center; gap: .25rem;
+    }
+    nav > a:hover, nav > .nav-item > a:hover { background: rgba(255,255,255,.12); color: var(--white); }
+    nav > a.active, nav > .nav-item > a.active { background: #E07818; color: var(--white); }
+    .nav-item { position: relative; }
+    .nav-item > a::after { content: '▾'; font-size: .65rem; opacity: .7; margin-left: .1rem; }
+    .dropdown {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: var(--navy); border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius); min-width: 230px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35); z-index: 300;
+      padding: .4rem 0 .4rem;
+      /* Neviditeľný mostík — predĺži hover zónu medzi tlačidlom a menu */
+      margin-top: 0;
+    }
+    .dropdown::before {
+      content: ''; position: absolute; top: -8px; left: 0;
+      width: 100%; height: 8px; background: transparent;
+    }
+    .nav-item:hover .dropdown,
+    .nav-item:focus-within .dropdown { display: block; }
+    .dropdown a {
+      display: block; padding: .55rem 1.1rem;
+      font-size: .85rem; color: rgba(255,255,255,.82);
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .dropdown a:hover { background: rgba(255,255,255,.09); color: var(--white); }
+    .dropdown a.active { color: #E07818; font-weight: 600; }
+    .dropdown-divider { height: 1px; background: rgba(255,255,255,.08); margin: .3rem 0; }
+    /* ── HAMBURGER ── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .5rem; border: none; background: transparent; z-index: 200; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* ── MOBILE NAV ── */
+    .mobile-nav { display: none; flex-direction: column; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); max-height: 85vh; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    /* Priame linky (Domov, Kontakt) */
+    .mobile-nav > a { font-size: .95rem; font-weight: 500; color: rgba(255,255,255,.85); padding: .75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06); transition: color .2s; display: block; }
+    .mobile-nav > a:hover, .mobile-nav > a.active { color: #E07818; }
+    /* Akordeón skupina */
+    .mob-group { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .mob-group-btn {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 1.5rem; color: rgba(255,255,255,.85);
+      font-size: .95rem; font-weight: 500; font-family: inherit;
+      transition: color .2s; text-align: left;
+    }
+    .mob-group-btn:hover { color: #E07818; }
+    .mob-group-btn.open { color: #E07818; }
+    .mob-group-btn .mob-arrow { font-size: .65rem; transition: transform .25s; opacity: .7; }
+    .mob-group-btn.open .mob-arrow { transform: rotate(180deg); }
+    /* Podpoložky */
+    .mob-sub-list { display: none; background: rgba(0,0,0,.2); }
+    .mob-sub-list.open { display: block; }
+    .mob-sub-list a { display: block; font-size: .88rem; color: rgba(255,255,255,.65); padding: .6rem 1.5rem .6rem 2.25rem; transition: color .2s; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .mob-sub-list a:last-child { border-bottom: none; }
+    .mob-sub-list a:hover, .mob-sub-list a.active { color: #E07818; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb { background: var(--white); border-bottom: 1px solid var(--gray-lt); padding: .75rem 2rem; }
+    .breadcrumb-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: .5rem; font-size: .83rem; color: var(--gray-md); }
+    .breadcrumb-inner a { color: var(--teal); transition: color .2s; }
+    .breadcrumb-inner a:hover { color: var(--navy); }
+
+    /* ── PAGE HERO ── */
+    .page-hero { background: linear-gradient(135deg, #1a2340 0%, #2d4a96 55%, #3d5fad 100%); color: var(--white); padding: 3.5rem 2rem; text-align: center; }
+    .page-hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: .5rem; }
+    .page-hero p { font-size: .97rem; color: rgba(255,255,255,.75); }
+
+    /* ── OBSAH ── */
+    .content-wrap {
+      max-width: 1100px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 185px;
+      max-height: calc(100vh - 210px);
+      overflow-y: auto;
+      margin-top: 2rem;
+    }
+    .sidebar-title {
+      background: var(--navy);
+      color: var(--white);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .85rem 1.25rem;
+    }
+    .sidebar-nav { display: flex; flex-direction: column; }
+    .sidebar-nav a {
+      display: block;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text);
+      padding: .7rem 1.25rem;
+      border-bottom: 1px solid var(--gray-lt);
+      transition: background .15s, color .15s, padding-left .15s;
+    }
+    .sidebar-nav a:last-child { border-bottom: none; }
+    .sidebar-nav a:hover { background: var(--gray-lt); color: var(--navy); padding-left: 1.6rem; }
+    .sidebar-nav a.active { background: var(--gold); color: var(--white); border-left: 3px solid #c96810; }
+    .sidebar-nav a.active:hover { padding-left: 1.25rem; }
+
+    .group { display: none; }
+    .group.active { display: block; }
+    .main-col { min-width: 0; }
+
+    .intro-box {
+      background: var(--white);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: .97rem;
+      font-style: italic;
+      color: var(--navy);
+      box-shadow: var(--shadow);
+      line-height: 1.75;
+    }
+
+    /* Bloky skupín */
+    .group {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.75rem;
+      overflow: hidden;
+    }
+
+    .group-header {
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .9rem 1.5rem;
+    }
+    .group-header svg { width: 20px; height: 20px; fill: var(--gold); flex-shrink: 0; }
+    .group-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: .01em;
+    }
+
+    .group-body { padding: 1.25rem 1.5rem 1.5rem; }
+
+    .item-list { list-style: none; }
+    .item-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: .45rem 0;
+      font-size: .95rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--gray-lt);
+    }
+    .item-list li:last-child { border-bottom: none; }
+    .item-list li::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+      margin-top: .55rem;
+    }
+    .item-list li.highlight { color: var(--teal); font-weight: 500; }
+
+    .group-body p { font-size: .95rem; color: #444; line-height: 1.85; margin-bottom: .9rem; }
+    .group-body p:last-child { margin-bottom: 0; }
+    .group-body ul { list-style: none; margin: .5rem 0 1rem 0; display: flex; flex-direction: column; gap: .3rem; }
+    .group-body ul li { font-size: .93rem; color: #555; display: flex; align-items: flex-start; gap: .6rem; padding: .2rem 0; }
+    .group-body ul li::before { content: '✓'; color: var(--gold); font-weight: 800; flex-shrink: 0; }
+    .group-body a { color: var(--teal); text-decoration: underline; }
+
+    /* ── PÄTIČKA ── */
+    footer { background: #141e35; color: rgba(255,255,255,.8); }
+    .footer-main { max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem 2rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
+    .footer-brand .f-tag { font-size: .75rem; color: #E07818; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; }
+    .footer-col h4 { color: var(--white); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid #E07818; display: inline-block; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: .55rem; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; }
+    .footer-col ul li a:hover { color: #E07818; }
+    .footer-col ul li::before { display: none; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); text-align: center; padding: 1.25rem 2rem; font-size: .8rem; color: rgba(255,255,255,.4); }
+
+    /* ── RESPONZÍVNOSŤ ── */
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .header-main { padding: .85rem 1.25rem; }
+      .content-wrap { grid-template-columns: 1fr; padding: 0 1.25rem; margin: 2rem auto 3.5rem; }
+      .sidebar { position: static; margin-top: 0; max-height: none; }
+    }
+    @media (max-width: 1024px) {
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 640px) {
+      .footer-main { grid-template-columns: 1fr; padding: 2.5rem 1.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ HLAVIČKA ═══════ -->
+<header>
+  <div class="header-top">
+    Otvorené: Po–Pia 07:00–15:30 &nbsp;|&nbsp; Tel: 043/559 01 97 &nbsp;|&nbsp;
+    <a href="/cdn-cgi/l/email-protection#f3908080dd808786979a969d9892b3858690899a9f9a9d92dd8098"><span class="__cf_email__" data-cfemail="107363633e6364657479757e7b71506665736a797c797e713e637b">[email&#160;protected]</span></a>
+  </div>
+  <div class="header-main">
+    <a href="domov.html" class="logo">
+      <div class="logo-icon">
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+      </div>
+      <div class="logo-text">
+        <h1>Centrum Sociálnych Služieb<span class="logo-sub">Studienka v Novoti</span></h1>
+        <span class="tagline">Starostlivosť · Dôstojnosť · Domov</span>
+      </div>
+    </a>
+    <nav>
+      <a href="domov.html">Domov</a>
+      <div class="nav-item">
+        <a href="onas.html">O nás</a>
+        <div class="dropdown">
+        <a href="onas.html">O zariadení</a>
+        <a href="historia.html">História</a>
+        <a href="nastim.html">Náš tým</a>
+        <a href="poslanie.html">Poslanie a vízia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="nasesluzby.html" class="active">Naše služby</a>
+        <div class="dropdown">
+        <a href="nasesluzby.html">Prehľad služieb</a>
+        <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
+        <a href="nasesluzby.html#dss">Domov soc. služieb</a>
+        <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
+        <a href="nasesluzby.html#denne">Denné centrum</a>
+        <a href="nasesluzby.html#jedalen">Jedáleň</a>
+        <a href="nasesluzby.html#preprava">Prepravná služba</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="informacieprevas.html">Pre záujemcov</a>
+        <div class="dropdown">
+        <a href="informacieprevas.html">Ako začať</a>
+        <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
+        <a href="informacieprevas.html#cennik">Cenník služieb</a>
+        <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
+        <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+        <a href="informacieprevas.html#ekonomicky">Ekon. oprávnené náklady</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="informacieprevas.html#pribuzni">Pre rodiny</a>
+        <div class="dropdown">
+        <a href="informacieprevas.html#pribuzni">Informácie pre príbuzných</a>
+        <a href="informacieprevas.html#navstevy">Návštevy</a>
+        <a href="informacieprevas.html#otvaracie">Otvárací čas</a>
+        <a href="informacieprevas.html#vychadzky">Vychádzky</a>
+        <a href="informacieprevas.html#pobyt">Pobyt mimo zariadenia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="aktuality.html">Aktuality</a>
+        <div class="dropdown">
+        <a href="aktuality.html">Všetky aktuality</a>
+        <a href="galeria.html">Fotogaléria</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="nastiahnutie.html">Dokumenty</a>
+        <div class="dropdown">
+        <a href="nastiahnutie.html">Na stiahnutie</a>
+        <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+        </div>
+      </div>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="domov.html">Domov</a>
+  <div class="mob-group">
+    <button class="mob-group-btn">O nás<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="onas.html">O zariadení</a>
+      <a href="historia.html">História</a>
+      <a href="nastim.html">Náš tím</a>
+      <a href="poslanie.html">Poslanie a vízia</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="nasesluzby.html">Prehľad služieb</a>
+      <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
+      <a href="nasesluzby.html#dss">Domov soc. služieb</a>
+      <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
+      <a href="nasesluzby.html#denne">Denné centrum</a>
+      <a href="nasesluzby.html#jedalen">Jedáleň</a>
+      <a href="nasesluzby.html#preprava">Prepravná služba</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Pre záujemcov<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
+      <a href="informacieprevas.html#cennik">Cenník služieb</a>
+      <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
+      <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Pre rodiny<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="informacieprevas.html#pribuzni">Informácie pre príbuzných</a>
+      <a href="informacieprevas.html#navstevy">Návštevy</a>
+      <a href="informacieprevas.html#otvaracie">Otvárací čas</a>
+      <a href="informacieprevas.html#vychadzky">Vychádzky</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Aktuality<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="aktuality.html">Všetky aktuality</a>
+      <a href="galeria.html">Fotogaléria</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="nastiahnutie.html">Na stiahnutie</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+    </div>
+  </div>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+</header>
+
+<!-- ═══════ BREADCRUMB ═══════ -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="domov.html">Domov</a>
+    <span>›</span>
+    <a href="nasesluzby.html">Naše služby</a>
+    <span>›</span>
+    <span>Naše služby</span>
+  </div>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="page-hero">
+  <h2>Naše služby</h2>
+  <p>Prehľad odborných, obslužných a ďalších činností, ktoré poskytujeme našim klientom</p>
+</div>
+
+<!-- ═══════ OBSAH ═══════ -->
+<div class="content-wrap">
+
+  <!-- Bočná navigácia -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Naše služby</div>
+    <nav class="sidebar-nav">
+      <a href="#zariadenie" class="active">Zariadenie pre seniorov</a>
+      <a href="#dss">Domov sociálnych služieb</a>
+      <a href="#specializovane">Špecializované zariadenie</a>
+      <a href="#denne">Denné centrum</a>
+      <a href="#jedalen">Jedáleň</a>
+      <a href="#preprava">Prepravná služba</a>
+    </nav>
+  </aside>
+
+  <!-- Hlavný obsah -->
+  <div class="main-col">
+
+  <div class="intro-box">
+    Pri poskytovaní odborných, obslužných a ďalších činností sa riadime zákonom číslo 448/2008 Z. z. o sociálnych službách v znení neskorších právnych predpisov.
+  </div>
+
+  <!-- Zariadenie pre seniorov -->
+  <div class="group active" id="zariadenie">
+    <div class="group-header">
+      <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+      <h3>Zariadenie pre seniorov</h3>
+    </div>
+    <div class="group-body">
+      <p>Zariadenie pre seniorov je <strong>celoročná pobytová sociálna služba</strong> s kapacitou <strong>13 prijímateľov</strong>. Poskytujeme ju v zmysle zákona č. 448/2008 Z. z. o sociálnych službách.</p>
+      <p><strong>Cieľová skupina:</strong> fyzické osoby, ktoré dovŕšili dôchodkový vek a sú odkázané na pomoc inej osoby so <strong>stupňom odkázanosti najmenej IV</strong>, alebo potrebujú túto službu z iných vážnych dôvodov.</p>
+      <p><strong>Poskytované činnosti:</strong></p>
+      <ul>
+        <li>Pomoc pri odkázanosti na pomoc inej fyzickej osoby</li>
+        <li>Sociálne poradenstvo a sociálna rehabilitácia</li>
+        <li>Ubytovanie, stravovanie, upratovanie, pranie a údržba bielizne</li>
+        <li>Osobné vybavenie a úschova cenných vecí</li>
+        <li>Záujmová činnosť</li>
+        <li>Ošetrovateľská starostlivosť</li>
+      </ul>
+      <p>Zariadenie umožňuje otvorený kontakt s príbuznými aj s ostatnými občanmi Novote a okolia každý deň.</p>
+    </div>
+  </div>
+
+  <!-- Domov sociálnych služieb -->
+  <div class="group" id="dss">
+    <div class="group-header">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <h3>Domov sociálnych služieb</h3>
+    </div>
+    <div class="group-body">
+      <p>Domov sociálnych služieb je <strong>celoročná pobytová sociálna služba</strong> s kapacitou <strong>30 prijímateľov</strong>. Poskytujeme ju v zmysle zákona č. 448/2008 Z. z. o sociálnych službách.</p>
+      <p><strong>Cieľová skupina:</strong> fyzické osoby <strong>do dovŕšenia dôchodkového veku</strong>, ktoré sú odkázané na pomoc inej osoby so <strong>stupňom odkázanosti najmenej V</strong>.</p>
+      <p><strong>Poskytované činnosti:</strong></p>
+      <ul>
+        <li>Pomoc pri odkázanosti na pomoc inej fyzickej osoby</li>
+        <li>Sociálne poradenstvo a sociálna rehabilitácia</li>
+        <li>Ubytovanie, stravovanie, upratovanie, pranie a údržba bielizne</li>
+        <li>Pracovná terapia a záujmová činnosť</li>
+        <li>Rozvoj pracovných zručností</li>
+        <li>Ošetrovateľská starostlivosť</li>
+        <li>Úschova cenných vecí</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Špecializované zariadenie -->
+  <div class="group" id="specializovane">
+    <div class="group-header">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+      <h3>Špecializované zariadenie</h3>
+    </div>
+    <div class="group-body">
+      <p>Špecializované zariadenie je <strong>celoročná pobytová sociálna služba</strong> s kapacitou <strong>59 prijímateľov</strong>. Poskytujeme ju v zmysle zákona č. 448/2008 Z. z. o sociálnych službách.</p>
+      <p><strong>Cieľová skupina:</strong> fyzické osoby so <strong>stupňom odkázanosti najmenej V</strong>, ktoré trpia niektorou z týchto chorôb:</p>
+      <ul>
+        <li>Alzheimerova choroba a iné typy demencií</li>
+        <li>Parkinsonova choroba</li>
+        <li>Skleróza multiplex</li>
+        <li>Schizofrénia</li>
+        <li>Hluchoslepota</li>
+        <li>AIDS</li>
+        <li>Ťažký organický psychosyndróm</li>
+      </ul>
+      <p><strong>Poskytované činnosti:</strong></p>
+      <ul>
+        <li>Pomoc pri odkázanosti na pomoc inej fyzickej osoby</li>
+        <li>Sociálne poradenstvo a sociálna rehabilitácia</li>
+        <li>Ubytovanie, stravovanie, upratovanie, pranie a údržba bielizne a šatstva</li>
+        <li>Rozvoj pracovných zručností a záujmová činnosť</li>
+        <li>Ošetrovateľská starostlivosť</li>
+        <li>Úschova cenných vecí</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Denné centrum -->
+  <div class="group" id="denne">
+    <div class="group-header">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <h3>Denné centrum</h3>
+    </div>
+    <div class="group-body">
+      <p>Denné centrum je <strong>ambulantná sociálna služba</strong> pre osoby, ktoré dosiahli dôchodkový vek alebo majú ťažké zdravotné postihnutie či nepriaznivý zdravotný stav a majú minimálne <strong>15 rokov</strong>.</p>
+      <p><strong>Prevádzkový čas:</strong> Pondelok – Piatok, 08:00 – 15:00 hod. (iný čas možno dohodnúť individuálne).</p>
+      <p><strong>Ponúkané terapie a aktivity:</strong></p>
+      <ul>
+        <li>Arteterapia a výtvarné aktivity</li>
+        <li>Liečebná telesná výchova (LTV)</li>
+        <li>Sociálna rehabilitácia</li>
+        <li>Spoločenské hry — Boccia, stolný tenis</li>
+        <li>Knižnica s počítačmi</li>
+        <li>Snoezelen a kaplnka</li>
+      </ul>
+      <p><strong>Doplňujúce služby:</strong> stravovanie (obedy), prepravná služba pre osoby s obmedzenou mobilitou.</p>
+    </div>
+  </div>
+
+  <!-- Jedáleň -->
+  <div class="group" id="jedalen">
+    <div class="group-header">
+      <svg viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-8-15.03-8-15.03 0h15.03zM1.02 17h15v2h-15z"/></svg>
+      <h3>Jedáleň</h3>
+    </div>
+    <div class="group-body">
+      <p>Jedáleň je <strong>ambulantná sociálna služba</strong> s kapacitou <strong>15 prijímateľov</strong>. Poskytujeme stravovanie fyzickým osobám, ktoré nemajú zabezpečené stravovanie iným spôsobom.</p>
+      <p><strong>Cieľová skupina:</strong> osoby, ktorým chýbajú podmienky na uspokojovanie základných životných potrieb, osoby s vážnym zdravotným postihnutím alebo nepriaznivým zdravotným stavom, alebo osoby dôchodkového veku.</p>
+      <p><strong>Formy poskytovania stravy:</strong></p>
+      <ul>
+        <li><strong>Výdaj mimo zariadenia</strong> — obedár si vyzdvihne obed do vlastných nádob v určenom čase</li>
+        <li><strong>Stravovanie v zariadení</strong> — konzumácia v jedálni počas poskytovania iných sociálnych služieb</li>
+      </ul>
+      <p>Cena stravy je stanovená podľa aktuálneho cenníka zariadenia. Informácie o voľných miestach a žiadosti nájdete v sekcii <a href="informacieprevas.html">Pre záujemcov</a>.</p>
+    </div>
+  </div>
+
+  <!-- Prepravná služba -->
+  <div class="group" id="preprava">
+    <div class="group-header">
+      <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+      <h3>Prepravná služba</h3>
+    </div>
+    <div class="group-body">
+      <p>Prepravná služba je <strong>terénna sociálna služba</strong> určená fyzickým osobám s ťažkým zdravotným postihnutím, odkázaným na individuálnu prepravu osobným motorovým vozidlom, alebo osobám s obmedzenou mobilitou a orientáciou.</p>
+      <p><strong>Podmienky poskytovania:</strong></p>
+      <ul>
+        <li>Posudok z úradu práce o potrebe individuálnej prepravy, alebo potvrdenie zdravotného poskytovateľa o nepriaznivom zdravotnom stave</li>
+        <li>Územie: kataster obce Novoť a okolie do <strong>50 km</strong> (výnimky so súhlasom vedenia)</li>
+        <li>Čas: <strong>Pondelok – Piatok, 07:00 – 15:00</strong> (iný čas výnimočne so súhlasom)</li>
+        <li>Objednávka minimálne <strong>24 hodín vopred</strong> — telefonicky alebo osobne</li>
+      </ul>
+      <p><strong>Cena:</strong> počítaná ako súčin počtu najazdených kilometrov a sadzby za kilometer plus poplatok za čakanie podľa aktuálneho cenníka.</p>
+      <p>Žiadosť sa podáva minimálne <strong>5 pracovných dní vopred</strong>. Bližšie informácie nájdete v sekcii <a href="informacieprevas.html">Pre záujemcov</a>.</p>
+    </div>
+  </div>
+  </div><!-- /main-col -->
+
+</div><!-- /content-wrap -->
+
+<!-- ═══════ PÄTIČKA ═══════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <h3>Centrum Sociálnych Služieb Studienka v Novoti</h3>
+      <div class="f-tag">Starostlivosť · Dôstojnosť · Domov</div>
+      <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigácia</h4>
+      <ul>
+        <li><a href="domov.html">Domov</a></li>
+        <li><a href="nasesluzby.html">Ponúkame</a></li>
+        <li><a href="informacieprevas.html">Informácie pre Vás</a></li>
+        <li><a href="aktuality.html">Aktuality</a></li>
+        <li><a href="povinnezverejnovanie.html">Povinné zverejňovanie</a></li>
+        <li><a href="onas.html">O nás</a></li>
+        <li><a href="nastiahnutie.html">Na stiahnutie</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li>Novoť 976, 029 55</li>
+        <li><a href="tel:+421435590197">043 / 559 01 97</a></li>
+        <li><a href="tel:+421435590287">043 / 559 02 87</a></li>
+        <li><a href="tel:+421948985019">0948 985 019</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#345747471a474041505d515a5f55744241574e5d585d5a551a475f"><span class="__cf_email__" data-cfemail="523121217c212627363b373c393312242731283b3e3b3c337c2139">[email&#160;protected]</span></a></li>
+        <li style="margin-top:.75rem; padding-top:.75rem; border-top:1px solid rgba(255,255,255,.1);"><a href="https://www.osobnyudaj.sk/informovanie/00632830" target="_blank" rel="noopener">Ochrana osobných údajov</a></li>
+      </ul>
+    </div>
+  </div>
+
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Centrum Sociálnych Služieb Studienka &nbsp;·&nbsp; Všetky práva vyhradené
+  </div>
+</footer>
+<script>
+// ── HAMBURGER ──
+var btn = document.getElementById('hamburger');
+var mNav = document.getElementById('mobileNav');
+if (btn && mNav) {
+  btn.addEventListener('click', function() { btn.classList.toggle('open'); mNav.classList.toggle('open'); });
+  mNav.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { btn.classList.remove('open'); mNav.classList.remove('open'); }); });
+}
+document.querySelectorAll('.mob-group-btn').forEach(function(b) {
+  b.addEventListener('click', function() { b.classList.toggle('open'); b.nextElementSibling.classList.toggle('open'); });
+});
+
+// ── SIDEBAR ZÁLOŽKY ──
+var sideLinks = document.querySelectorAll('.sidebar-nav a');
+var groups    = document.querySelectorAll('.group');
+
+function showSection(id) {
+  groups.forEach(function(g) { g.classList.remove('active'); });
+  sideLinks.forEach(function(l) { l.classList.remove('active'); });
+  var target   = document.getElementById(id);
+  var matchLink = document.querySelector('.sidebar-nav a[href="#' + id + '"]');
+  if (target)    target.classList.add('active');
+  if (matchLink) matchLink.classList.add('active');
+}
+
+// Ak stránka načítaná s hashom, zobraz správnu sekciu
+(function() {
+  var hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    showSection(hash);
+  }
+})();
+
+sideLinks.forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    var id = this.getAttribute('href').replace('#', '');
+    showSection(id);
+    // scrollnúť na vršok obsahu
+    var top = document.querySelector('.content-wrap').getBoundingClientRect().top
+              + window.scrollY
+              - document.querySelector('header').offsetHeight - 16;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
