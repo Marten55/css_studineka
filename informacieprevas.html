@@ -763,6 +763,54 @@
 </div><!-- /main-content -->
 
 <!-- ═══════ PÄTIČKA ═══════ -->
+<script>
+  // ── Hamburger ──
+  var hBtn = document.getElementById('hamburger');
+  var mNav = document.getElementById('mobileNav');
+  if (hBtn && mNav) {
+    hBtn.addEventListener('click', function () {
+      hBtn.classList.toggle('open');
+      mNav.classList.toggle('open');
+    });
+    document.querySelectorAll('.mob-group-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('open');
+        btn.nextElementSibling.classList.toggle('open');
+      });
+    });
+  }
+
+  // ── Scroll highlighting bočného panelu ──
+  var sideLinks = document.querySelectorAll('.sidebar nav a[href^="#"]');
+  var sections  = Array.from(sideLinks).map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  }).filter(Boolean);
+
+  function setActive(id) {
+    sideLinks.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+  }
+
+  // Pri kliknutí — okamžité zvýraznenie
+  sideLinks.forEach(function (a) {
+    a.addEventListener('click', function () {
+      setActive(a.getAttribute('href').slice(1));
+    });
+  });
+
+  // Pri scrollovaní — IntersectionObserver
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        setActive(entry.target.id);
+      }
+    });
+  }, { rootMargin: '-200px 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(function (s) { observer.observe(s); });
+</script>
+
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
