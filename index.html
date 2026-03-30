@@ -1,8 +1,1271 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=domov.html">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Centrum Sociálnych Služieb Studienka v Novoti</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #1A4A96;
+      --teal:    #4A6DB8;
+      --teal-lt: #7A9ED4;
+      --gold:    #E07818;
+      --green:   #5A8F18;
+      --cream:   #FAFAF7;
+      --white:   #ffffff;
+      --gray-lt: #F2F0EB;
+      --gray-md: #8A8A82;
+      --text:    #252520;
+      --radius:  8px;
+      --shadow:  0 4px 24px rgba(30,48,85,.09);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; color: var(--text); background: var(--cream); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HLAVIČKA ── */
+    header { background: var(--navy); color: var(--white); position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    .header-top { background: #4A6A10; text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .04em; padding: .45rem 1rem; color: rgba(255,255,255,.95); }
+    .header-top a { color: inherit; }
+    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: .5rem 2rem; }
+    .logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
+    .logo-icon { width: 140px; height: 140px; flex-shrink: 0; overflow: hidden; }
+    .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white); }
+    .logo-text .logo-sub { font-size: 1.3rem; font-weight: 600; color: var(--white); display: block; }
+    .logo-text .tagline { font-size: .8rem; color: #E07818; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; display: block; margin-top: .25rem; }
+    /* ── NAV s dropdown ── */
+    nav { display: flex; align-items: center; gap: .1rem; flex-wrap: nowrap; position: relative; }
+    nav > a, nav > .nav-item > a {
+      font-size: .88rem; font-weight: 500; letter-spacing: .02em;
+      padding: .5rem .75rem; border-radius: var(--radius);
+      transition: background .2s, color .2s;
+      color: rgba(255,255,255,.88); white-space: nowrap;
+      display: flex; align-items: center; gap: .25rem;
+    }
+    nav > a:hover, nav > .nav-item > a:hover { background: rgba(255,255,255,.12); color: var(--white); }
+    nav > a.active, nav > .nav-item > a.active { background: #E07818; color: var(--white); }
+    .nav-item { position: relative; }
+    .nav-item > a::after { content: '▾'; font-size: .65rem; opacity: .7; margin-left: .1rem; }
+    .dropdown {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: var(--navy); border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius); min-width: 230px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35); z-index: 300;
+      padding: .4rem 0 .4rem;
+      /* Neviditeľný mostík — predĺži hover zónu medzi tlačidlom a menu */
+      margin-top: 0;
+    }
+    .dropdown::before {
+      content: ''; position: absolute; top: -8px; left: 0;
+      width: 100%; height: 8px; background: transparent;
+    }
+    .nav-item:hover .dropdown,
+    .nav-item:focus-within .dropdown { display: block; }
+    .dropdown a {
+      display: block; padding: .55rem 1.1rem;
+      font-size: .85rem; color: rgba(255,255,255,.82);
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .dropdown a:hover { background: rgba(255,255,255,.09); color: var(--white); }
+    .dropdown a.active { color: #E07818; font-weight: 600; }
+    .dropdown-divider { height: 1px; background: rgba(255,255,255,.08); margin: .3rem 0; }
+    /* ── HAMBURGER ── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .5rem; border: none; background: transparent; z-index: 200; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* ── MOBILE NAV ── */
+    .mobile-nav { display: none; flex-direction: column; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); max-height: 85vh; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    /* Priame linky (Domov, Kontakt) */
+    .mobile-nav > a { font-size: .95rem; font-weight: 500; color: rgba(255,255,255,.85); padding: .75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06); transition: color .2s; display: block; }
+    .mobile-nav > a:hover, .mobile-nav > a.active { color: #E07818; }
+    /* Akordeón skupina */
+    .mob-group { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .mob-group-btn {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 1.5rem; color: rgba(255,255,255,.85);
+      font-size: .95rem; font-weight: 500; font-family: inherit;
+      transition: color .2s; text-align: left;
+    }
+    .mob-group-btn:hover { color: #E07818; }
+    .mob-group-btn.open { color: #E07818; }
+    .mob-group-btn .mob-arrow { font-size: .65rem; transition: transform .25s; opacity: .7; }
+    .mob-group-btn.open .mob-arrow { transform: rotate(180deg); }
+    /* Podpoložky */
+    .mob-sub-list { display: none; background: rgba(0,0,0,.2); }
+    .mob-sub-list.open { display: block; }
+    .mob-sub-list a { display: block; font-size: .88rem; color: rgba(255,255,255,.65); padding: .6rem 1.5rem .6rem 2.25rem; transition: color .2s; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .mob-sub-list a:last-child { border-bottom: none; }
+    .mob-sub-list a:hover, .mob-sub-list a.active { color: #E07818; }
+
+    /* ══════════════════════════════
+       HERO SLIDER
+    ══════════════════════════════ */
+    .slider { position: relative; width: 100%; height: 62vh; min-height: 420px; overflow: hidden; background: var(--navy); }
+
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; overflow: hidden; }
+    .slide.active { opacity: 1; z-index: 2; }
+    .slide.prev   { opacity: 0; z-index: 1; }
+
+    .slide-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 7s ease; }
+    .slide.active .slide-img { transform: scale(1); }
+
+    .slide-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(30,48,85,.82) 0%, rgba(30,48,85,.50) 50%, rgba(30,48,85,.18) 100%); z-index: 1; }
+
+    /* Diagonálny klín — ako na inšpiračnom webe */
+    .slide-diagonal { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+    .slide-diagonal::after { content: ''; position: absolute; top: 0; left: 0; width: 52%; height: 100%; background: linear-gradient(to bottom right, rgba(30,48,85,.75) 0%, rgba(30,48,85,.75) 49.9%, transparent 50%); }
+
+    .slide-content { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; padding: 0 8% 0 7%; }
+    .slide-text { max-width: 580px; transform: translateY(28px); opacity: 0; transition: transform .95s ease .25s, opacity .95s ease .25s; }
+    .slide.active .slide-text { transform: translateY(0); opacity: 1; }
+
+    .slide-tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #E07818; margin-bottom: .9rem; position: relative; padding-left: 2rem; }
+    .slide-tag::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 1.4rem; height: 2px; background: #E07818; }
+
+    .slide-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; color: var(--white); line-height: 1.18; margin-bottom: 1rem; }
+    .slide-text p { font-size: 1.05rem; color: rgba(255,255,255,.82); max-width: 460px; margin-bottom: 2rem; line-height: 1.7; }
+    .slide-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.8rem; border-radius: 4px; font-weight: 600; font-size: .92rem; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; font-family: inherit; border: none; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+    .btn-primary { background: #E07818; color: var(--white); }
+    .btn-primary:hover { background: #c96810; }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.55); }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.08); }
+    .btn-outline-dark { background: transparent; color: var(--navy); border: 2px solid var(--navy); transition: background .2s, color .2s; }
+    .btn-outline-dark:hover { background: var(--navy); color: var(--white); }
+
+    /* Dots */
+    .slider-nav { position: absolute; bottom: 2.5rem; left: 7%; z-index: 10; display: flex; align-items: center; gap: .6rem; }
+    .slider-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.35); cursor: pointer; transition: background .3s, transform .3s; border: none; padding: 0; }
+    .slider-dot.active { background: #E07818; transform: scale(1.3); }
+
+    /* Progress bar */
+    .slider-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #E07818; width: 0%; z-index: 10; }
+
+    /* Arrows */
+    .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 48px; height: 48px; border: 2px solid rgba(255,255,255,.4); background: rgba(255,255,255,.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s, border-color .2s; backdrop-filter: blur(4px); }
+    .slider-arrow:hover { background: #E07818; border-color: #E07818; }
+    .slider-arrow svg { width: 20px; height: 20px; fill: var(--white); }
+    .prev-arrow { left: 1.5rem; }
+    .next-arrow { right: 1.5rem; }
+
+    /* ── VLNOVÝ ODDELOVAČ ── */
+    .wave-sep { display: block; width: 100%; line-height: 0; overflow: hidden; }
+    .wave-sep svg { display: block; width: 100%; }
+
+    /* ── ŠTATISTIKY ── */
+    .stats { background: var(--white); border-bottom: 3px solid #5A8F18; }
+    .stats-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); text-align: center; }
+    .stat-item { padding: 2rem 1rem; border-right: 1px solid var(--gray-lt); transition: background .2s; }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: #f7faf2; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--teal); line-height: 1; margin-bottom: .3rem; }
+    .stat-lbl { font-size: .82rem; color: var(--gray-md); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+
+    /* ── SEKCIE ── */
+    .section { padding: 5rem 2rem; }
+    .section-green { background: #f4f7ee; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-tag { display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #5A8F18; margin-bottom: .75rem; }
+    .section-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 700; color: var(--navy); margin-bottom: .75rem; }
+    .section-header p { color: var(--gray-md); max-width: 560px; margin: 0 auto; }
+    .divider { width: 56px; height: 3px; background: #E07818; border-radius: 2px; margin: .9rem auto 0; }
+
+    /* ── KARTY ── */
+    .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+
+    /* Scroll-in animácia */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--teal);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(48px);
+      transition: opacity .85s ease, transform .85s ease, box-shadow .3s;
+    }
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card:nth-child(3n+2) { border-top-color: #E07818; }
+    .card:nth-child(3n)   { border-top-color: #5A8F18; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 38px rgba(30,48,85,.16); }
+
+    /* Štandardná karta — s ikonou */
+    .card-body { padding: 1.75rem; }
+    .card-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--teal), var(--teal-lt)); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+    .card:nth-child(3n+2) .card-icon { background: linear-gradient(135deg, #E07818, #f0a050); }
+    .card:nth-child(3n)   .card-icon { background: linear-gradient(135deg, #5A8F18, #7ab830); }
+    .card-icon svg { width: 26px; height: 26px; fill: var(--white); }
+    .card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: .6rem; }
+    .card p { font-size: .92rem; color: #555; line-height: 1.65; }
+
+    /* Karta s fotkou */
+    .card-photo { position: relative; height: 200px; overflow: hidden; }
+    .card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+    .card:hover .card-photo img { transform: scale(1.06); }
+    .card-photo-badge {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(30,48,85,.75));
+      padding: 1.5rem .85rem .55rem;
+      color: rgba(255,255,255,.85);
+      font-size: .75rem; letter-spacing: .05em; text-transform: uppercase; font-weight: 600;
+    }
+
+    /* ── O NÁS ── */
+    .about-grid { display: grid; grid-template-columns: 55% 45%; gap: 3rem; align-items: center; }
+    .about-img-wrap { border-radius: 16px; overflow: hidden; box-shadow: 0 8px 40px rgba(30,48,85,.18); position: relative; width: 100%; }
+    .about-img-wrap img { width: 100%; height: 500px; object-fit: cover; object-position: center top; display: block; transition: transform .6s ease; }
+    .about-img-wrap:hover img { transform: scale(1.03); }
+    .about-badge { position: absolute; bottom: 1.5rem; right: 1.5rem; background: #E07818; color: var(--white); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; padding: .8rem 1.2rem; border-radius: 8px; text-align: center; line-height: 1.2; }
+    .about-badge small { display: block; font-family: 'Source Sans 3', sans-serif; font-size: .72rem; font-weight: 500; opacity: .9; }
+    .about-content .section-tag { display: block; margin-bottom: .5rem; }
+    .about-content h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 3vw, 2rem); color: var(--navy); margin-bottom: 1.25rem; line-height: 1.3; }
+    .about-content p { color: #555; margin-bottom: 1rem; font-size: .97rem; }
+    .feature-list { list-style: none; margin: 1.5rem 0; }
+    .feature-list li { display: flex; align-items: flex-start; gap: .75rem; padding: .45rem 0; font-size: .93rem; border-bottom: 1px solid var(--gray-lt); }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-list li::before { content: '✓'; color: #5A8F18; font-weight: 800; flex-shrink: 0; }
+
+    /* ── KONTAKT SEKCIA (tmavá) ── */
+    .section-dark { background: var(--navy); padding: 5rem 2rem; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.1rem; }
+    .contact-card { background: rgba(255,255,255,.06); border-radius: var(--radius); padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; border-left: 3px solid var(--teal); backdrop-filter: blur(4px); }
+    .contact-card:nth-child(2) { border-left-color: #E07818; }
+    .contact-card:nth-child(3) { border-left-color: #5A8F18; }
+    .contact-card:nth-child(4) { border-left-color: var(--teal-lt); }
+    .contact-icon { width: 40px; height: 40px; flex-shrink: 0; background: rgba(255,255,255,.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .contact-icon svg { width: 18px; height: 18px; fill: #E07818; }
+    .contact-card h4 { font-size: .75rem; text-transform: uppercase; letter-spacing: .07em; color: rgba(255,255,255,.5); margin-bottom: .2rem; }
+    .contact-card p { font-size: .92rem; color: rgba(255,255,255,.85); font-weight: 500; line-height: 1.5; }
+    .contact-card p a { color: var(--teal-lt); }
+    .contact-form-wrap { background: var(--white); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
+    .contact-form-wrap h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--navy); margin-bottom: 1.25rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--navy); margin-bottom: .4rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: .7rem 1rem; border: 1.5px solid #ddd; border-radius: var(--radius); font-family: inherit; font-size: .93rem; color: var(--text); background: var(--gray-lt); outline: none; transition: border-color .2s; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--teal); background: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-submit { background: var(--teal); color: var(--white); border: none; width: 100%; padding: .85rem; font-size: .95rem; border-radius: var(--radius); cursor: pointer; font-family: inherit; font-weight: 600; transition: background .2s; }
+    .btn-submit:hover { background: var(--navy); }
+
+    /* ── PÄTIČKA ── */
+    footer { background: #0E1D4A; color: rgba(255,255,255,.8); }
+    .footer-main { max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem 2rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
+    .footer-brand .f-tag { font-size: .75rem; color: #E07818; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; }
+    .footer-col h4 { color: var(--white); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid #E07818; display: inline-block; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: .55rem; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; }
+    .footer-col ul li a:hover { color: #E07818; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); text-align: center; padding: 1.25rem 2rem; font-size: .8rem; color: rgba(255,255,255,.4); }
+
+    /* ── RESPONZÍVNOSŤ ── */
+    @media (max-width: 1024px) {
+      .cards { grid-template-columns: repeat(2,1fr); }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+        @media (max-width: 1100px) {
+      nav > .nav-item > a, nav > a { font-size: .8rem; padding: .45rem .55rem; }
+    }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .header-main { padding: .85rem 1.25rem; }
+      .logo-text h1 { font-size: 1.4rem; }
+      .logo-text .logo-sub { font-size: .95rem; }
+    }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .slider { height: 58vh; min-height: 380px; }
+      .cards { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-brand { grid-column: auto; }
+      
+      .slide-content { padding: 0 5%; }
+      .slide-diagonal::after { width: 100%; background: rgba(30,48,85,.65); }
+      .slider-arrow { width: 36px; height: 36px; }
+      .slider-arrow svg { width: 15px; height: 15px; }
+      .prev-arrow { left: .5rem; }
+      .next-arrow { right: .5rem; }
+    }
+
+    /* ── ZO ŽIVOTA U NÁS ── */
+    .news-section { background: #FAFAF7; padding: 5rem 2rem; }
+    .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; max-width: 1200px; margin: 0 auto; }
+    .news-card {
+      background: var(--white);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 20px rgba(30,48,85,.08);
+      transition: transform .3s ease, box-shadow .3s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .news-card.visible { opacity: 1; transform: translateY(0); }
+    .news-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(30,48,85,.15); }
+    .news-card-img {
+      position: relative; height: 210px; overflow: hidden;
+      background: linear-gradient(135deg, var(--teal), var(--navy));
+    }
+    .news-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+    .news-card:hover .news-card-img img { transform: scale(1.06); }
+    .news-card-img-placeholder {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .5rem;
+      color: rgba(255,255,255,.5); font-size: .8rem; letter-spacing: .06em;
+    }
+    .news-card-img-placeholder svg { width: 40px; height: 40px; fill: rgba(255,255,255,.25); }
+    .news-tag-pill {
+      position: absolute; top: .85rem; left: .85rem;
+      background: #E07818; color: var(--white);
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: .28rem .75rem; border-radius: 2rem;
+    }
+    .news-card-body { padding: 1.4rem 1.5rem 1.6rem; }
+    .news-meta { display: flex; align-items: center; gap: .6rem; font-size: .76rem; color: var(--gray-md); margin-bottom: .65rem; }
+    .news-meta svg { width: 13px; height: 13px; fill: #5A8F18; flex-shrink: 0; }
+    .news-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--navy); line-height: 1.35; margin-bottom: .55rem; }
+    .news-card-body p { font-size: .88rem; color: #666; line-height: 1.65; }
+    .news-read-more {
+      display: inline-flex; align-items: center; gap: .35rem;
+      margin-top: .9rem; font-size: .82rem; font-weight: 600;
+      color: #5A8F18; transition: gap .2s;
+    }
+    .news-read-more svg { width: 14px; height: 14px; fill: #5A8F18; transition: transform .2s; }
+    .news-card:hover .news-read-more { gap: .6rem; }
+    .news-card:hover .news-read-more svg { transform: translateX(3px); }
+    .news-footer { text-align: center; margin-top: 2.75rem; }
+    .btn-news-all {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .8rem 2rem; border-radius: 4px; font-weight: 600; font-size: .92rem;
+      background: var(--navy); color: var(--white);
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-news-all:hover { background: #E07818; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+    .btn-news-all svg { width: 16px; height: 16px; fill: var(--white); }
+    @media (max-width: 900px) { .news-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .news-grid { grid-template-columns: 1fr; } .news-section { padding: 3.5rem 1.25rem; } }
+
+    /* ── HISTÓRIA TIMELINE ── */
+    .tl-section { background: #ffffff; padding: 0 2rem 5rem; }
+    .tl-section .section-header { text-align: center; margin-bottom: 3rem; padding-top: 1rem; }
+    .timeline-wrap { max-width: 900px; margin: 0 auto; }
+    .timeline {
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    .tl-line {
+      position: absolute;
+      left: 50%; top: 0;
+      width: 2px;
+      background: #1A4A96;
+      transform: translateX(-50%);
+      height: 100%;
+    }
+    @media(max-width:700px) { .tl-line { left: 26px; transform: none; } }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 1fr 56px 1fr;
+      align-items: start;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-item.visible { opacity: 1; transform: translateY(0); }
+    .tl-left  { text-align: right; padding-right: 1.5rem; }
+    .tl-right { text-align: left;  padding-left: 1.5rem; }
+    .tl-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem 1.25rem;
+      border-top: 3px solid #E07818;
+      display: inline-block;
+      max-width: 300px;
+      text-align: left;
+      transition: box-shadow .3s, transform .3s;
+    }
+    .tl-card:hover { box-shadow: 0 8px 28px rgba(30,48,85,.16); transform: translateY(-3px); }
+    .tl-dot {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #E07818;
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: .65rem; font-weight: 700;
+      line-height: 1.2; text-align: center;
+      z-index: 1; margin: 0 auto;
+      border: 3px solid var(--gray-lt);
+      box-shadow: 0 0 0 3px #E07818;
+      transform: scale(0);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1) .2s;
+    }
+    .tl-item.visible .tl-dot { transform: scale(1); }
+    .tl-year  { font-size: .7rem; font-weight: 700; color: #E07818; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .2rem; }
+    .tl-title { font-family: 'Playfair Display', serif; font-size: .95rem; color: var(--navy); margin-bottom: .3rem; font-weight: 600; }
+    .tl-desc  { font-size: .83rem; color: #666; line-height: 1.6; }
+    @media(max-width:700px) {
+      .tl-item { grid-template-columns: 52px 1fr; }
+      .tl-empty { display: none; }
+      .tl-dot   { grid-column: 1; grid-row: 1; }
+      .tl-left  { display: block; grid-column: 2; grid-row: 1; text-align: left; padding-left: 1rem; padding-right: 0; }
+      .tl-right { grid-column: 2; grid-row: 1; padding-left: 1rem; text-align: left; }
+      .tl-card  { max-width: 100%; display: block; }
+    }
+  </style>
 </head>
-<body></body>
+<body>
+
+<!-- ═══════ HLAVIČKA ═══════ -->
+<header>
+  <div class="header-top">
+    Otvorené: Po–Pia 07:00–15:30 &nbsp;|&nbsp; Tel: 043/559 01 97 &nbsp;|&nbsp;
+    <a href="/cdn-cgi/l/email-protection#f3908080dd808786979a969d9892b3858690899a9f9a9d92dd8098"><span class="__cf_email__" data-cfemail="107363633e6364657479757e7b71506665736a797c797e713e637b">[email&#160;protected]</span></a>
+  </div>
+  <div class="header-main">
+    <a href="domov.html" class="logo">
+      <div class="logo-icon">
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+      </div>
+      <div class="logo-text">
+        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
+      </div>
+    </a>
+    <nav>
+      <a href="domov.html" class="active">Domov</a>
+      <div class="nav-item">
+        <a href="onas.html">O nás</a>
+        <div class="dropdown">
+        <a href="onas.html">O zariadení</a>
+        <a href="historia.html">História</a>
+        <a href="nastim.html">Náš tým</a>
+        <a href="poslanie.html">Poslanie a vízia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="nasesluzby.html">Naše služby</a>
+        <div class="dropdown">
+        <a href="nasesluzby.html">Prehľad služieb</a>
+        <a href="ponukame.html">Ponúkame</a>
+        <div class="dropdown-divider"></div>
+        <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
+        <a href="nasesluzby.html#dss">Domov soc. služieb</a>
+        <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
+        <a href="nasesluzby.html#denne">Denné centrum</a>
+        <a href="nasesluzby.html#jedalen">Jedáleň</a>
+        <a href="nasesluzby.html#preprava">Prepravná služba</a>
+        <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="informacieprevas.html">Pre záujemcov</a>
+        <div class="dropdown">
+        <a href="informacieprevas.html">Ako začať</a>
+        <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
+        <a href="informacieprevas.html#cennik">Cenník služieb</a>
+        <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
+        <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+        <a href="informacieprevas.html#ekonomicky">Ekon. oprávnené náklady</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="informacieprevas.html#pribuzni">Pre rodiny</a>
+        <div class="dropdown">
+        <a href="informacieprevas.html#pribuzni">Informácie pre príbuzných</a>
+        <a href="informacieprevas.html#navstevy">Návštevy</a>
+        <a href="informacieprevas.html#otvaracie">Otvárací čas</a>
+        <a href="informacieprevas.html#vychadzky">Vychádzky</a>
+        <a href="informacieprevas.html#pobyt">Pobyt mimo zariadenia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="aktuality.html">Aktuality</a>
+        <div class="dropdown">
+        <a href="aktuality.html">Všetky aktuality</a>
+        <a href="galeria.html">Fotogaléria</a>
+        </div>
+      </div>
+      <a href="nastiahnutie.html">Dokumenty</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+      <a href="oz-pelikan.html">OZ Pelikán</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="domov.html" class="active">Domov</a>
+  <div class="mob-group">
+    <button class="mob-group-btn">O nás<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="onas.html">O zariadení</a>
+      <a href="historia.html">História</a>
+      <a href="nastim.html">Náš tím</a>
+      <a href="poslanie.html">Poslanie a vízia</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="nasesluzby.html">Prehľad služieb</a>
+      <a href="ponukame.html">Ponúkame</a>
+      <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
+      <a href="nasesluzby.html#dss">Domov soc. služieb</a>
+      <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
+      <a href="nasesluzby.html#denne">Denné centrum</a>
+      <a href="nasesluzby.html#jedalen">Jedáleň</a>
+      <a href="nasesluzby.html#preprava">Prepravná služba</a>
+      <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Pre záujemcov<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
+      <a href="informacieprevas.html#cennik">Cenník služieb</a>
+      <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
+      <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Pre rodiny<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="informacieprevas.html#pribuzni">Informácie pre príbuzných</a>
+      <a href="informacieprevas.html#navstevy">Návštevy</a>
+      <a href="informacieprevas.html#otvaracie">Otvárací čas</a>
+      <a href="informacieprevas.html#vychadzky">Vychádzky</a>
+    </div>
+  </div>
+  <div class="mob-group">
+    <button class="mob-group-btn">Aktuality<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="aktuality.html">Všetky aktuality</a>
+      <a href="galeria.html">Fotogaléria</a>
+    </div>
+  </div>
+  <a href="nastiahnutie.html">Dokumenty</a>
+  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+  <a href="oz-pelikan.html">OZ Pelikán</a>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+</header>
+
+<!-- ═══════ HERO SLIDER ═══════ -->
+<section class="slider" id="domov">
+
+  <!-- SLIDE 1 — skupinová prechádzka (4 seniori) -->
+  <div class="slide active">
+    <img class="slide-img" src="foto/obr12.jpg" alt="Seniori na prechádzke" loading="eager" fetchpriority="high" />
+    <div class="slide-overlay"></div>
+    <div class="slide-diagonal"></div>
+    <div class="slide-content">
+      <div class="slide-text">
+        <div class="slide-tag">Centrum Studienka, Novoť</div>
+        <h2>Váš domov,<br>naša starostlivosť</h2>
+        <p>Poskytujeme sociálne služby v malebnom prostredí Hornej Oravy, kde každý deň prináša radosť, pohyb a ľudské teplo.</p>
+        <div class="slide-btns">
+          <a href="nasesluzby.html" class="btn btn-primary">Naše služby</a>
+          <a href="informacieprevas.html" class="btn btn-outline">Ako začať</a>
+          <a href="kontakt.html" class="btn btn-outline">Kontaktujte nás</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — seniorka zalievaná kvetiny -->
+  <div class="slide">
+    <img class="slide-img" src="foto/obr11.jpg" alt="Seniorka v záhrade" loading="lazy" />
+    <div class="slide-overlay"></div>
+    <div class="slide-diagonal"></div>
+    <div class="slide-content">
+      <div class="slide-text">
+        <div class="slide-tag">Záujmová činnosť</div>
+        <h2>Aktívny život<br>v každom veku</h2>
+        <p>Naši Prijímatelia sa môžu venovať záhradníctvu, kultúrnym aktivitám a voľnočasovým programom v príjemnom prostredí zariadenia.</p>
+        <div class="slide-btns">
+          <a href="nasesluzby.html" class="btn btn-primary">Zistiť viac</a>
+          <a href="aktuality.html" class="btn btn-outline">Aktuality</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — pár pri káve vonku -->
+  <div class="slide">
+    <img class="slide-img" src="foto/obr1.jpg" alt="Seniori pri raňajkách vonku" loading="lazy" />
+    <div class="slide-overlay"></div>
+    <div class="slide-diagonal"></div>
+    <div class="slide-content">
+      <div class="slide-text">
+        <div class="slide-tag">Každodenná pohoda</div>
+        <h2>Dôstojnosť<br>a pohodlie</h2>
+        <p>Vytvárame prostredie, kde sa každý prijímateľ cíti bezpečne a domácky — v kruhu starostlivých odborníkov aj blízkych.</p>
+        <div class="slide-btns">
+          <a href="onas.html" class="btn btn-primary">O nás</a>
+          <a href="kontakt.html" class="btn btn-outline">Navštívte nás</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — pár v záhrade (Unsplash) -->
+  <div class="slide">
+    <img class="slide-img" src="foto/obr2.jpg" alt="Senior pár v záhrade" loading="lazy" />
+    <div class="slide-overlay"></div>
+    <div class="slide-diagonal"></div>
+    <div class="slide-content">
+      <div class="slide-text">
+        <div class="slide-tag">Od roku 1989</div>
+        <h2>Sme tu pre vás<br>viac ako 35 rokov</h2>
+        <p>Centrum sociálnych služieb STUDIENKA ponúka komplexnú starostlivosť pre seniorov a osoby so zdravotným postihnutím v srdci Hornej Oravy.</p>
+        <div class="slide-btns">
+          <a href="informacieprevas.html" class="btn btn-primary">Informácie</a>
+          <a href="nastiahnutie.html" class="btn btn-outline">Na stiahnutie</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — prechádzka v prírode (Unsplash) -->
+  <div class="slide">
+    <img class="slide-img" src="foto/obr3.png" alt="Seniori na prechádzke v prírode" loading="lazy" />
+    <div class="slide-overlay"></div>
+    <div class="slide-diagonal"></div>
+    <div class="slide-content">
+      <div class="slide-text">
+        <div class="slide-tag">Príroda a pohoda</div>
+        <h2>Malebné prostredie<br>Hornej Oravy</h2>
+        <p>Naše zariadenie sa nachádza v tichej lokalite obce Novoť v nadmorskej výške 752 m — ideálne miesto pre pokojnú a aktívnu starobu.</p>
+        <div class="slide-btns">
+          <a href="onas.html" class="btn btn-primary">Viac o zariadení</a>
+          <a href="kontakt.html" class="btn btn-outline">Kontakt</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dots navigácia -->
+  <div class="slider-nav">
+    <button class="slider-dot active" data-index="0"></button>
+    <button class="slider-dot" data-index="1"></button>
+    <button class="slider-dot" data-index="2"></button>
+    <button class="slider-dot" data-index="3"></button>
+    <button class="slider-dot" data-index="4"></button>
+  </div>
+
+  <!-- Šipky -->
+  <button class="slider-arrow prev-arrow" id="prevArrow" aria-label="Predchádzajúci">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+  </button>
+  <button class="slider-arrow next-arrow" id="nextArrow" aria-label="Nasledujúci">
+    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+  </button>
+
+  <!-- Progress bar -->
+  <div class="slider-progress" id="sliderProgress"></div>
+</section>
+
+<!-- Diagonálny oddelovač navy → biela (slider → štatistiky) -->
+<div style="position:relative; background:#1A4A96; height:70px; overflow:hidden; line-height:0;">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
+    <polygon points="0,70 1440,0 1440,70" fill="#ffffff"/>
+  </svg>
+</div>
+
+<!-- ═══════ ŠTATISTIKY ═══════ -->
+<div class="stats">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-num">35+</div><div class="stat-lbl">Rokov skúseností</div></div>
+    <div class="stat-item"><div class="stat-num">102</div><div class="stat-lbl">Prijímateľov v starostlivosti</div></div>
+    <div class="stat-item"><div class="stat-num">76</div><div class="stat-lbl">Zamestnancov</div></div>
+    <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-lbl">Dostupná pomoc</div></div>
+  </div>
+</div>
+
+<!-- Diagonálny oddelovač biela → zelená (štatistiky → služby) -->
+<div style="position:relative; background:#ffffff; height:70px; overflow:hidden; line-height:0;">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
+    <polygon points="0,0 1440,70 1440,70 0,70" fill="#f4f7ee"/>
+  </svg>
+</div>
+
+<!-- ═══════ NAŠE SLUŽBY ═══════ -->
+<section class="section section-green" id="sluzby" style="padding-bottom:4rem;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Čo ponúkame</div>
+      <h2>Naše sociálne služby</h2>
+      <p>Poskytujeme sociálne služby v zmysle zákona č. 448/2008 Z. z. — pobytové, podporné aj terénne, prispôsobené individuálnym potrebám každého prijímateľa.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="cards">
+
+      <!-- Karta 1 — s fotkou budovy -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr8.png" alt="Zariadenie CSS Studienka" />
+          <div class="card-photo-badge">Pobytová sociálna služba</div>
+        </div>
+        <div class="card-body">
+          <h3>Domov sociálnych služieb</h3>
+          <p>Celoročná pobytová sociálna služba pre dospelé fyzické osoby s rôznym druhom zdravotného postihnutia.</p>
+        </div>
+      </div>
+
+      <!-- Karta 2 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr4.png" alt="Špecializované zariadenie — starostlivosť" />
+          <div class="card-photo-badge">Pobytová sociálna služba</div>
+        </div>
+        <div class="card-body">
+          <h3>Špecializované zariadenie</h3>
+          <p>Pobytová služba pre osoby s Alzheimerovou chorobou, demenciou, Parkinsonovou chorobou či sklerózou multiplex.</p>
+        </div>
+      </div>
+
+      <!-- Karta 3 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr5.png" alt="Zariadenie pre seniorov" />
+          <div class="card-photo-badge">Celoročná pobytová starostlivosť</div>
+        </div>
+        <div class="card-body">
+          <h3>Zariadenie pre seniorov</h3>
+          <p>Celoročná pobytová starostlivosť pre seniorov odkázaných na pomoc inej osoby, zameraná na zachovanie dôstojnosti a kvality života.</p>
+        </div>
+      </div>
+
+      <!-- Karta 4 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr6.png" alt="Denné centrum" />
+          <div class="card-photo-badge">Aktivity a spoločenský program</div>
+        </div>
+        <div class="card-body">
+          <h3>Denné centrum</h3>
+          <p>Podpora pre osoby dôchodkového veku alebo s ŤZP od 15 rokov — aktivity, spoločenský program a odborné poradenstvo.</p>
+        </div>
+      </div>
+
+      <!-- Karta 5 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr7.png" alt="Jedáleň" />
+          <div class="card-photo-badge">Stravovanie pre Prijímateľov</div>
+        </div>
+        <div class="card-body">
+          <h3>Jedáleň</h3>
+          <p>Stravovanie pre osoby s ŤZP alebo dôchodkového veku, ktoré nemajú zabezpečené stravovanie.</p>
+        </div>
+      </div>
+
+      <!-- Karta 6 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr10.jpg" alt="Prepravná služba" />
+          <div class="card-photo-badge">Terénna sociálna služba</div>
+        </div>
+        <div class="card-body">
+          <h3>Prepravná služba</h3>
+          <p>Individuálna preprava osobným motorovým vozidlom pre osoby s ŤZP alebo s obmedzenou mobilitou a orientáciou.</p>
+        </div>
+      </div>
+
+      <!-- Karta 7 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr12.jpg" alt="Odľahčovacia služba" />
+          <div class="card-photo-badge">Podpora opatrovateľov</div>
+        </div>
+        <div class="card-body">
+          <h3>Odľahčovacia služba</h3>
+          <p>Pobytová alebo terénna služba pre opatrovateľov osôb s ŤZP — umožňuje nevyhnutný odpočinok a regeneráciu rodiny.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Diagonálny oddelovač zelená → biela (pred timeline) -->
+<div style="position:relative; background:#f4f7ee; height:80px; overflow:hidden; line-height:0;">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
+    <polygon points="0,80 1440,0 1440,80" fill="#ffffff"/>
+  </svg>
+</div>
+
+<!-- ═══════ HISTÓRIA TIMELINE ═══════ -->
+<section class="tl-section">
+  <div class="timeline-wrap">
+    <div class="section-header">
+      <div class="section-tag">Naša história</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700;color:var(--navy);margin-bottom:.75rem;">Sme tu pre vás od roku 1989</h2>
+      <p style="color:var(--gray-md);max-width:500px;margin:0 auto;">Od malého zariadenia po moderné centrum sociálnych služieb — príbeh odhodlania a starostlivosti.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-line" id="tlLine"></div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-card gold">
+          <div class="tl-year">Rok 1989</div>
+          <div class="tl-title">Otvorenie zariadenia</div>
+          <div class="tl-desc">Budova postavená svojpomocnou aktivitou obyvateľov obce Novoť bola uvedená do prevádzky.</div>
+        </div></div>
+        <div class="tl-dot gold">1989</div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-empty"></div>
+        <div class="tl-dot">1991</div>
+        <div class="tl-right"><div class="tl-card">
+          <div class="tl-year">1. januára 1991</div>
+          <div class="tl-title">Domov dôchodcov — samostatná organizácia</div>
+          <div class="tl-desc">Okresný úrad v Dolnom Kubíne zriadil Domov dôchodcov ako samostatnú rozpočtovú organizáciu.</div>
+        </div></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-card gold">
+          <div class="tl-year">1. júla 2002</div>
+          <div class="tl-title">Žilinský samosprávny kraj</div>
+          <div class="tl-desc">Zriaďovateľom sa stal ŽSK — príspevková organizácia s právnou subjektivitou.</div>
+        </div></div>
+        <div class="tl-dot gold">2002</div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-empty"></div>
+        <div class="tl-dot">2013</div>
+        <div class="tl-right"><div class="tl-card">
+          <div class="tl-year">Rok 2013</div>
+          <div class="tl-title">Rozšírenie a modernizácia</div>
+          <div class="tl-desc">Snoezelen miestnosť, rehabilitačné pracovisko a aktivity sociálnej terapie.</div>
+        </div></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-card gold">
+          <div class="tl-year">15. apríla 2016</div>
+          <div class="tl-title">CSS STUDIENKA</div>
+          <div class="tl-desc">Nový názov a rozšírenie o podporné a terénne sociálne služby.</div>
+        </div></div>
+        <div class="tl-dot gold">2016</div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-empty"></div>
+        <div class="tl-dot">dnes</div>
+        <div class="tl-right"><div class="tl-card">
+          <div class="tl-year">2016 – súčasnosť</div>
+          <div class="tl-title">Komplexné centrum sociálnych služieb</div>
+          <div class="tl-desc">102 prijímateľov, 76 zamestnancov, starostlivosť 24/7.</div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Diagonálny oddelovač biela → krémová (za timeline) -->
+<div style="position:relative; background:#ffffff; height:80px; overflow:hidden; line-height:0;">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
+    <polygon points="0,0 1440,80 1440,80 0,80" fill="#FAFAF7"/>
+  </svg>
+</div>
+
+<!-- ═══════ O NÁS / TÍM ═══════ -->
+<section class="section" id="onas" style="background:#ffffff; padding-top: 4rem; padding-bottom: 3rem;">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="foto/obr9.png" alt="Tím zamestnancov CSS Studienka" />
+        <div class="about-badge">76<small>zamestnancov</small></div>
+      </div>
+      <div class="about-content">
+        <div class="section-tag" style="font-size:.8rem; letter-spacing:.14em;">O zariadení</div>
+        <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Náš tým<br>odborníkov</h2>
+        <p>Chod zariadenia a starostlivosť o prijímateľov zabezpečuje celkovo <strong>76 zamestnancov</strong> (72,5 prepočítaných pracovných úväzkov). Naši zamestnanci sú odborne kvalifikovaní a pravidelne sa vzdelávajú, aby mohli poskytovať čo najvyššiu kvalitu starostlivosti.</p>
+        <p>Tím zahŕňa zdravotníckych pracovníkov, sociálnych pracovníkov, terapeutov, opatrovateľov a prevádzkový personál. Zariadenie umožňuje otvorený kontakt s príbuznými aj s ostatnými občanmi Novote a okolia každý deň.</p>
+        <ul class="feature-list">
+          <li>Zdravotnícki pracovníci — sestry a zdravotníci</li>
+          <li>Sociálni pracovníci a opatrovatelia</li>
+          <li>Fyzioterapeuti a pracovní terapeuti</li>
+          <li>Kaplnka, snoezelen a rehabilitácia</li>
+          <li>Starostlivosť 24 hodín denne, 7 dní v týždni</li>
+        </ul>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;">
+          <a href="kontakt.html" class="btn btn-primary">Dohodnite si návštevu</a>
+          <a href="nastim.html" class="btn btn-outline-dark">Náš tým →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Diagonálny oddelovač biela → krémová (O nás → Zo života) -->
+<div style="position:relative; background:#ffffff; height:70px; overflow:hidden; line-height:0;">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
+    <polygon points="0,70 1440,0 1440,70" fill="#FAFAF7"/>
+  </svg>
+</div>
+
+<!-- ═══════ ZO ŽIVOTA U NÁS ═══════ -->
+<section class="news-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Aktuálne dianie</div>
+      <h2>Zo života u nás</h2>
+      <p>Sledujte, čo sa u nás deje — udalosti, aktivity a príjemné chvíle z každodenného života v centre.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="news-grid">
+
+      <!-- Karta 1 -->
+      <div class="news-card">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Fotografia čoskoro</span>
+          </div>
+          <span class="news-tag-pill">Podujatie</span>
+        </div>
+        <div class="news-card-body">
+          <div class="news-meta">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            Jún 2025
+          </div>
+          <h3>Deň plný hudby a spevu</h3>
+          <p>Naši Prijímatelia si užili krásne kultúrne popoludnie so živou hudbou a spoločným spevom ľudových piesní.</p>
+          <a href="aktuality.html" class="news-read-more">
+            Čítať viac
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Karta 2 -->
+      <div class="news-card">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Fotografia čoskoro</span>
+          </div>
+          <span class="news-tag-pill">Aktivity</span>
+        </div>
+        <div class="news-card-body">
+          <div class="news-meta">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            Máj 2025
+          </div>
+          <h3>Tvorivé dielne na jar</h3>
+          <p>Jarné tvorivé dielne priniesli úsmevy a nové výtvory — od maľovania až po pletenie a ručné práce.</p>
+          <a href="aktuality.html" class="news-read-more">
+            Čítať viac
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Karta 3 -->
+      <div class="news-card">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Fotografia čoskoro</span>
+          </div>
+          <span class="news-tag-pill">Výlet</span>
+        </div>
+        <div class="news-card-body">
+          <div class="news-meta">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            Apríl 2025
+          </div>
+          <h3>Výlet do prírody Oravy</h3>
+          <p>Spoločný výlet do krásnej oravskej prírody — čerstvý vzduch, dobrá nálada a nezabudnuteľné zážitky.</p>
+          <a href="aktuality.html" class="news-read-more">
+            Čítať viac
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+    <div class="news-footer">
+      <a href="aktuality.html" class="btn-news-all">
+        Všetky aktuality
+        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Diagonálny oddelovač krémová → navy (aktuality → kontakt) -->
+<div style="position:relative; background:#FAFAF7; height:70px; overflow:hidden; line-height:0;">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
+    <polygon points="0,0 1440,70 1440,70 0,70" fill="#1A4A96"/>
+  </svg>
+</div>
+
+<!-- ═══════ KONTAKT ═══════ -->
+<section class="section-dark" id="kontakt-home">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" style="color:#E07818;">Sme tu pre vás</div>
+      <h2 style="color:var(--white);">Kontaktujte nás</h2>
+      <p style="color:rgba(255,255,255,.55);">Radi vám odpovieme na všetky otázky a pomôžeme s vybavením.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-card">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div><h4>Adresa</h4><p>Novoť 976, 029 55 Novoť, Slovensko</p></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div><h4>Telefón</h4><p><a href="tel:+421435590197">043 / 559 01 97</a> &nbsp;·&nbsp; <a href="tel:+421948985019">0948 985 019</a></p></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <div><h4>E-mail</h4><p><a href="/cdn-cgi/l/email-protection#c3b0b7b6a7aaa6ada8a283a0b0b0edb0a8"><span class="__cf_email__" data-cfemail="acdfd8d9c8c5c9c2c7cdeccfdfdf82dfc7">[email&#160;protected]</span></a></p></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+          <div><h4>Úradné hodiny</h4><p>Pondelok – Piatok, 07:00 – 15:30</p></div>
+        </div>
+      </div>
+      <form class="contact-form-wrap" method="post" action="mailto:studienka@zask.sk" enctype="text/plain">
+        <h3>Napíšte nám</h3>
+        <div class="form-group"><label for="kontakt-meno">Meno a priezvisko</label><input id="kontakt-meno" name="meno" type="text" placeholder="Ján Novák" /></div>
+        <div class="form-group"><label for="kontakt-email">E-mail</label><input id="kontakt-email" name="email" type="email" placeholder="vas@email.sk" /></div>
+        <div class="form-group"><label for="kontakt-sprava">Správa</label><textarea id="kontakt-sprava" name="sprava" placeholder="Vaša správa..."></textarea></div>
+        <button class="btn-submit" type="submit">Odoslať správu</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PÄTIČKA ═══════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <h3>Centrum sociálnych služieb STUDIENKA Novoť</h3>
+      <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigácia</h4>
+      <ul>
+        <li><a href="domov.html">Domov</a></li>
+        <li><a href="nasesluzby.html">Ponúkame</a></li>
+        <li><a href="informacieprevas.html">Informácie pre Vás</a></li>
+        <li><a href="aktuality.html">Aktuality</a></li>
+        <li><a href="povinnezverejnovanie.html">Povinné zverejňovanie</a></li>
+        <li><a href="onas.html">O nás</a></li>
+        <li><a href="nastiahnutie.html">Na stiahnutie</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li>Novoť 976, 029 55</li>
+        <li><a href="tel:+421435590197">043 / 559 01 97</a></li>
+        <li><a href="tel:+421435590287">043 / 559 02 87</a></li>
+        <li><a href="tel:+421948985019">0948 985 019</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#345747471a474041505d515a5f55744241574e5d585d5a551a475f"><span class="__cf_email__" data-cfemail="523121217c212627363b373c393312242731283b3e3b3c337c2139">[email&#160;protected]</span></a></li>
+        <li style="margin-top:.75rem; padding-top:.75rem; border-top:1px solid rgba(255,255,255,.1);"><a href="https://www.osobnyudaj.sk/informovanie/00632830" target="_blank" rel="noopener">Ochrana osobných údajov</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Centrum sociálnych služieb STUDIENKA Novoť &nbsp;·&nbsp; Všetky práva vyhradené
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── TIMELINE ANIMÁCIA ───────────────────
+(function() {
+  var tlItems = document.querySelectorAll('.tl-item');
+  if (!tlItems.length) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var idx = Array.from(tlItems).indexOf(entry.target);
+        var el = entry.target;
+        setTimeout(function() { el.classList.add('visible'); }, idx * 150);
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15 });
+  tlItems.forEach(function(el) { obs.observe(el); });
+})();
+
+// ── TIMELINE ČIARA — koniec pri poslednom bode ───────────────────
+function setTimelineLineHeight() {
+  var timeline = document.querySelector('.timeline');
+  var line = document.getElementById('tlLine');
+  if (!timeline || !line) return;
+  var dots = timeline.querySelectorAll('.tl-dot');
+  if (!dots.length) return;
+  var lastDot = dots[dots.length - 1];
+  var tlTop = timeline.getBoundingClientRect().top + window.scrollY;
+  var dotRect = lastDot.getBoundingClientRect();
+  var dotCenter = dotRect.top + window.scrollY + dotRect.height / 2;
+  var lineHeight = dotCenter - tlTop;
+  line.style.height = lineHeight + 'px';
+}
+// Spusti viackrát aby sme zachytili rôzne fázy načítania
+window.addEventListener('load', function() {
+  setTimelineLineHeight();
+  // Záloha — spusti znova po 300ms a 800ms pre prípad pomalých fontov/obrázkov
+  setTimeout(setTimelineLineHeight, 300);
+  setTimeout(setTimelineLineHeight, 800);
+});
+window.addEventListener('resize', setTimelineLineHeight);
+// Aj po načítaní fontov
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(setTimelineLineHeight);
+}
+
+// ── PRELOAD VŠETKÝCH SLIDER OBRÁZKOV ─────────
+const sliderImgs = [
+  'foto/obr12.jpg',
+  'foto/obr11.jpg',
+  'foto/obr1.jpg',
+  'foto/obr2.jpg',
+  'foto/obr3.png'
+];
+sliderImgs.forEach(src => { const img = new Image(); img.src = src; });
+
+// ── HAMBURGER ───────────────────────────────
+const btn = document.getElementById('hamburger');
+const mNav = document.getElementById('mobileNav');
+btn.addEventListener('click', () => {
+  btn.classList.toggle('open');
+  mNav.classList.toggle('open');
+});
+mNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  btn.classList.remove('open');
+  mNav.classList.remove('open');
+}));
+
+// ── HERO SLIDER ──────────────────────────────
+const slides   = document.querySelectorAll('.slide');
+const dots     = document.querySelectorAll('.slider-dot');
+const progress = document.getElementById('sliderProgress');
+const DURATION = 6000;
+let current = 0;
+let timer   = null;
+
+function goTo(idx) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (idx + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  // reset progress bar
+  progress.style.transition = 'none';
+  progress.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    progress.style.transition = `width ${DURATION}ms linear`;
+    progress.style.width = '100%';
+  }));
+}
+
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+
+function startAuto() {
+  clearInterval(timer);
+  timer = setInterval(next, DURATION);
+}
+
+// Štart
+goTo(0);
+startAuto();
+
+// Dots
+dots.forEach(dot => dot.addEventListener('click', () => {
+  clearInterval(timer);
+  goTo(parseInt(dot.dataset.index));
+  startAuto();
+}));
+
+// Arrows
+document.getElementById('nextArrow').addEventListener('click', () => { clearInterval(timer); next(); startAuto(); });
+document.getElementById('prevArrow').addEventListener('click', () => { clearInterval(timer); prev(); startAuto(); });
+
+// Swipe na mobile
+let tx = 0;
+const sl = document.querySelector('.slider');
+sl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
+sl.addEventListener('touchend', e => {
+  const d = tx - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) { clearInterval(timer); d > 0 ? next() : prev(); startAuto(); }
+});
+
+// Pauza pri hover
+sl.addEventListener('mouseenter', () => clearInterval(timer));
+sl.addEventListener('mouseleave', startAuto);
+
+// ── SCROLL ANIMÁCIE KARIET ───────────────────
+// News cards scroll-in
+const newsCards = document.querySelectorAll('.news-card');
+newsCards.forEach((card, i) => {
+  card.style.transitionDelay = (i * 0.12) + 's';
+});
+const newsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); newsObserver.unobserve(e.target); } });
+}, { threshold: 0.12 });
+newsCards.forEach(c => newsObserver.observe(c));
+
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
+
+// Mobile accordion
+document.querySelectorAll('.mob-group-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  });
+});
+</script>
+</body>
 </html>
