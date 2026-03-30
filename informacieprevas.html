@@ -29,7 +29,7 @@
     header { background: var(--navy); color: var(--white); position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
     .header-top { background: #4A6A10; text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .04em; padding: .45rem 1rem; color: rgba(255,255,255,.95); }
     .header-top a { color: inherit; }
-    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: .5rem 2rem; }
+    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start; gap: 1.5rem; padding: .5rem 2rem; }
     .logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
     .logo-icon { width: 140px; height: 140px; flex-shrink: 0; overflow: hidden; }
     .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white); }
@@ -328,29 +328,26 @@
         <div class="dropdown">
         <a href="onas.html">O zariadení</a>
         <a href="historia.html">História</a>
-        <a href="nastim.html">Náš tým</a>
+        <a href="nastim.html">Náš tím</a>
         <a href="poslanie.html">Poslanie a vízia</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="nasesluzby.html">Naše služby</a>
+        <a href="ponukame.html">Naše služby</a>
         <div class="dropdown">
-        <a href="nasesluzby.html">Prehľad služieb</a>
-        <a href="ponukame.html">Ponúkame</a>
-        <div class="dropdown-divider"></div>
-        <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
-        <a href="nasesluzby.html#dss">Domov soc. služieb</a>
-        <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
-        <a href="nasesluzby.html#denne">Denné centrum</a>
-        <a href="nasesluzby.html#jedalen">Jedáleň</a>
-        <a href="nasesluzby.html#preprava">Prepravná služba</a>
-        <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
+        <a href="ponukame.html">Prehľad služieb</a>
+        <a href="ponukame.html#zariadenie">Zariadenie pre seniorov</a>
+        <a href="ponukame.html#dss">Domov soc. služieb</a>
+        <a href="ponukame.html#specializovane">Špecializované zariadenie</a>
+        <a href="ponukame.html#denne">Denné centrum</a>
+        <a href="ponukame.html#jedalen">Jedáleň</a>
+        <a href="ponukame.html#preprava">Prepravná služba</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="informacieprevas.html">Pre záujemcov</a>
+        <a href="informacieprevas.html" class="active">Pre záujemcov</a>
         <div class="dropdown">
-        <a href="informacieprevas.html" class="active">Ako začať</a>
+        <a href="informacieprevas.html">Ako začať</a>
         <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
         <a href="informacieprevas.html#cennik">Cenník služieb</a>
         <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
@@ -375,9 +372,13 @@
         <a href="galeria.html">Fotogaléria</a>
         </div>
       </div>
-      <a href="nastiahnutie.html">Dokumenty</a>
-      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-      <a href="oz-pelikan.html">OZ Pelikán</a>
+      <div class="nav-item">
+        <a href="nastiahnutie.html">Dokumenty</a>
+        <div class="dropdown">
+        <a href="nastiahnutie.html">Na stiahnutie</a>
+        <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+        </div>
+      </div>
       <a href="kontakt.html">Kontakt</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -398,20 +399,19 @@
   <div class="mob-group">
     <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
-      <a href="nasesluzby.html">Prehľad služieb</a>
-      <a href="ponukame.html">Ponúkame</a>
-      <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
-      <a href="nasesluzby.html#dss">Domov soc. služieb</a>
-      <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
-      <a href="nasesluzby.html#denne">Denné centrum</a>
-      <a href="nasesluzby.html#jedalen">Jedáleň</a>
-      <a href="nasesluzby.html#preprava">Prepravná služba</a>
-      <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
+      <a href="ponukame.html">Prehľad služieb</a>
+      <a href="ponukame.html#zariadenie">Zariadenie pre seniorov</a>
+      <a href="ponukame.html#dss">Domov soc. služieb</a>
+      <a href="ponukame.html#specializovane">Špecializované zariadenie</a>
+      <a href="ponukame.html#denne">Denné centrum</a>
+      <a href="ponukame.html#jedalen">Jedáleň</a>
+      <a href="ponukame.html#preprava">Prepravná služba</a>
     </div>
   </div>
   <div class="mob-group">
     <button class="mob-group-btn">Pre záujemcov<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
+      <a href="informacieprevas.html" class="active">Ako začať</a>
       <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
       <a href="informacieprevas.html#cennik">Cenník služieb</a>
       <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
@@ -434,9 +434,13 @@
       <a href="galeria.html">Fotogaléria</a>
     </div>
   </div>
-  <a href="nastiahnutie.html">Dokumenty</a>
-  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-  <a href="oz-pelikan.html">OZ Pelikán</a>
+  <div class="mob-group">
+    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
+    <div class="mob-sub-list">
+      <a href="nastiahnutie.html">Na stiahnutie</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+    </div>
+  </div>
     <a href="kontakt.html">Kontakt</a>
   </div>
 </header>
