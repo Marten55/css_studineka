@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --navy:#1E3055; --teal:#4A6DB8; --teal-lt:#7A9ED4;
+      --navy:#1A4A96; --teal:#4A6DB8; --teal-lt:#7A9ED4;
       --gold:#E07818; --green:#5A8F18; --cream:#FAFAF7;
       --white:#ffffff; --gray-lt:#F2F0EB; --gray-md:#8A8A82;
       --text:#252520; --radius:8px; --shadow:0 4px 24px rgba(30,48,85,.09);
@@ -66,7 +66,7 @@
     .breadcrumb-inner a:hover{color:var(--navy);}
 
     /* PAGE HERO */
-    .page-hero{background:linear-gradient(135deg,#1E3055 0%,#2d4a96 55%,#4A6DB8 100%);color:var(--white);padding:3.5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+    .page-hero{background:linear-gradient(135deg,#1A4A96 0%,#2B57BB 55%,#4A6DB8 100%);color:var(--white);padding:3.5rem 2rem;text-align:center;position:relative;overflow:hidden;}
     .page-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
     .page-hero-inner{position:relative;}
     .page-hero .hero-tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#E07818;margin-bottom:.75rem;}
@@ -142,7 +142,7 @@
     .team-card.green .team-num{color:var(--green);}
 
     /* POSLANIE */
-    .poslanie-quote{background:linear-gradient(135deg,var(--navy) 0%,#2d4a96 100%);border-radius:var(--radius);padding:2rem 2.5rem;display:flex;align-items:flex-start;gap:1.25rem;margin-bottom:2rem;}
+    .poslanie-quote{background:linear-gradient(135deg,var(--navy) 0%,#2B57BB 100%);border-radius:var(--radius);padding:2rem 2.5rem;display:flex;align-items:flex-start;gap:1.25rem;margin-bottom:2rem;}
     .poslanie-quote svg{width:40px;height:40px;fill:#E07818;flex-shrink:0;margin-top:.2rem;}
     .poslanie-quote blockquote{font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:rgba(255,255,255,.92);line-height:1.7;}
     .poslanie-quote cite{display:block;margin-top:.6rem;font-size:.82rem;color:#E07818;font-style:normal;font-weight:600;}
@@ -154,7 +154,7 @@
     .hodnota-card p{font-size:.86rem;color:#666;line-height:1.55;}
 
     /* PÄTIČKA */
-    footer{background:#141e35;color:rgba(255,255,255,.8);}
+    footer{background:#0E1D4A;color:rgba(255,255,255,.8);}
     .footer-main{max-width:1200px;margin:0 auto;padding:3.5rem 2rem 2rem;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;}
     .footer-brand h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:.4rem;}
     .footer-brand .f-tag{font-size:.75rem;color:#E07818;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:1rem;}
@@ -197,8 +197,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum Sociálnych Služieb<span class="logo-sub">Studienka v Novoti</span></h1>
-        <span class="tagline">Starostlivosť · Dôstojnosť · Domov</span>
+        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -216,12 +215,15 @@
         <a href="nasesluzby.html">Naše služby</a>
         <div class="dropdown">
         <a href="nasesluzby.html">Prehľad služieb</a>
+        <a href="ponukame.html">Ponúkame</a>
+        <div class="dropdown-divider"></div>
         <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
         <a href="nasesluzby.html#dss">Domov soc. služieb</a>
         <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
         <a href="nasesluzby.html#denne">Denné centrum</a>
         <a href="nasesluzby.html#jedalen">Jedáleň</a>
         <a href="nasesluzby.html#preprava">Prepravná služba</a>
+        <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
         </div>
       </div>
       <div class="nav-item">
@@ -252,13 +254,9 @@
         <a href="galeria.html">Fotogaléria</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="nastiahnutie.html">Dokumenty</a>
-        <div class="dropdown">
-        <a href="nastiahnutie.html">Na stiahnutie</a>
-        <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-        </div>
-      </div>
+      <a href="nastiahnutie.html">Dokumenty</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+      <a href="oz-pelikan.html">OZ Pelikán</a>
       <a href="kontakt.html">Kontakt</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -279,12 +277,14 @@
     <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
       <a href="nasesluzby.html">Prehľad služieb</a>
+      <a href="ponukame.html">Ponúkame</a>
       <a href="nasesluzby.html#rehabilitacia">Zariadenie pre seniorov</a>
       <a href="nasesluzby.html#rozvoj">Domov soc. služieb</a>
       <a href="nasesluzby.html#snoezelen">Špecializované zariadenie</a>
       <a href="nasesluzby.html#socialna-praca">Denné centrum</a>
       <a href="nasesluzby.html#socialna-rehabilitacia">Jedáleň</a>
       <a href="nasesluzby.html#spiritualita">Prepravná služba</a>
+      <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
     </div>
   </div>
   <div class="mob-group">
@@ -312,13 +312,9 @@
       <a href="galeria.html">Fotogaléria</a>
     </div>
   </div>
-  <div class="mob-group">
-    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
-    <div class="mob-sub-list">
-      <a href="nastiahnutie.html">Na stiahnutie</a>
-      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-    </div>
-  </div>
+  <a href="nastiahnutie.html">Dokumenty</a>
+  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+  <a href="oz-pelikan.html">OZ Pelikán</a>
     <a href="kontakt.html">Kontakt</a>
   </div>
 </header>
@@ -398,8 +394,7 @@
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
-      <h3>Centrum Sociálnych Služieb Studienka v Novoti</h3>
-      <div class="f-tag">Starostlivosť · Dôstojnosť · Domov</div>
+      <h3>Centrum sociálnych služieb STUDIENKA Novoť</h3>
       <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
     </div>
     <div class="footer-col">

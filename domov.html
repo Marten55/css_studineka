@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --navy:    #1E3055;
+      --navy:    #1A4A96;
       --teal:    #4A6DB8;
       --teal-lt: #7A9ED4;
       --gold:    #E07818;
@@ -261,7 +261,7 @@
     .btn-submit:hover { background: var(--navy); }
 
     /* ── PÄTIČKA ── */
-    footer { background: #141e35; color: rgba(255,255,255,.8); }
+    footer { background: #0E1D4A; color: rgba(255,255,255,.8); }
     .footer-main { max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem 2rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
     .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
     .footer-brand .f-tag { font-size: .75rem; color: #E07818; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 1rem; }
@@ -378,7 +378,7 @@
       position: absolute;
       left: 50%; top: 0;
       width: 2px;
-      background: #1E3055;
+      background: #1A4A96;
       transform: translateX(-50%);
       height: 100%;
     }
@@ -451,8 +451,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum Sociálnych Služieb<span class="logo-sub">Studienka v Novoti</span></h1>
-        <span class="tagline">Starostlivosť · Dôstojnosť · Domov</span>
+        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -470,12 +469,15 @@
         <a href="nasesluzby.html">Naše služby</a>
         <div class="dropdown">
         <a href="nasesluzby.html">Prehľad služieb</a>
+        <a href="ponukame.html">Ponúkame</a>
+        <div class="dropdown-divider"></div>
         <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
         <a href="nasesluzby.html#dss">Domov soc. služieb</a>
         <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
         <a href="nasesluzby.html#denne">Denné centrum</a>
         <a href="nasesluzby.html#jedalen">Jedáleň</a>
         <a href="nasesluzby.html#preprava">Prepravná služba</a>
+        <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
         </div>
       </div>
       <div class="nav-item">
@@ -506,13 +508,9 @@
         <a href="galeria.html">Fotogaléria</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="nastiahnutie.html">Dokumenty</a>
-        <div class="dropdown">
-        <a href="nastiahnutie.html">Na stiahnutie</a>
-        <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-        </div>
-      </div>
+      <a href="nastiahnutie.html">Dokumenty</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+      <a href="oz-pelikan.html">OZ Pelikán</a>
       <a href="kontakt.html">Kontakt</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -534,12 +532,14 @@
     <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
       <a href="nasesluzby.html">Prehľad služieb</a>
+      <a href="ponukame.html">Ponúkame</a>
       <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
       <a href="nasesluzby.html#dss">Domov soc. služieb</a>
       <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
       <a href="nasesluzby.html#denne">Denné centrum</a>
       <a href="nasesluzby.html#jedalen">Jedáleň</a>
       <a href="nasesluzby.html#preprava">Prepravná služba</a>
+      <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
     </div>
   </div>
   <div class="mob-group">
@@ -567,13 +567,9 @@
       <a href="galeria.html">Fotogaléria</a>
     </div>
   </div>
-  <div class="mob-group">
-    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
-    <div class="mob-sub-list">
-      <a href="nastiahnutie.html">Na stiahnutie</a>
-      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-    </div>
-  </div>
+  <a href="nastiahnutie.html">Dokumenty</a>
+  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+  <a href="oz-pelikan.html">OZ Pelikán</a>
     <a href="kontakt.html">Kontakt</a>
   </div>
 </header>
@@ -593,6 +589,7 @@
         <p>Poskytujeme sociálne služby v malebnom prostredí Hornej Oravy, kde každý deň prináša radosť, pohyb a ľudské teplo.</p>
         <div class="slide-btns">
           <a href="nasesluzby.html" class="btn btn-primary">Naše služby</a>
+          <a href="informacieprevas.html" class="btn btn-outline">Ako začať</a>
           <a href="kontakt.html" class="btn btn-outline">Kontaktujte nás</a>
         </div>
       </div>
@@ -608,7 +605,7 @@
       <div class="slide-text">
         <div class="slide-tag">Záujmová činnosť</div>
         <h2>Aktívny život<br>v každom veku</h2>
-        <p>Naši klienti sa môžu venovať záhradníctvu, kultúrnym aktivitám a voľnočasovým programom v príjemnom prostredí zariadenia.</p>
+        <p>Naši Prijímatelia sa môžu venovať záhradníctvu, kultúrnym aktivitám a voľnočasovým programom v príjemnom prostredí zariadenia.</p>
         <div class="slide-btns">
           <a href="nasesluzby.html" class="btn btn-primary">Zistiť viac</a>
           <a href="aktuality.html" class="btn btn-outline">Aktuality</a>
@@ -693,7 +690,7 @@
 </section>
 
 <!-- Diagonálny oddelovač navy → biela (slider → štatistiky) -->
-<div style="position:relative; background:#1E3055; height:70px; overflow:hidden; line-height:0;">
+<div style="position:relative; background:#1A4A96; height:70px; overflow:hidden; line-height:0;">
   <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
     <polygon points="0,70 1440,0 1440,70" fill="#ffffff"/>
   </svg>
@@ -703,7 +700,7 @@
 <div class="stats">
   <div class="stats-grid">
     <div class="stat-item"><div class="stat-num">35+</div><div class="stat-lbl">Rokov skúseností</div></div>
-    <div class="stat-item"><div class="stat-num">102</div><div class="stat-lbl">Klientov v starostlivosti</div></div>
+    <div class="stat-item"><div class="stat-num">102</div><div class="stat-lbl">Prijímateľov v starostlivosti</div></div>
     <div class="stat-item"><div class="stat-num">76</div><div class="stat-lbl">Zamestnancov</div></div>
     <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-lbl">Dostupná pomoc</div></div>
   </div>
@@ -779,7 +776,7 @@
       <div class="card">
         <div class="card-photo">
           <img src="foto/obr7.png" alt="Jedáleň" />
-          <div class="card-photo-badge">Stravovanie pre klientov</div>
+          <div class="card-photo-badge">Stravovanie pre Prijímateľov</div>
         </div>
         <div class="card-body">
           <h3>Jedáleň</h3>
@@ -791,11 +788,23 @@
       <div class="card">
         <div class="card-photo">
           <img src="foto/obr10.jpg" alt="Prepravná služba" />
-          <div class="card-photo-badge">Preprava a odľahčovacia služba</div>
+          <div class="card-photo-badge">Terénna sociálna služba</div>
         </div>
         <div class="card-body">
-          <h3>Prepravná a odľahčovacia služba</h3>
-          <p>Individuálna preprava pre osoby s ŤZP a odľahčovacia služba pre opatrovníkov — podpora aj pre rodiny klientov.</p>
+          <h3>Prepravná služba</h3>
+          <p>Individuálna preprava osobným motorovým vozidlom pre osoby s ŤZP alebo s obmedzenou mobilitou a orientáciou.</p>
+        </div>
+      </div>
+
+      <!-- Karta 7 -->
+      <div class="card">
+        <div class="card-photo">
+          <img src="foto/obr12.jpg" alt="Odľahčovacia služba" />
+          <div class="card-photo-badge">Podpora opatrovateľov</div>
+        </div>
+        <div class="card-body">
+          <h3>Odľahčovacia služba</h3>
+          <p>Pobytová alebo terénna služba pre opatrovateľov osôb s ŤZP — umožňuje nevyhnutný odpočinok a regeneráciu rodiny.</p>
         </div>
       </div>
 
@@ -955,7 +964,7 @@
             Jún 2025
           </div>
           <h3>Deň plný hudby a spevu</h3>
-          <p>Naši klienti si užili krásne kultúrne popoludnie so živou hudbou a spoločným spevom ľudových piesní.</p>
+          <p>Naši Prijímatelia si užili krásne kultúrne popoludnie so živou hudbou a spoločným spevom ľudových piesní.</p>
           <a href="aktuality.html" class="news-read-more">
             Čítať viac
             <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
@@ -1022,7 +1031,7 @@
 <!-- Diagonálny oddelovač krémová → navy (aktuality → kontakt) -->
 <div style="position:relative; background:#FAFAF7; height:70px; overflow:hidden; line-height:0;">
   <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;width:100%;height:100%;">
-    <polygon points="0,0 1440,70 1440,70 0,70" fill="#1E3055"/>
+    <polygon points="0,0 1440,70 1440,70 0,70" fill="#1A4A96"/>
   </svg>
 </div>
 
@@ -1069,8 +1078,7 @@
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
-      <h3>Centrum Sociálnych Služieb Studienka v Novoti</h3>
-      <div class="f-tag">Starostlivosť · Dôstojnosť · Domov</div>
+      <h3>Centrum sociálnych služieb STUDIENKA Novoť</h3>
       <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
     </div>
     <div class="footer-col">
@@ -1100,7 +1108,7 @@
   </div>
 
   <div class="footer-bottom">
-    &copy; 2025 Centrum Sociálnych Služieb Studienka &nbsp;·&nbsp; Všetky práva vyhradené
+    &copy; 2025 Centrum sociálnych služieb STUDIENKA Novoť &nbsp;·&nbsp; Všetky práva vyhradené
   </div>
 </footer>
 

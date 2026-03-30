@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --navy:    #1E3055;
+      --navy:    #1A4A96;
       --teal:    #4A6DB8;
       --teal-lt: #7A9ED4;
       --gold:    #E07818;
@@ -110,7 +110,7 @@
     .breadcrumb-inner a:hover { color: var(--navy); }
 
     /* ── PAGE HERO ── */
-    .page-hero { background: linear-gradient(135deg, #1a2340 0%, #2d4a96 55%, #3d5fad 100%); color: var(--white); padding: 3.5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero { background: linear-gradient(135deg, #13316E 0%, #2B57BB 55%, #3d5fad 100%); color: var(--white); padding: 3.5rem 2rem; text-align: center; position: relative; overflow: hidden; }
     .page-hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
     .page-hero-inner { position: relative; }
     .page-hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: .5rem; }
@@ -305,8 +305,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum Sociálnych Služieb<span class="logo-sub">Studienka v Novoti</span></h1>
-        <span class="tagline">Starostlivosť · Dôstojnosť · Domov</span>
+        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -324,12 +323,15 @@
         <a href="nasesluzby.html">Naše služby</a>
         <div class="dropdown">
         <a href="nasesluzby.html">Prehľad služieb</a>
+        <a href="ponukame.html">Ponúkame</a>
+        <div class="dropdown-divider"></div>
         <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
         <a href="nasesluzby.html#dss">Domov soc. služieb</a>
         <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
         <a href="nasesluzby.html#denne">Denné centrum</a>
         <a href="nasesluzby.html#jedalen">Jedáleň</a>
         <a href="nasesluzby.html#preprava">Prepravná služba</a>
+        <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
         </div>
       </div>
       <div class="nav-item">
@@ -360,13 +362,9 @@
         <a href="galeria.html">Fotogaléria</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="nastiahnutie.html">Dokumenty</a>
-        <div class="dropdown">
-        <a href="nastiahnutie.html">Na stiahnutie</a>
-        <a href="povinnezverejnovanie.html" class="active">Povinné zverejňovanie</a>
-        </div>
-      </div>
+      <a href="nastiahnutie.html">Dokumenty</a>
+      <a href="povinnezverejnovanie.html" class="active">Povinné zverejňovanie</a>
+      <a href="oz-pelikan.html">OZ Pelikán</a>
       <a href="kontakt.html">Kontakt</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -387,12 +385,14 @@
     <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
       <a href="nasesluzby.html">Prehľad služieb</a>
+      <a href="ponukame.html">Ponúkame</a>
       <a href="nasesluzby.html#rehabilitacia">Zariadenie pre seniorov</a>
       <a href="nasesluzby.html#rozvoj">Domov soc. služieb</a>
       <a href="nasesluzby.html#snoezelen">Špecializované zariadenie</a>
       <a href="nasesluzby.html#socialna-praca">Denné centrum</a>
       <a href="nasesluzby.html#socialna-rehabilitacia">Jedáleň</a>
       <a href="nasesluzby.html#spiritualita">Prepravná služba</a>
+      <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
     </div>
   </div>
   <div class="mob-group">
@@ -420,13 +420,9 @@
       <a href="galeria.html">Fotogaléria</a>
     </div>
   </div>
-  <div class="mob-group">
-    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
-    <div class="mob-sub-list">
-      <a href="nastiahnutie.html">Na stiahnutie</a>
-      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-    </div>
-  </div>
+  <a href="nastiahnutie.html">Dokumenty</a>
+  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+  <a href="oz-pelikan.html">OZ Pelikán</a>
     <a href="kontakt.html">Kontakt</a>
   </div>
 </header>
@@ -659,8 +655,7 @@
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
-      <h3>Centrum Sociálnych Služieb Studienka v Novoti</h3>
-      <div class="f-tag">Starostlivosť · Dôstojnosť · Domov</div>
+      <h3>Centrum sociálnych služieb STUDIENKA Novoť</h3>
       <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
     </div>
     <div class="footer-col">
@@ -691,7 +686,7 @@
 
   </div>
   <div class="footer-bottom">
-    &copy; 2025 Centrum Sociálnych Služieb Studienka &nbsp;·&nbsp; Všetky práva vyhradené
+    &copy; 2025 Centrum sociálnych služieb STUDIENKA Novoť &nbsp;·&nbsp; Všetky práva vyhradené
   </div>
 </footer>
 </body>
