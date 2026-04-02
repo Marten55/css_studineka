@@ -21,14 +21,14 @@
     header{background:#2B6CC8;color:var(--white);position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.3);}
     .header-top{background:#7AB020;text-align:center;font-size:.85rem;font-weight:500;letter-spacing:.04em;padding:.45rem 1rem;color:rgba(255,255,255,.95);}
     .header-top a{color:inherit;}
-    .header-main{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:flex-start;gap:1.5rem;padding:.5rem 2rem;}
+    .header-main{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:flex-start;gap:1rem;padding:.5rem 2rem;}
     .logo{display:flex;align-items:center;gap:1.1rem;flex-shrink:0;text-decoration:none;}
-    .logo-icon{width:140px;height:140px;flex-shrink:0;overflow:hidden;}
+    .logo-icon{width:110px;height:110px;flex-shrink:0;overflow:hidden;}
     .logo-text h1{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:800;line-height:1.15;color:var(--white);}
     .logo-text .logo-sub{font-size:1.3rem;font-weight:600;color:var(--white);display:block;}
     .logo-text .tagline{font-size:.8rem;color:#E07818;letter-spacing:.15em;text-transform:uppercase;font-weight:700;display:block;margin-top:.25rem;}
     nav{display:flex;align-items:center;gap:.1rem;flex-wrap:nowrap;position:relative;}
-    nav>a,nav>.nav-item>a{font-size:.88rem;font-weight:500;letter-spacing:.02em;padding:.5rem .75rem;border-radius:var(--radius);transition:background .2s,color .2s;color:rgba(255,255,255,.88);white-space:nowrap;display:flex;align-items:center;gap:.25rem;}
+    nav>a,nav>.nav-item>a{font-size:.8rem;font-weight:500;letter-spacing:.02em;padding:.45rem .5rem;border-radius:var(--radius);transition:background .2s,color .2s;color:rgba(255,255,255,.88);white-space:nowrap;display:flex;align-items:center;gap:.25rem;}
     nav>a:hover,nav>.nav-item>a:hover{background:rgba(255,255,255,.12);color:var(--white);}
     nav>a.active,nav>.nav-item>a.active{background:#E07818;color:var(--white);}
     .nav-item{position:relative;}
@@ -78,24 +78,15 @@
 
     /* SUBNAV - bočná navigácia O nás */
     .onas-layout{display:grid;grid-template-columns:220px 1fr;gap:2.5rem;align-items:start;}
-    .onas-sidenav{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;position:sticky;top:110px;min-width:200px;}
-    .onas-sidenav-title{
-      display:block;
-      padding:.85rem 1.25rem;
-      font-family:'Source Sans 3',sans-serif;
-      font-size:.78rem;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:var(--white);
-      background:var(--navy);
-    }
-    .onas-sidenav ul{list-style:none;padding:.5rem 0;}
-    .onas-sidenav ul li a{display:flex;align-items:center;gap:.6rem;padding:.65rem 1.25rem;font-size:.88rem;color:var(--text);transition:background .15s,color .15s;border-left:3px solid transparent;}
-    .onas-sidenav ul li a:hover{background:var(--gray-lt);color:var(--navy);border-left-color:var(--teal);}
-    .onas-sidenav ul li a.active{background:#f0f4ff;color:var(--navy);border-left-color:#E07818;font-weight:600;}
-    .onas-sidenav ul li a svg{width:16px;height:16px;fill:var(--teal);flex-shrink:0;}
-    .onas-sidenav ul li a.active svg{fill:#E07818;}
+    .sidebar{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;position:sticky;top:200px;}
+    .sidebar-title{background:var(--navy);color:var(--white);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.85rem 1.25rem;}
+    .sidebar nav{flex-direction:column;gap:0;align-items:stretch;}
+    .sidebar nav a{display:block;font-size:.87rem;font-weight:500;color:var(--text);padding:.7rem 1.25rem;border-bottom:1px solid var(--gray-lt);border-radius:0;white-space:normal;transition:background .15s,color .15s,padding-left .15s;}
+    .sidebar nav a:last-child{border-bottom:none;}
+    .sidebar nav a:hover{background:var(--gray-lt);color:var(--navy);padding-left:1.6rem;}
+    .sidebar nav a.active{background:#E07818;color:var(--white);}
+    .sidebar nav a.active:hover{padding-left:1.25rem;}
+    #historia,#nastim,#poslanie{scroll-margin-top:130px;}
 
     /* OBSAH */
     .content-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:2.5rem;}
@@ -168,7 +159,7 @@
 
     @media(max-width:900px){
       .onas-layout{grid-template-columns:1fr;}
-      .onas-sidenav{position:static;}
+      .sidebar{position:static;}
       .stats-row{grid-template-columns:repeat(2,1fr);}
       .team-grid{grid-template-columns:repeat(2,1fr);}
       .hodnoty-grid{grid-template-columns:1fr;}
@@ -189,12 +180,12 @@
 <header>
   <div class="header-top">
     Otvorené: Po–Pia 07:00–15:30 &nbsp;|&nbsp; Tel: 043/559 01 97 &nbsp;|&nbsp;
-    <a href="/cdn-cgi/l/email-protection#f3908080dd808786979a969d9892b3858690899a9f9a9d92dd8098"><span class="__cf_email__" data-cfemail="107363633e6364657479757e7b71506665736a797c797e713e637b">[email&#160;protected]</span></a>
+    <a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a>
   </div>
   <div class="header-main">
     <a href="domov.html" class="logo">
       <div class="logo-icon">
-        <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
         <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
@@ -205,10 +196,10 @@
       <div class="nav-item">
         <a href="onas.html" class="active">O nás</a>
         <div class="dropdown">
-        <a href="onas.html" class="active">O zariadení</a>
-        <a href="historia.html">História</a>
-        <a href="nastim.html">Náš tím</a>
-        <a href="poslanie.html">Poslanie a vízia</a>
+        <a href="onas.html">O zariadení</a>
+        <a href="#historia">História</a>
+        <a href="#nastim">Náš tím</a>
+        <a href="#poslanie">Poslanie a vízia</a>
         </div>
       </div>
       <div class="nav-item">
@@ -221,6 +212,7 @@
         <a href="ponukame.html#denne">Denné centrum</a>
         <a href="ponukame.html#jedalen">Jedáleň</a>
         <a href="ponukame.html#preprava">Prepravná služba</a>
+        <a href="odlahcovacia.html">Odľahčovacia služba</a>
         </div>
       </div>
       <div class="nav-item">
@@ -251,13 +243,8 @@
         <a href="galeria.html">Fotogaléria</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="nastiahnutie.html">Dokumenty</a>
-        <div class="dropdown">
-        <a href="nastiahnutie.html">Na stiahnutie</a>
-        <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-        </div>
-      </div>
+      <a href="nastiahnutie.html">Na stiahnutie</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
       <a href="oz-pelikan.html">OZ Pelikán</a>
       <a href="kontakt.html">Kontakt</a>
     </nav>
@@ -270,10 +257,10 @@
   <div class="mob-group">
     <button class="mob-group-btn">O nás<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
-      <a href="onas.html" class="active">O zariadení</a>
-      <a href="historia.html">História</a>
-      <a href="nastim.html">Náš tím</a>
-      <a href="poslanie.html">Poslanie a vízia</a>
+      <a href="onas.html">O zariadení</a>
+      <a href="#historia">História</a>
+      <a href="#nastim">Náš tím</a>
+      <a href="#poslanie">Poslanie a vízia</a>
     </div>
   </div>
   <div class="mob-group">
@@ -286,6 +273,7 @@
       <a href="ponukame.html#denne">Denné centrum</a>
       <a href="ponukame.html#jedalen">Jedáleň</a>
       <a href="ponukame.html#preprava">Prepravná služba</a>
+      <a href="odlahcovacia.html">Odľahčovacia služba</a>
     </div>
   </div>
   <div class="mob-group">
@@ -296,6 +284,7 @@
       <a href="informacieprevas.html#cennik">Cenník služieb</a>
       <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
       <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+      <a href="informacieprevas.html#ekonomicky">Ekon. oprávnené náklady</a>
     </div>
   </div>
   <div class="mob-group">
@@ -305,6 +294,7 @@
       <a href="prerodiny.html#navstevy">Návštevy</a>
       <a href="prerodiny.html#otvaracie">Otvárací čas</a>
       <a href="prerodiny.html#vychadzky">Vychádzky</a>
+      <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
     </div>
   </div>
   <div class="mob-group">
@@ -314,16 +304,11 @@
       <a href="galeria.html">Fotogaléria</a>
     </div>
   </div>
-  <div class="mob-group">
-    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
-    <div class="mob-sub-list">
-      <a href="nastiahnutie.html">Na stiahnutie</a>
-      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-    </div>
-  </div>
-    <a href="oz-pelikan.html">OZ Pelikán</a>
-    <a href="kontakt.html">Kontakt</a>
-  </div>
+  <a href="nastiahnutie.html">Na stiahnutie</a>
+  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+  <a href="oz-pelikan.html">OZ Pelikán</a>
+  <a href="kontakt.html">Kontakt</a>
+</div>
 </header>
 <div class="breadcrumb"><div class="breadcrumb-inner">
   <a href="domov.html">Domov</a><span>›</span><span>O nás</span><span>›</span><span>O zariadení</span>
@@ -336,14 +321,14 @@
 <div class="main-wrap">
   <div class="onas-layout">
     
-<div class="onas-sidenav">
-  <div class="onas-sidenav-title">O zariadení</div>
-  <ul>
-    <li><a href="historia.html"><svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>História</a></li>
-    <li><a href="nastim.html"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Náš tím</a></li>
-    <li><a href="poslanie.html"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Poslanie a vízia</a></li>
-  </ul>
-</div>
+<aside class="sidebar">
+  <div class="sidebar-title">O zariadení</div>
+  <nav>
+    <a href="#historia" class="active">História</a>
+    <a href="#nastim">Náš tím</a>
+    <a href="#poslanie">Poslanie a vízia</a>
+  </nav>
+</aside>
     <div>
       <div class="content-card">
         <span class="section-tag">O zariadení</span>
@@ -376,6 +361,118 @@
           <div class="stat-box gold"><div class="stat-num">102</div><div class="stat-lbl">Kapacita prijímateľov</div></div>
           <div class="stat-box"><div class="stat-num">76</div><div class="stat-lbl">Zamestnancov</div></div>
           <div class="stat-box gold"><div class="stat-num">752 m</div><div class="stat-lbl">Nadmorská výška</div></div>
+        </div>
+      </div>
+      <div class="content-card" id="historia">
+        <span class="section-tag">Naša história</span>
+        <h2 class="section-title">Sme tu pre vás od roku 1989</h2>
+        <div class="divider"></div>
+        <div class="content-text">
+          <p>Budova nášho zariadenia bola postavená ako účelová stavba v akcii Z — svojpomocnou aktivitou obyvateľov obce Novoť — a do prevádzky bola uvedená v roku <strong>1989</strong>.</p>
+          <h3>Vznik samostatnej organizácie</h3>
+          <p>Od <strong>1. januára 1991</strong> zriadil Okresný úrad v Dolnom Kubíne Domov dôchodcov v Novoti ako samostatnú rozpočtovú organizáciu. O päť rokov neskôr, dňa <strong>24. júla 1996</strong>, prevzal zriaďovateľstvo Krajský úrad v Žiline, ktorý zariadenie premenoval na Domov dôchodcov a domov sociálnych služieb pre dospelých.</p>
+          <h3>Žilinský samosprávny kraj</h3>
+          <p>Od <strong>1. júla 2002</strong> sa zriaďovateľom zariadenia stal Žilinský samosprávny kraj. Zariadenie sa stalo príspevkovou organizáciou s právnou subjektivitou a v tejto forme funguje dodnes. Dňa <strong>1. júna 2010</strong> ŽSK zmenil názov zariadenia na Zariadenie pre seniorov a domov sociálnych služieb Novoť.</p>
+          <h3>Rozšírenie a modernizácia</h3>
+          <p>V roku <strong>2013</strong> zariadenie výrazne rozšírilo svoju ponuku — pribudla snoezelen miestnosť, rehabilitačné pracovisko a aktivity sociálnej terapie pre prijímateľov sociálnych služieb.</p>
+          <h3>Centrum sociálnych služieb STUDIENKA</h3>
+          <p>Na základe Dodatku č. 4 zo dňa <strong>15. apríla 2016</strong> bol zmenený názov zariadenia na <strong>Centrum sociálnych služieb STUDIENKA</strong>. Od 1. mája 2016 zariadenie rozšírilo svoju činnosť o podporné a terénne sociálne služby.</p>
+          <h3>Súčasnosť</h3>
+          <p>Dnes zariadenie poskytuje pobytové, podporné aj terénne sociálne služby pre <strong>102 prijímateľov</strong>. Starostlivosť 24 hodín denne, 7 dní v týždni zabezpečuje tím <strong>76 zamestnancov</strong> — zdravotníckych pracovníkov, sociálnych pracovníkov, terapeutov, opatrovateľov a prevádzkového personálu.</p>
+        </div>
+      </div>
+      <div class="content-card" id="nastim">
+        <span class="section-tag">Náš tím</span>
+        <h2 class="section-title">Profesionálni ľudia s ľudským prístupom</h2>
+        <div class="divider"></div>
+        <div class="content-text">
+          <p>Chod zariadenia a starostlivosť o prijímateľov zabezpečuje celkovo <strong>76 zamestnancov</strong> (72,5 prepočítaných pracovných úväzkov). Naši zamestnanci sú odborne kvalifikovaní a pravidelne sa vzdelávajú, aby mohli poskytovať čo najvyššiu kvalitu starostlivosti.</p>
+          <p>Tím zahŕňa zdravotníckych pracovníkov, sociálnych pracovníkov, terapeutov, opatrovateľov a prevádzkový personál — každý zo svojej oblasti prispieva k dôstojnému a plnohodnotnému životu prijímateľov.</p>
+        </div>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-icon"><svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6a5.87 5.87 0 0 1-2.8-.7l-1.46 1.46A7.93 7.93 0 0 0 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.96.25 2.8.7l1.46-1.46A7.93 7.93 0 0 0 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/></svg></div>
+            <span class="team-num">24/7</span>
+            <h4>Nepretržitá starostlivosť</h4>
+            <p>Zdravotný a opatrovateľský personál je prítomný nepretržite počas celého dňa aj noci.</p>
+          </div>
+          <div class="team-card gold">
+            <div class="team-icon" style="background:#E07818;"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+            <span class="team-num" style="color:#E07818;">76</span>
+            <h4>Celkový počet zamestnancov</h4>
+            <p>72,5 prepočítaných pracovných úväzkov v rôznych odborných oblastiach.</p>
+          </div>
+          <div class="team-card green">
+            <div class="team-icon" style="background:#7AB020;"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18V17h2v-4.82L9 13.36V17c0 1.1 1.35 2 3 2s3-.9 3-2v-3.64l4-2.18V17h2v-5.82L23 9 12 3z"/></svg></div>
+            <span class="team-num" style="color:#7AB020;">Kvalita</span>
+            <h4>Odborné vzdelávanie</h4>
+            <p>Zamestnanci sa pravidelne zúčastňujú odborných školení a vzdelávacích programov.</p>
+          </div>
+        </div>
+        <div class="content-text" style="margin-top:2rem;">
+          <h3>Zloženie tímu</h3>
+          <ul>
+            <li>Zdravotnícki pracovníci — sestry, zdravotníci</li>
+            <li>Sociálni pracovníci a sociálni asistenti</li>
+            <li>Opatrovatelia a opatrovateľky</li>
+            <li>Fyzioterapeuti a ergoterapeuti — rehabilitácia</li>
+            <li>Pracovní terapeuti — snoezelen, terapia</li>
+            <li>Duchovná starostlivosť a spiritualita</li>
+            <li>Prevádzkový a technický personál</li>
+            <li>Kuchárky a personál stravovania</li>
+            <li>Vedenie a administratíva</li>
+          </ul>
+          <h3>Aktivity a terapie</h3>
+          <p>Naši terapeuti a sociálni pracovníci organizujú pestrý program aktivít: záujmovú činnosť, krúžky, šport, kultúrne podujatia a výlety. Zariadenie disponuje rehabilitačným pracoviskom a snoezelen miestnosťou pre zmyslovú stimuláciu.</p>
+        </div>
+      </div>
+      <div class="content-card" id="poslanie">
+        <span class="section-tag">Poslanie a vízia</span>
+        <h2 class="section-title">Čo nás vedie každý deň</h2>
+        <div class="divider"></div>
+        <div class="poslanie-quote">
+          <svg viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+          <blockquote>
+            „Všetko, čo robíme, je iba kvapka v mori, ale keby sme to nerobili, tá kvapka by tam chýbala."
+            <cite>— Matka Tereza</cite>
+          </blockquote>
+        </div>
+        <div class="content-text">
+          <h3>Naše poslanie</h3>
+          <p><strong>Poslaním nášho zariadenia</strong> je poskytovať sociálne služby v zmysle zákona o sociálnych službách ako súčasť sociálnej politiky Žilinského samosprávneho kraja, ktoré podporujú čo najvyššiu mieru sebestačnosti a autonómie prijímateľa sociálnej služby.</p>
+          <p>Centrum sociálnych služieb STUDIENKA chce byť „kvapkou v mori" pre všetkých, ktorí to potrebujú — a preto poskytujeme sociálne služby s úctou, odbornosťou a ľudským prístupom.</p>
+          <h3>Naša vízia</h3>
+          <p>Víziou zariadenia je byť moderným, kvalitným a ľudsky orientovaným centrom sociálnych služieb, kde každý prijímateľ žije dôstojne, aktívne a v bezpečnom prostredí. Chceme byť partnerom rodín aj komunity v starostlivosti o tých, ktorí to potrebujú.</p>
+        </div>
+        <div class="hodnoty-grid">
+          <div class="hodnota-card">
+            <div class="hodnota-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+            <div>
+              <h4>Dôstojnosť</h4>
+              <p>Každý prijímateľ má právo na dôstojné zaobchádzanie a rešpektovanie svojej osobnosti a individuality.</p>
+            </div>
+          </div>
+          <div class="hodnota-card">
+            <div class="hodnota-icon" style="background:#E07818;"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+            <div>
+              <h4>Komunita a otvorenosť</h4>
+              <p>Zariadenie umožňuje otvorený kontakt s príbuznými aj s ostatnými občanmi Novote a okolia každý deň.</p>
+            </div>
+          </div>
+          <div class="hodnota-card">
+            <div class="hodnota-icon" style="background:#7AB020;"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+            <div>
+              <h4>Sebestačnosť a autonómia</h4>
+              <p>Podporujeme čo najvyššiu mieru sebestačnosti a autonómie každého prijímateľa podľa jeho individuálnych možností.</p>
+            </div>
+          </div>
+          <div class="hodnota-card">
+            <div class="hodnota-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+            <div>
+              <h4>Kvalita a odbornosť</h4>
+              <p>Naši zamestnanci sa neustále vzdelávajú a dodržiavajú podmienky kvality poskytovaných sociálnych služieb.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -438,7 +535,36 @@ document.querySelectorAll('.mob-group-btn').forEach(btn => {
     btn.classList.toggle('open');
     btn.nextElementSibling.classList.toggle('open');
   });
+
 });
+
+// ── SIDENAV SCROLL ZVÝRAZNENIE ───────────────
+var sideLinks = document.querySelectorAll('.sidebar nav a[href^="#"]');
+var sections  = Array.from(sideLinks).map(function(a) {
+  return document.querySelector(a.getAttribute('href'));
+}).filter(Boolean);
+
+function setActive(id) {
+  sideLinks.forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+  });
+}
+
+sideLinks.forEach(function(a) {
+  a.addEventListener('click', function() {
+    setActive(a.getAttribute('href').slice(1));
+  });
+});
+
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      setActive(entry.target.id);
+    }
+  });
+}, { rootMargin: '-130px 0px -55% 0px', threshold: 0 });
+
+sections.forEach(function(s) { observer.observe(s); });
 </script>
 </body>
 </html>

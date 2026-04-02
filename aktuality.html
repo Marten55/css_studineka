@@ -29,14 +29,14 @@
     header { background: #2B6CC8; color: var(--white); position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
     .header-top { background: #7AB020; text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .04em; padding: .45rem 1rem; color: rgba(255,255,255,.95); }
     .header-top a { color: inherit; }
-    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start; gap: 1.5rem; padding: .5rem 2rem; }
+    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start; gap: 1rem; padding: .5rem 2rem; }
     .logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
-    .logo-icon { width: 140px; height: 140px; flex-shrink: 0; overflow: hidden; }
+    .logo-icon { width: 110px; height: 110px; flex-shrink: 0; overflow: hidden; }
     .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white); }
     .logo-text .logo-sub { font-size: 1.3rem; font-weight: 600; color: var(--white); display: block; }
     .logo-text .tagline { font-size: .8rem; color: #E07818; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; display: block; margin-top: .25rem; }
     nav { display: flex; align-items: center; gap: .1rem; flex-wrap: nowrap; position: relative; }
-    nav > a, nav > .nav-item > a { font-size: .88rem; font-weight: 500; letter-spacing: .02em; padding: .5rem .75rem; border-radius: var(--radius); transition: background .2s, color .2s; color: rgba(255,255,255,.88); white-space: nowrap; display: flex; align-items: center; gap: .25rem; }
+    nav > a, nav > .nav-item > a { font-size: .8rem; font-weight: 500; letter-spacing: .02em; padding: .45rem .5rem; border-radius: var(--radius); transition: background .2s, color .2s; color: rgba(255,255,255,.88); white-space: nowrap; display: flex; align-items: center; gap: .25rem; }
     nav > a:hover, nav > .nav-item > a:hover { background: rgba(255,255,255,.12); color: var(--white); }
     nav > a.active, nav > .nav-item > a.active { background: #E07818; color: var(--white); }
     .nav-item { position: relative; }
@@ -426,12 +426,12 @@
 <header>
   <div class="header-top">
     Otvorené: Po–Pia 07:00–15:30 &nbsp;|&nbsp; Tel: 043/559 01 97 &nbsp;|&nbsp;
-    <a href="/cdn-cgi/l/email-protection#f3908080dd808786979a969d9892b3858690899a9f9a9d92dd8098"><span class="__cf_email__" data-cfemail="107363633e6364657479757e7b71506665736a797c797e713e637b">[email&#160;protected]</span></a>
+    <a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a>
   </div>
   <div class="header-main">
     <a href="domov.html" class="logo">
       <div class="logo-icon">
-        <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
         <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
@@ -443,9 +443,9 @@
         <a href="onas.html">O nás</a>
         <div class="dropdown">
         <a href="onas.html">O zariadení</a>
-        <a href="historia.html">História</a>
-        <a href="nastim.html">Náš tím</a>
-        <a href="poslanie.html">Poslanie a vízia</a>
+        <a href="onas.html#historia">História</a>
+        <a href="onas.html#nastim">Náš tím</a>
+        <a href="onas.html#poslanie">Poslanie a vízia</a>
         </div>
       </div>
       <div class="nav-item">
@@ -458,6 +458,7 @@
         <a href="ponukame.html#denne">Denné centrum</a>
         <a href="ponukame.html#jedalen">Jedáleň</a>
         <a href="ponukame.html#preprava">Prepravná služba</a>
+        <a href="odlahcovacia.html">Odľahčovacia služba</a>
         </div>
       </div>
       <div class="nav-item">
@@ -484,17 +485,12 @@
       <div class="nav-item">
         <a href="aktuality.html" class="active">Aktuality</a>
         <div class="dropdown">
-        <a href="aktuality.html" class="active">Všetky aktuality</a>
+        <a href="aktuality.html">Všetky aktuality</a>
         <a href="galeria.html">Fotogaléria</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="nastiahnutie.html">Dokumenty</a>
-        <div class="dropdown">
-        <a href="nastiahnutie.html">Na stiahnutie</a>
-        <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-        </div>
-      </div>
+      <a href="nastiahnutie.html">Na stiahnutie</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
       <a href="oz-pelikan.html">OZ Pelikán</a>
       <a href="kontakt.html">Kontakt</a>
     </nav>
@@ -508,9 +504,9 @@
     <button class="mob-group-btn">O nás<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
       <a href="onas.html">O zariadení</a>
-      <a href="historia.html">História</a>
-      <a href="nastim.html">Náš tím</a>
-      <a href="poslanie.html">Poslanie a vízia</a>
+      <a href="onas.html#historia">História</a>
+      <a href="onas.html#nastim">Náš tím</a>
+      <a href="onas.html#poslanie">Poslanie a vízia</a>
     </div>
   </div>
   <div class="mob-group">
@@ -523,6 +519,7 @@
       <a href="ponukame.html#denne">Denné centrum</a>
       <a href="ponukame.html#jedalen">Jedáleň</a>
       <a href="ponukame.html#preprava">Prepravná služba</a>
+      <a href="odlahcovacia.html">Odľahčovacia služba</a>
     </div>
   </div>
   <div class="mob-group">
@@ -533,6 +530,7 @@
       <a href="informacieprevas.html#cennik">Cenník služieb</a>
       <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
       <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+      <a href="informacieprevas.html#ekonomicky">Ekon. oprávnené náklady</a>
     </div>
   </div>
   <div class="mob-group">
@@ -542,6 +540,7 @@
       <a href="prerodiny.html#navstevy">Návštevy</a>
       <a href="prerodiny.html#otvaracie">Otvárací čas</a>
       <a href="prerodiny.html#vychadzky">Vychádzky</a>
+      <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
     </div>
   </div>
   <div class="mob-group">
@@ -551,16 +550,11 @@
       <a href="galeria.html">Fotogaléria</a>
     </div>
   </div>
-  <div class="mob-group">
-    <button class="mob-group-btn">Dokumenty<span class="mob-arrow">▾</span></button>
-    <div class="mob-sub-list">
-      <a href="nastiahnutie.html">Na stiahnutie</a>
-      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
-    </div>
-  </div>
-    <a href="oz-pelikan.html">OZ Pelikán</a>
-    <a href="kontakt.html">Kontakt</a>
-  </div>
+  <a href="nastiahnutie.html">Na stiahnutie</a>
+  <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+  <a href="oz-pelikan.html">OZ Pelikán</a>
+  <a href="kontakt.html">Kontakt</a>
+</div>
 </header>
 
 <!-- ═══════ BREADCRUMB ═══════ -->
