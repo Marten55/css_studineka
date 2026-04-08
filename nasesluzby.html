@@ -160,8 +160,7 @@
     .sidebar-nav a.active { background: var(--gold); color: var(--white); border-left: 3px solid #c96810; }
     .sidebar-nav a.active:hover { padding-left: 1.25rem; }
 
-    .group { display: none; }
-    .group.active { display: block; }
+    .group { display: block; scroll-margin-top: 210px; }
     .main-col { min-width: 0; }
 
     .intro-box {
@@ -278,7 +277,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
+        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -640,71 +639,91 @@
   </div>
 </footer>
 <script>
-// ── Hamburger ──
-var hBtn = document.getElementById('hamburger');
-var mNav = document.getElementById('mobileNav');
-if (hBtn && mNav) {
-  hBtn.addEventListener('click', function () {
-    hBtn.classList.toggle('open');
-    mNav.classList.toggle('open');
-  });
-  document.querySelectorAll('.mob-group-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      btn.classList.toggle('open');
-      btn.nextElementSibling.classList.toggle('open');
+// ── NAVIGÁCIA ───────────────────────────────
+(function() {
+  var hbg = document.getElementById('hamburger');
+  var mNav = document.getElementById('mobileNav');
+  if (hbg && mNav) {
+    hbg.addEventListener('click', function(e) {
+      e.stopPropagation();
+      hbg.classList.toggle('open');
+      mNav.classList.toggle('open');
+    });
+    mNav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hbg.contains(e.target) && !mNav.contains(e.target)) {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      }
+    });
+  }
+  // Mobilný akordeón — exkluzívny
+  document.querySelectorAll('.mob-group-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var isOpen = btn.classList.contains('open');
+      document.querySelectorAll('.mob-group-btn').forEach(function(b) {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.nextElementSibling.classList.add('open');
+      }
     });
   });
-}
-
-// ── SIDEBAR ZÁLOŽKY ──
-var sideLinks = document.querySelectorAll('.sidebar-nav a');
-var groups    = document.querySelectorAll('.group');
-
-function showSection(id) {
-  groups.forEach(function(g) { g.classList.remove('active'); });
-  sideLinks.forEach(function(l) { l.classList.remove('active'); });
-  var target   = document.getElementById(id);
-  var matchLink = document.querySelector('.sidebar-nav a[href="#' + id + '"]');
-  if (target)    target.classList.add('active');
-  if (matchLink) matchLink.classList.add('active');
-}
-
-// Ak stránka načítaná s hashom → zobraz danú sekciu
-// Ak bez hashu → zobraz PRVÚ sekciu (domov/pobyt alebo prvú v sidebari)
-(function() {
-  var hash = window.location.hash.replace('#', '');
-  if (hash && document.getElementById(hash)) {
-    showSection(hash);
-  } else {
-    // Zobraz prvú sekciu automaticky
-    var firstLink = document.querySelector('.sidebar-nav a');
-    if (firstLink) {
-      var firstId = firstLink.getAttribute('href').replace('#', '');
-      showSection(firstId);
-    }
+  // Touch podpora pre desktop dropdown (tablety)
+  if ('ontouchstart' in window) {
+    document.querySelectorAll('.nav-item > a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var dd = a.parentElement.querySelector('.dropdown');
+        if (!dd) return;
+        var visible = dd.style.display === 'block';
+        document.querySelectorAll('.nav-item .dropdown').forEach(function(d) { d.style.display = ''; });
+        if (!visible) { e.preventDefault(); dd.style.display = 'block'; }
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-item'))
+        document.querySelectorAll('.nav-item .dropdown').forEach(function(d) { d.style.display = ''; });
+    });
   }
 })();
 
-// Ak sa hash zmení (klik na nav odkaz pri už otvorenej stránke)
-window.addEventListener('hashchange', function() {
-  var hash = window.location.hash.replace('#', '');
-  if (hash && document.getElementById(hash)) {
-    showSection(hash);
-  }
-});
 
-sideLinks.forEach(function(a) {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    var id = this.getAttribute('href').replace('#', '');
-    showSection(id);
-    // scrollnúť na vršok obsahu
-    var top = document.querySelector('.content-wrap').getBoundingClientRect().top
-              + window.scrollY
-              - document.querySelector('header').offsetHeight - 16;
-    window.scrollTo({ top: top, behavior: 'smooth' });
+// ── Scroll highlighting bočného panelu ──
+var sideLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
+var sections  = Array.from(sideLinks).map(function (a) {
+  return document.querySelector(a.getAttribute('href'));
+}).filter(Boolean);
+
+function setActive(id) {
+  sideLinks.forEach(function (a) {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+  });
+}
+
+// Pri kliknutí — okamžité zvýraznenie
+sideLinks.forEach(function (a) {
+  a.addEventListener('click', function () {
+    setActive(a.getAttribute('href').slice(1));
   });
 });
+
+// Pri scrollovaní — IntersectionObserver
+var observer = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      setActive(entry.target.id);
+    }
+  });
+}, { rootMargin: '-200px 0px -55% 0px', threshold: 0 });
+
+sections.forEach(function (s) { observer.observe(s); });
 </script>
 </body>
 </html>

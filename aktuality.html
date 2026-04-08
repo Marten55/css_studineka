@@ -434,7 +434,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
+        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -812,5 +812,61 @@
     &copy; 2025 Centrum sociálnych služieb STUDIENKA Novoť &nbsp;·&nbsp; Všetky práva vyhradené
   </div>
 </footer>
+<script>
+// ── NAVIGÁCIA ───────────────────────────────
+(function() {
+  var hbg = document.getElementById('hamburger');
+  var mNav = document.getElementById('mobileNav');
+  if (hbg && mNav) {
+    hbg.addEventListener('click', function(e) {
+      e.stopPropagation();
+      hbg.classList.toggle('open');
+      mNav.classList.toggle('open');
+    });
+    mNav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hbg.contains(e.target) && !mNav.contains(e.target)) {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      }
+    });
+  }
+  // Mobilný akordeón — exkluzívny
+  document.querySelectorAll('.mob-group-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var isOpen = btn.classList.contains('open');
+      document.querySelectorAll('.mob-group-btn').forEach(function(b) {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.nextElementSibling.classList.add('open');
+      }
+    });
+  });
+  // Touch podpora pre desktop dropdown (tablety)
+  if ('ontouchstart' in window) {
+    document.querySelectorAll('.nav-item > a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var dd = a.parentElement.querySelector('.dropdown');
+        if (!dd) return;
+        var visible = dd.style.display === 'block';
+        document.querySelectorAll('.nav-item .dropdown').forEach(function(d) { d.style.display = ''; });
+        if (!visible) { e.preventDefault(); dd.style.display = 'block'; }
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-item'))
+        document.querySelectorAll('.nav-item .dropdown').forEach(function(d) { d.style.display = ''; });
+    });
+  }
+})();
+</script>
 </body>
 </html>

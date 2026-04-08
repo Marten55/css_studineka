@@ -451,7 +451,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
+        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -954,7 +954,6 @@
         <div class="news-card-img">
           <div class="news-card-img-placeholder">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            <span>Fotografia čoskoro</span>
           </div>
           <span class="news-tag-pill">Podujatie</span>
         </div>
@@ -977,7 +976,6 @@
         <div class="news-card-img">
           <div class="news-card-img-placeholder">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            <span>Fotografia čoskoro</span>
           </div>
           <span class="news-tag-pill">Aktivity</span>
         </div>
@@ -1000,7 +998,6 @@
         <div class="news-card-img">
           <div class="news-card-img-placeholder">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            <span>Fotografia čoskoro</span>
           </div>
           <span class="news-tag-pill">Výlet</span>
         </div>
@@ -1169,104 +1166,60 @@ const sliderImgs = [
 ];
 sliderImgs.forEach(src => { const img = new Image(); img.src = src; });
 
-// ── HAMBURGER ───────────────────────────────
-const btn = document.getElementById('hamburger');
-const mNav = document.getElementById('mobileNav');
-btn.addEventListener('click', () => {
-  btn.classList.toggle('open');
-  mNav.classList.toggle('open');
-});
-mNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  btn.classList.remove('open');
-  mNav.classList.remove('open');
-}));
-
-// ── HERO SLIDER ──────────────────────────────
-const slides   = document.querySelectorAll('.slide');
-const dots     = document.querySelectorAll('.slider-dot');
-const progress = document.getElementById('sliderProgress');
-const DURATION = 6000;
-let current = 0;
-let timer   = null;
-
-function goTo(idx) {
-  slides[current].classList.remove('active');
-  dots[current].classList.remove('active');
-  current = (idx + slides.length) % slides.length;
-  slides[current].classList.add('active');
-  dots[current].classList.add('active');
-  // reset progress bar
-  progress.style.transition = 'none';
-  progress.style.width = '0%';
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    progress.style.transition = `width ${DURATION}ms linear`;
-    progress.style.width = '100%';
-  }));
-}
-
-function next() { goTo(current + 1); }
-function prev() { goTo(current - 1); }
-
-function startAuto() {
-  clearInterval(timer);
-  timer = setInterval(next, DURATION);
-}
-
-// Štart
-goTo(0);
-startAuto();
-
-// Dots
-dots.forEach(dot => dot.addEventListener('click', () => {
-  clearInterval(timer);
-  goTo(parseInt(dot.dataset.index));
-  startAuto();
-}));
-
-// Arrows
-document.getElementById('nextArrow').addEventListener('click', () => { clearInterval(timer); next(); startAuto(); });
-document.getElementById('prevArrow').addEventListener('click', () => { clearInterval(timer); prev(); startAuto(); });
-
-// Swipe na mobile
-let tx = 0;
-const sl = document.querySelector('.slider');
-sl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
-sl.addEventListener('touchend', e => {
-  const d = tx - e.changedTouches[0].clientX;
-  if (Math.abs(d) > 50) { clearInterval(timer); d > 0 ? next() : prev(); startAuto(); }
-});
-
-// Pauza pri hover
-sl.addEventListener('mouseenter', () => clearInterval(timer));
-sl.addEventListener('mouseleave', startAuto);
-
-// ── SCROLL ANIMÁCIE KARIET ───────────────────
-// News cards scroll-in
-const newsCards = document.querySelectorAll('.news-card');
-newsCards.forEach((card, i) => {
-  card.style.transitionDelay = (i * 0.12) + 's';
-});
-const newsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); newsObserver.unobserve(e.target); } });
-}, { threshold: 0.12 });
-newsCards.forEach(c => newsObserver.observe(c));
-
-const cardObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      cardObserver.unobserve(entry.target);
-    }
+// ── NAVIGÁCIA ───────────────────────────────
+(function() {
+  var hbg = document.getElementById('hamburger');
+  var mNav = document.getElementById('mobileNav');
+  if (hbg && mNav) {
+    hbg.addEventListener('click', function(e) {
+      e.stopPropagation();
+      hbg.classList.toggle('open');
+      mNav.classList.toggle('open');
+    });
+    mNav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hbg.contains(e.target) && !mNav.contains(e.target)) {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      }
+    });
+  }
+  // Mobilný akordeón — exkluzívny
+  document.querySelectorAll('.mob-group-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var isOpen = btn.classList.contains('open');
+      document.querySelectorAll('.mob-group-btn').forEach(function(b) {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.nextElementSibling.classList.add('open');
+      }
+    });
   });
-}, { threshold: 0.12 });
-document.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
-
-// Mobile accordion
-document.querySelectorAll('.mob-group-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    btn.classList.toggle('open');
-    btn.nextElementSibling.classList.toggle('open');
-  });
+  // Touch podpora pre desktop dropdown (tablety)
+  if ('ontouchstart' in window) {
+    document.querySelectorAll('.nav-item > a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var dd = a.parentElement.querySelector('.dropdown');
+        if (!dd) return;
+        var visible = dd.style.display === 'block';
+        document.querySelectorAll('.nav-item .dropdown').forEach(function(d) { d.style.display = ''; });
+        if (!visible) { e.preventDefault(); dd.style.display = 'block'; }
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-item'))
+        document.querySelectorAll('.nav-item .dropdown').forEach(function(d) { d.style.display = ''; });
+    });
+  }
+})();
 });
 </script>
 </body>
