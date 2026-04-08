@@ -188,7 +188,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
+        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -571,6 +571,24 @@
     });
   }
 })();
+
+// ── SIDENAV SCROLL ZVÝRAZNENIE ───────────────
+var sideLinks = document.querySelectorAll('.sidebar nav a[href^="#"]');
+var sections  = Array.from(sideLinks).map(function(a) {
+  return document.querySelector(a.getAttribute('href'));
+}).filter(Boolean);
+
+function setActive(id) {
+  sideLinks.forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+  });
+}
+
+sideLinks.forEach(function(a) {
+  a.addEventListener('click', function() {
+    setActive(a.getAttribute('href').slice(1));
+  });
+});
 
 var observer = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {

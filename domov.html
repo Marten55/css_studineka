@@ -451,7 +451,7 @@
         <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
-        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
+        <h1>Centrum sociálnych služieb<span class="logo-sub">STUDIENKA Novoť</span></h1>
       </div>
     </a>
     <nav>
@@ -954,6 +954,7 @@
         <div class="news-card-img">
           <div class="news-card-img-placeholder">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Fotografia čoskoro</span>
           </div>
           <span class="news-tag-pill">Podujatie</span>
         </div>
@@ -976,6 +977,7 @@
         <div class="news-card-img">
           <div class="news-card-img-placeholder">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Fotografia čoskoro</span>
           </div>
           <span class="news-tag-pill">Aktivity</span>
         </div>
@@ -998,6 +1000,7 @@
         <div class="news-card-img">
           <div class="news-card-img-placeholder">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Fotografia čoskoro</span>
           </div>
           <span class="news-tag-pill">Výlet</span>
         </div>
@@ -1220,7 +1223,87 @@ sliderImgs.forEach(src => { const img = new Image(); img.src = src; });
     });
   }
 })();
+
+// ── HERO SLIDER ──────────────────────────────
+const slides   = document.querySelectorAll('.slide');
+const dots     = document.querySelectorAll('.slider-dot');
+const progress = document.getElementById('sliderProgress');
+const DURATION = 6000;
+let current = 0;
+let timer   = null;
+
+function goTo(idx) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (idx + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  // reset progress bar
+  progress.style.transition = 'none';
+  progress.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    progress.style.transition = `width ${DURATION}ms linear`;
+    progress.style.width = '100%';
+  }));
+}
+
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+
+function startAuto() {
+  clearInterval(timer);
+  timer = setInterval(next, DURATION);
+}
+
+// Štart
+goTo(0);
+startAuto();
+
+// Dots
+dots.forEach(dot => dot.addEventListener('click', () => {
+  clearInterval(timer);
+  goTo(parseInt(dot.dataset.index));
+  startAuto();
+}));
+
+// Arrows
+document.getElementById('nextArrow').addEventListener('click', () => { clearInterval(timer); next(); startAuto(); });
+document.getElementById('prevArrow').addEventListener('click', () => { clearInterval(timer); prev(); startAuto(); });
+
+// Swipe na mobile
+let tx = 0;
+const sl = document.querySelector('.slider');
+sl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
+sl.addEventListener('touchend', e => {
+  const d = tx - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) { clearInterval(timer); d > 0 ? next() : prev(); startAuto(); }
 });
+
+// Pauza pri hover
+sl.addEventListener('mouseenter', () => clearInterval(timer));
+sl.addEventListener('mouseleave', startAuto);
+
+// ── SCROLL ANIMÁCIE KARIET ───────────────────
+// News cards scroll-in
+const newsCards = document.querySelectorAll('.news-card');
+newsCards.forEach((card, i) => {
+  card.style.transitionDelay = (i * 0.12) + 's';
+});
+const newsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); newsObserver.unobserve(e.target); } });
+}, { threshold: 0.12 });
+newsCards.forEach(c => newsObserver.observe(c));
+
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
+
 </script>
 </body>
 </html>
