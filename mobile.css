@@ -1,0 +1,81 @@
+/* ═══════════════════════════════════════════
+   SHARED MOBILE HEADER STYLES — mobile.css
+   Spoločné mobilné štýly pre všetky stránky.
+   Načítaný PO inline <style> → rovnaká
+   špecificita, neskorší zdroj → vyhráva.
+═══════════════════════════════════════════ */
+
+/* ── ≤ 900px: hamburger + kompaktný header ── */
+@media (max-width: 900px) {
+
+  /* Navigácia — skryť desktop, zobraziť hamburger */
+  header nav { display: none !important; }
+  .hamburger { display: flex !important; }
+  .header-main { padding: .85rem 1.25rem !important; }
+
+  /* Logo — zmenšiť ikonu */
+  .logo-icon {
+    width: 58px !important;
+    height: 58px !important;
+  }
+  /* Inline style="width:110px" na <img> treba !important */
+  .logo-icon img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Logo text */
+  .logo-text h1 {
+    font-size: 1.1rem !important;
+    line-height: 1.2 !important;
+  }
+  .logo-text .logo-sub {
+    font-size: .82rem !important;
+  }
+  /* Tagline (oranžové písmená) — skryť na mobile */
+  .logo-text .tagline {
+    display: none !important;
+  }
+
+  /* Info lišta — zmenšiť */
+  .header-top {
+    font-size: .72rem;
+    padding: .3rem .9rem;
+    letter-spacing: .02em;
+  }
+}
+
+/* ── ≤ 480px: malé telefóny — ešte kompaktnejší header ── */
+@media (max-width: 480px) {
+
+  .logo-icon {
+    width: 46px !important;
+    height: 46px !important;
+  }
+  .logo-text h1 {
+    font-size: .95rem !important;
+  }
+  .logo-text .logo-sub {
+    font-size: .72rem !important;
+  }
+  .header-main {
+    padding: .55rem .9rem !important;
+    gap: .55rem !important;
+  }
+  .header-top {
+    font-size: .65rem;
+    padding: .22rem .75rem;
+    letter-spacing: 0;
+  }
+}
+
+/* ── ≤ 360px: najmenšie telefóny ── */
+@media (max-width: 360px) {
+  .logo-text .logo-sub {
+    display: none !important;
+  }
+  .logo-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
