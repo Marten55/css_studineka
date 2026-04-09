@@ -13,8 +13,9 @@
 
   /* ── Desktop nav schovaná, hamburger viditeľný ── */
   header nav { display: none !important; }
-  .hamburger { display: flex !important; }
+  .hamburger { display: flex !important; margin-left: auto !important; }
   .header-main { padding: .85rem 1.25rem !important; }
+
 
   /* ── Logo ikona: 110px → 58px ── */
   .logo-icon {
