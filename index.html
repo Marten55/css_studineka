@@ -1086,6 +1086,86 @@ sliderImgs.forEach(src => { const img = new Image(); img.src = src; });
     });
   }
 })();
+
+// ── HERO SLIDER ──────────────────────────────
+const slides   = document.querySelectorAll('.slide');
+const dots     = document.querySelectorAll('.slider-dot');
+const progress = document.getElementById('sliderProgress');
+const DURATION = 6000;
+let current = 0;
+let timer   = null;
+
+function goTo(idx) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (idx + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  // reset progress bar
+  progress.style.transition = 'none';
+  progress.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    progress.style.transition = `width ${DURATION}ms linear`;
+    progress.style.width = '100%';
+  }));
+}
+
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+
+function startAuto() {
+  clearInterval(timer);
+  timer = setInterval(next, DURATION);
+}
+
+// Štart
+goTo(0);
+startAuto();
+
+// Dots
+dots.forEach(dot => dot.addEventListener('click', () => {
+  clearInterval(timer);
+  goTo(parseInt(dot.dataset.index));
+  startAuto();
+}));
+
+// Arrows
+document.getElementById('nextArrow').addEventListener('click', () => { clearInterval(timer); next(); startAuto(); });
+document.getElementById('prevArrow').addEventListener('click', () => { clearInterval(timer); prev(); startAuto(); });
+
+// Swipe na mobile
+let tx = 0;
+const sl = document.querySelector('.slider');
+sl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
+sl.addEventListener('touchend', e => {
+  const d = tx - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) { clearInterval(timer); d > 0 ? next() : prev(); startAuto(); }
+});
+
+// Pauza pri hover
+sl.addEventListener('mouseenter', () => clearInterval(timer));
+sl.addEventListener('mouseleave', startAuto);
+
+// ── SCROLL ANIMÁCIE KARIET ───────────────────
+const newsCards = document.querySelectorAll('.news-card');
+newsCards.forEach((card, i) => {
+  card.style.transitionDelay = (i * 0.12) + 's';
+});
+const newsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); newsObserver.unobserve(e.target); } });
+}, { threshold: 0.12 });
+newsCards.forEach(c => newsObserver.observe(c));
+
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
+
 </script>
 </body>
 </html>
