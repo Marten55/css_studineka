@@ -1,0 +1,496 @@
+/* ═══════════════════════════════════════════════════════════
+   STYLES.CSS — Zdieľané štýly CSS Studienka Novoť
+   Načíta sa na každej stránke namiesto inline <style>.
+   Stránkovo-špecifické štýly zostávajú inline v <style>.
+   Nahrádza: mobile.css (mobile.css sa viac nepoužíva)
+═══════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════
+   1. CSS PREMENNÉ
+══════════════════════════════════════════════════ */
+:root {
+  --navy:    #1A4A96;
+  --teal:    #4A6DB8;
+  --teal-lt: #7A9ED4;
+  --gold:    #E07818;
+  --green:   #7AB020;
+  --cream:   #FAFAF7;
+  --white:   #ffffff;
+  --gray-lt: #F2F0EB;
+  --gray-md: #8A8A82;
+  --text:    #252520;
+  --radius:  8px;
+  --shadow:  0 4px 24px rgba(30,48,85,.09);
+}
+
+/* ══════════════════════════════════════════════════
+   2. ZÁKLAD — RESET + BASE
+══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Source Sans 3', sans-serif; color: var(--text); background: var(--cream); line-height: 1.7; }
+a { color: inherit; text-decoration: none; }
+
+/* ══════════════════════════════════════════════════
+   3. HEADER
+══════════════════════════════════════════════════ */
+header {
+  background: #2B6CC8;
+  color: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+.header-top {
+  background: #7AB020;
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  padding: .45rem 1rem;
+  color: rgba(255,255,255,.95);
+}
+.header-top a { color: inherit; }
+.header-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .5rem 2rem;
+}
+
+/* ── LOGO ── */
+.logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
+.logo-icon { width: 110px; height: 110px; flex-shrink: 0; overflow: hidden; }
+.logo-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white);
+}
+.logo-text .logo-sub { font-size: 1.3rem; font-weight: 600; color: var(--white); display: block; }
+.logo-text .tagline {
+  font-size: .8rem; color: #E07818; letter-spacing: .15em;
+  text-transform: uppercase; font-weight: 700; display: block; margin-top: .25rem;
+}
+
+/* ══════════════════════════════════════════════════
+   4. DESKTOP NAV + DROPDOWN
+══════════════════════════════════════════════════ */
+nav {
+  display: flex; align-items: center; gap: .1rem;
+  flex-wrap: nowrap; position: relative;
+}
+nav > a, nav > .nav-item > a {
+  font-size: .8rem; font-weight: 500; letter-spacing: .02em;
+  padding: .45rem .5rem; border-radius: var(--radius);
+  transition: background .2s, color .2s;
+  color: rgba(255,255,255,.88); white-space: nowrap;
+  display: flex; align-items: center; gap: .25rem;
+}
+nav > a:hover, nav > .nav-item > a:hover { background: rgba(255,255,255,.12); color: var(--white); }
+nav > a.active, nav > .nav-item > a.active { background: #E07818; color: var(--white); }
+
+.nav-item { position: relative; }
+.nav-item > a::after { content: '▾'; font-size: .65rem; opacity: .7; margin-left: .1rem; }
+
+.dropdown {
+  display: none; position: absolute; top: 100%; left: 0;
+  background: var(--navy); border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius); min-width: 230px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.35); z-index: 300;
+  padding: .4rem 0; margin-top: 0;
+}
+.dropdown::before {
+  content: ''; position: absolute; top: -8px; left: 0;
+  width: 100%; height: 8px; background: transparent;
+}
+.nav-item:hover .dropdown,
+.nav-item:focus-within .dropdown { display: block; }
+.dropdown a {
+  display: block; padding: .55rem 1.1rem;
+  font-size: .85rem; color: rgba(255,255,255,.82);
+  transition: background .15s, color .15s; white-space: nowrap;
+}
+.dropdown a:hover { background: rgba(255,255,255,.09); color: var(--white); }
+.dropdown a.active { color: #E07818; font-weight: 600; }
+.dropdown-divider { height: 1px; background: rgba(255,255,255,.08); margin: .3rem 0; }
+
+/* ══════════════════════════════════════════════════
+   5. HAMBURGER
+══════════════════════════════════════════════════ */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: .5rem; border: none;
+  background: transparent; z-index: 200;
+}
+.hamburger span {
+  display: block; width: 26px; height: 2px;
+  background: var(--white); border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ══════════════════════════════════════════════════
+   6. MOBILNÁ NAVIGÁCIA (FULL-SCREEN OVERLAY)
+══════════════════════════════════════════════════ */
+.mobile-nav {
+  display: none; flex-direction: column;
+  background: var(--navy); border-top: 1px solid rgba(255,255,255,.1);
+  max-height: 85vh; overflow-y: auto;
+}
+.mobile-nav.open { display: flex; }
+
+/* Priame linky (Domov, Kontakt…) */
+.mobile-nav > a {
+  font-size: .95rem; font-weight: 500; color: rgba(255,255,255,.85);
+  padding: .75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06);
+  transition: color .2s; display: block;
+}
+.mobile-nav > a:hover, .mobile-nav > a.active { color: #E07818; }
+
+/* Akordeón skupina */
+.mob-group { border-bottom: 1px solid rgba(255,255,255,.06); }
+.mob-group-btn {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem 1.5rem; color: rgba(255,255,255,.85);
+  font-size: .95rem; font-weight: 500; font-family: inherit;
+  transition: color .2s; text-align: left;
+}
+.mob-group-btn:hover, .mob-group-btn.open { color: #E07818; }
+.mob-arrow { font-size: .65rem; transition: transform .25s; opacity: .7; }
+.mob-group-btn.open .mob-arrow { transform: rotate(180deg); }
+
+/* Podpoložky */
+.mob-sub-list { display: none; background: rgba(0,0,0,.2); }
+.mob-sub-list.open { display: block; }
+.mob-sub-list a {
+  display: block; font-size: .88rem; color: rgba(255,255,255,.65);
+  padding: .6rem 1.5rem .6rem 2.25rem; transition: color .2s;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.mob-sub-list a:last-child { border-bottom: none; }
+.mob-sub-list a:hover, .mob-sub-list a.active { color: #E07818; }
+
+/* ══════════════════════════════════════════════════
+   7. BREADCRUMB
+══════════════════════════════════════════════════ */
+.breadcrumb {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-lt);
+  padding: .75rem 2rem;
+}
+.breadcrumb-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: .5rem;
+  font-size: .83rem; color: var(--gray-md);
+}
+.breadcrumb-inner a { color: var(--teal); transition: color .2s; }
+.breadcrumb-inner a:hover { color: var(--navy); }
+
+/* ══════════════════════════════════════════════════
+   8. PAGE HERO (interné stránky)
+══════════════════════════════════════════════════ */
+.page-hero {
+  background: linear-gradient(135deg, #1A4A96 0%, #2B57BB 55%, #4A6DB8 100%);
+  color: var(--white); padding: 3.5rem 2rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.page-hero-inner { position: relative; }
+.page-hero .hero-tag {
+  display: inline-block; font-size: .72rem; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: #E07818; margin-bottom: .75rem;
+}
+.page-hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700; margin-bottom: .5rem;
+}
+.page-hero p { font-size: .97rem; color: rgba(255,255,255,.75); max-width: 560px; margin: 0 auto; }
+
+/* ══════════════════════════════════════════════════
+   9. TLAČIDLÁ
+══════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .8rem 1.8rem; border-radius: 4px;
+  font-weight: 600; font-size: .92rem; cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s;
+  font-family: inherit; border: none;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.btn-primary { background: #E07818; color: var(--white); }
+.btn-primary:hover { background: #c96810; }
+.btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.55); }
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.08); }
+.btn-outline-dark { background: transparent; color: var(--navy); border: 2px solid var(--navy); transition: background .2s, color .2s; }
+.btn-outline-dark:hover { background: var(--navy); color: var(--white); }
+
+/* ══════════════════════════════════════════════════
+   10. SPOLOČNÉ KOMPONENTY OBSAHU
+══════════════════════════════════════════════════ */
+.content-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem;
+}
+.content-col { display: flex; flex-direction: column; gap: 2rem; }
+
+.section-tag {
+  font-size: .75rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--green); margin-bottom: .5rem; display: block;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem; color: var(--navy);
+  margin-bottom: .75rem; line-height: 1.3;
+  transition: color .25s;
+}
+.content-card.active .section-title { color: #E07818; }
+.divider { width: 48px; height: 3px; background: #E07818; border-radius: 2px; margin-bottom: 1.75rem; }
+
+.content-text p { font-size: .97rem; color: #444; line-height: 1.85; margin-bottom: 1.1rem; }
+.content-text p:last-child { margin-bottom: 0; }
+.content-text h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); margin: 1.75rem 0 .6rem; }
+.content-text ul { list-style: none; margin: .5rem 0 1rem; display: flex; flex-direction: column; gap: .4rem; }
+.content-text ul li { font-size: .93rem; color: #555; display: flex; align-items: flex-start; gap: .6rem; padding: .25rem 0; }
+.content-text ul li::before { content: '✓'; color: var(--green); font-weight: 800; flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════
+   11. SIDEBAR LAYOUT (onas, prerodiny, dss, zariadenie…)
+══════════════════════════════════════════════════ */
+.onas-layout { display: grid; grid-template-columns: 220px 1fr; gap: 2.5rem; align-items: start; }
+
+/* Verzia A — jednoduchý sidebar (onas, prerodiny) */
+.sidebar {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  position: sticky; top: 200px;
+}
+.sidebar-title {
+  background: var(--navy); color: var(--white);
+  font-size: .78rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .85rem 1.25rem;
+}
+.sidebar nav { flex-direction: column; gap: 0; align-items: stretch; }
+.sidebar nav a {
+  display: block; font-size: .87rem; font-weight: 500;
+  color: var(--text); padding: .7rem 1.25rem;
+  border-bottom: 1px solid var(--gray-lt);
+  border-radius: 0; white-space: normal;
+  transition: background .15s, color .15s, padding-left .15s;
+}
+.sidebar nav a:last-child { border-bottom: none; }
+.sidebar nav a:hover { background: var(--gray-lt); color: var(--navy); padding-left: 1.6rem; }
+.sidebar nav a.active { background: #E07818; color: var(--white); }
+.sidebar nav a.active:hover { padding-left: 1.25rem; }
+
+/* Verzia B — ikono-navigácia (dss, zariadenie, denne, odlahcovacia) */
+.onas-sidenav {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  position: sticky; top: 185px;
+}
+.onas-sidenav-title {
+  display: block; padding: 1rem 1.25rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  border-bottom: 2px solid var(--gray-lt); background: var(--white);
+}
+.onas-sidenav-title a { color: var(--navy); }
+.onas-sidenav-title a:hover { color: var(--teal); }
+.onas-sidenav ul { list-style: none; padding: .5rem 0; }
+.onas-sidenav ul li a {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .65rem 1.25rem; font-size: .88rem; color: var(--text);
+  transition: background .15s, color .15s;
+  border-left: 3px solid transparent;
+}
+.onas-sidenav ul li a:hover { background: var(--gray-lt); color: var(--navy); border-left-color: var(--teal); }
+.onas-sidenav ul li a.active { background: #f0f4ff; color: var(--navy); border-left-color: #E07818; font-weight: 600; }
+.onas-sidenav ul li a svg { width: 16px; height: 16px; fill: var(--teal); flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════
+   12. PÄTIČKA
+══════════════════════════════════════════════════ */
+footer { background: #1A3478; color: rgba(255,255,255,.8); }
+.footer-main {
+  max-width: 1200px; margin: 0 auto;
+  padding: 3.5rem 2rem 2rem;
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+.footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
+.footer-brand .f-tag { font-size: .75rem; color: #E07818; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+.footer-brand p { font-size: .88rem; line-height: 1.7; }
+.footer-col h4 {
+  color: var(--white); font-size: .82rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 1rem;
+  padding-bottom: .5rem; border-bottom: 2px solid #E07818;
+  display: inline-block;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: .55rem; }
+.footer-col ul li a { font-size: .88rem; transition: color .2s; }
+.footer-col ul li a:hover { color: #E07818; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.1);
+  text-align: center; padding: 1.25rem 2rem;
+  font-size: .8rem; color: rgba(255,255,255,.4);
+}
+
+/* ══════════════════════════════════════════════════════════
+   13. RESPONZÍVNOSŤ
+══════════════════════════════════════════════════════════ */
+
+/* ── ≤ 1100px — Zmenšenie nav písma ── */
+@media (max-width: 1100px) {
+  nav > .nav-item > a, nav > a {
+    font-size: .75rem;
+    padding: .45rem .4rem;
+  }
+}
+
+/* ── ≤ 1024px — Pätička 2-stĺpcová ── */
+@media (max-width: 1024px) {
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+/* ── ≤ 900px — HAMBURGER + KOMPAKTNÝ HEADER + FULL-SCREEN NAV ── */
+@media (max-width: 900px) {
+
+  /* Skryť desktop nav, zobraziť hamburger */
+  header nav { display: none !important; }
+  .hamburger { display: flex !important; margin-left: auto !important; }
+  .header-main { padding: .85rem 1.25rem !important; }
+
+  /* Logo zmenšenie */
+  .logo-icon { width: 58px !important; height: 58px !important; }
+  .logo-icon img { width: 100% !important; height: 100% !important; }
+  .logo-text h1 { font-size: 1.1rem !important; line-height: 1.2 !important; }
+  .logo-text .logo-sub { font-size: .82rem !important; }
+  .logo-text .tagline { display: none !important; }
+
+  /* Info lišta */
+  .header-top { font-size: .72rem; padding: .3rem .9rem; letter-spacing: .02em; }
+
+  /* Sidebar → jednosĺpcový */
+  .onas-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .onas-sidenav { position: static; }
+
+  /* Pätička */
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-brand { grid-column: 1 / -1; }
+
+  /* ── FULL-SCREEN OVERLAY NAV ── */
+  .mobile-nav {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    position: fixed !important;
+    top: 0; left: 0;
+    width: 100%;
+    height: 0 !important;
+    overflow: hidden;
+    background: rgba(15, 32, 80, 0.97) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 199;
+    pointer-events: none;
+    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-top: none !important;
+    max-height: none !important;
+  }
+  .mobile-nav.open {
+    height: 100vh !important;
+    overflow-y: auto;
+    pointer-events: auto;
+    padding-top: 110px;
+    padding-bottom: 2rem;
+  }
+
+  /* Priame linky */
+  .mobile-nav > a {
+    display: block; width: 100%; max-width: 420px;
+    font-size: 1.05rem !important; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    text-align: center; color: rgba(255,255,255,.88) !important;
+    padding: .9rem 1.5rem !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    transition: color .2s, background .2s;
+  }
+  .mobile-nav > a:hover, .mobile-nav > a.active {
+    color: #E07818 !important;
+    background: rgba(255,255,255,.04) !important;
+  }
+
+  /* Akordeón skupina */
+  .mob-group { width: 100%; max-width: 420px; border-bottom: 1px solid rgba(255,255,255,.08) !important; }
+  .mob-group-btn {
+    width: 100%; font-size: 1.05rem !important; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    text-align: center; justify-content: center !important;
+    gap: .5rem !important; padding: .9rem 1.5rem !important;
+    color: rgba(255,255,255,.88) !important; background: none !important;
+  }
+  .mob-group-btn:hover, .mob-group-btn.open {
+    color: #E07818 !important;
+    background: rgba(255,255,255,.04) !important;
+  }
+  .mob-arrow { font-size: .7rem; opacity: .6; }
+
+  /* Podpoložky */
+  .mob-sub-list { background: rgba(0,0,0,.25) !important; }
+  .mob-sub-list a {
+    font-size: .88rem !important; text-align: center !important;
+    padding: .65rem 1.5rem !important; letter-spacing: .05em;
+    color: rgba(255,255,255,.65) !important;
+    border-bottom: 1px solid rgba(255,255,255,.04) !important;
+  }
+  .mob-sub-list a:last-child { border-bottom: none !important; }
+  .mob-sub-list a:hover, .mob-sub-list a.active {
+    color: #E07818 !important;
+    background: rgba(255,255,255,.03) !important;
+  }
+}
+
+/* ── ≤ 640px — Pätička 1-stĺpcová ── */
+@media (max-width: 640px) {
+  .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-brand { grid-column: auto; }
+  .page-hero { padding: 2.5rem 1.25rem; }
+  .content-card { padding: 1.5rem; }
+}
+
+/* ── ≤ 480px — Malé telefóny ── */
+@media (max-width: 480px) {
+  .logo-icon { width: 46px !important; height: 46px !important; }
+  .logo-text h1 { font-size: .95rem !important; }
+  .logo-text .logo-sub { font-size: .72rem !important; }
+  .header-main { padding: .55rem .9rem !important; gap: .55rem !important; }
+  .header-top { font-size: .65rem; padding: .22rem .75rem; letter-spacing: 0; }
+
+  .mobile-nav > a,
+  .mob-group-btn { font-size: .9rem !important; padding: .8rem 1.25rem !important; }
+}
+
+/* ── ≤ 360px — Najmenšie telefóny ── */
+@media (max-width: 360px) {
+  .logo-text .logo-sub { display: none !important; }
+  .logo-icon { width: 40px !important; height: 40px !important; }
+}
