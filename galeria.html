@@ -554,34 +554,7 @@
     <!-- Miniatúry odporúčaných albumov -->
     <div class="featured-thumbs">
       <div class="featured-thumbs-title">Najnovšie albumy</div>
-      <div class="featured-thumb active" data-img="foto/obr1.jpg" data-title="Deň otvorených dverí 2025" data-desc="Máj 2025 · 24 fotografií" onclick="switchFeatured(this)">
-        <img class="featured-thumb-img" src="foto/obr1.jpg" alt="" />
-        <div class="featured-thumb-info">
-          <span>Deň otvorených dverí 2025</span>
-          <small>Máj 2025</small>
-        </div>
-      </div>
-      <div class="featured-thumb" data-img="foto/obr2.jpg" data-title="Veľkonočné tvorivé dielne" data-desc="Apríl 2025 · 18 fotografií" onclick="switchFeatured(this)">
-        <img class="featured-thumb-img" src="foto/obr2.jpg" alt="" />
-        <div class="featured-thumb-info">
-          <span>Veľkonočné tvorivé dielne</span>
-          <small>Apríl 2025</small>
-        </div>
-      </div>
-      <div class="featured-thumb" data-img="foto/obr4.png" data-title="Fašiangový karneval" data-desc="Február 2025 · 31 fotografií" onclick="switchFeatured(this)">
-        <img class="featured-thumb-img" src="foto/obr4.png" alt="" />
-        <div class="featured-thumb-info">
-          <span>Fašiangový karneval</span>
-          <small>Február 2025</small>
-        </div>
-      </div>
-      <div class="featured-thumb" data-img="foto/obr6.png" data-title="Silvestrovský večer 2024" data-desc="December 2024 · 42 fotografií" onclick="switchFeatured(this)">
-        <img class="featured-thumb-img" src="foto/obr6.png" alt="" />
-        <div class="featured-thumb-info">
-          <span>Silvestrovský večer 2024</span>
-          <small>December 2024</small>
-        </div>
-      </div>
+      <!-- dynamicky doplnené z galeria.json -->
     </div>
 
   </div>
@@ -592,10 +565,7 @@
   <div class="filter-inner">
     <div class="filter-years" id="filterYears">
       <button class="filter-year-btn active" data-year="all">Všetky</button>
-      <button class="filter-year-btn" data-year="2026">2026</button>
-      <button class="filter-year-btn" data-year="2025">2025</button>
-      <button class="filter-year-btn" data-year="2024">2024</button>
-      <button class="filter-year-btn" data-year="2023">2023</button>
+      <!-- roky doplnené dynamicky z galeria.json -->
     </div>
     <div class="filter-months" id="filterMonths">
       <button class="filter-month-btn active" data-month="all">Všetky mesiace</button>
@@ -625,259 +595,7 @@
     </div>
 
     <div class="albums-grid" id="albumsGrid">
-
-      <!-- Album 1 -->
-      <div class="album-card" data-year="2026" data-month="3" onclick="openAlbum('Deň žien – oslava 2026', 'Marec 2026', 'foto/obr1.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr1.jpg" alt="Deň žien 2026" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            16 foto
-          </div>
-          <div class="album-date-badge">Máj 2026</div>
-        </div>
-        <div class="album-info">
-          <h3>Deň žien – oslava 2026</h3>
-          <p>Slávnostné posedenie pri príležitosti Medzinárodného dňa žien.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Podujatia</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 2 -->
-      <div class="album-card" data-year="2026" data-month="1" onclick="openAlbum('Novoročné stretnutie 2026', 'Január 2026', 'foto/obr2.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr2.jpg" alt="Novoročné stretnutie 2026" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            22 foto
-          </div>
-          <div class="album-date-badge">Január 2026</div>
-        </div>
-        <div class="album-info">
-          <h3>Novoročné stretnutie 2026</h3>
-          <p>Privítanie nového roka s prijímateľmi a zamestnancami centra.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Oslavy</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 3 -->
-      <div class="album-card" data-year="2025" data-month="12" onclick="openAlbum('Vianočná besiedka 2025', 'December 2025', 'foto/obr3.png')">
-        <div class="album-cover">
-          <img src="foto/obr3.png" alt="Vianočná besiedka 2025" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            38 foto
-          </div>
-          <div class="album-date-badge">December 2025</div>
-        </div>
-        <div class="album-info">
-          <h3>Vianočná besiedka 2025</h3>
-          <p>Adventná atmosféra, spev kolied a spoločné chvíle pred Vianocami.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Vianoce</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 4 -->
-      <div class="album-card" data-year="2025" data-month="12" onclick="openAlbum('Silvestrovský večer 2025', 'December 2025', 'foto/obr6.png')">
-        <div class="album-cover">
-          <img src="foto/obr6.png" alt="Silvestrovský večer 2025" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            42 foto
-          </div>
-          <div class="album-date-badge">December 2025</div>
-        </div>
-        <div class="album-info">
-          <h3>Silvestrovský večer 2025</h3>
-          <p>Rozlúčka s rokom 2025 v slávnostnej atmosfére.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Oslavy</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 5 -->
-      <div class="album-card" data-year="2025" data-month="5" onclick="openAlbum('Deň otvorených dverí 2025', 'Máj 2025', 'foto/obr1.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr5.png" alt="Deň otvorených dverí 2025" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            24 foto
-          </div>
-          <div class="album-date-badge">Máj 2025</div>
-        </div>
-        <div class="album-info">
-          <h3>Deň otvorených dverí 2025</h3>
-          <p>Návštevníci spoznávali naše zariadenie a stretli sa s obyvateľmi.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Udalosti</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 6 -->
-      <div class="album-card" data-year="2025" data-month="4" onclick="openAlbum('Veľkonočné tvorivé dielne', 'Apríl 2025', 'foto/obr2.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr7.png" alt="Veľkonočné tvorivé dielne" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            18 foto
-          </div>
-          <div class="album-date-badge">Apríl 2025</div>
-        </div>
-        <div class="album-info">
-          <h3>Veľkonočné tvorivé dielne</h3>
-          <p>Zdobenie kraslíc, výroba dekorácií a veselá veľkonočná nálada.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Aktivity</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 7 -->
-      <div class="album-card" data-year="2025" data-month="2" onclick="openAlbum('Fašiangový karneval 2025', 'Február 2025', 'foto/obr4.png')">
-        <div class="album-cover">
-          <img src="foto/obr4.png" alt="Fašiangový karneval 2025" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            31 foto
-          </div>
-          <div class="album-date-badge">Február 2025</div>
-        </div>
-        <div class="album-info">
-          <h3>Fašiangový karneval 2025</h3>
-          <p>Pestré masky, tanec a veselosť na fašiangovej párty v jedálni.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Karneval</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 8 -->
-      <div class="album-card" data-year="2024" data-month="12" onclick="openAlbum('Vianočná besiedka 2024', 'December 2024', 'foto/obr8.png')">
-        <div class="album-cover">
-          <img src="foto/obr8.png" alt="Vianočná besiedka 2024" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            29 foto
-          </div>
-          <div class="album-date-badge">December 2024</div>
-        </div>
-        <div class="album-info">
-          <h3>Vianočná besiedka 2024</h3>
-          <p>Spoločné Vianoce plné radosti a spomienok.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Vianoce</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 9 -->
-      <div class="album-card" data-year="2024" data-month="9" onclick="openAlbum('Deň sociálnej práce 2024', 'September 2024', 'foto/obr9.png')">
-        <div class="album-cover">
-          <img src="foto/obr9.png" alt="Deň sociálnej práce 2024" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            15 foto
-          </div>
-          <div class="album-date-badge">September 2024</div>
-        </div>
-        <div class="album-info">
-          <h3>Deň sociálnej práce 2024</h3>
-          <p>Ocenenie pracovníkov a slávnostné podujatie pri príležitosti sviatku.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Udalosti</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 10 -->
-      <div class="album-card" data-year="2024" data-month="6" onclick="openAlbum('Letný výlet 2024', 'Jún 2024', 'foto/obr10.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr10.jpg" alt="Letný výlet 2024" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            47 foto
-          </div>
-          <div class="album-date-badge">Jún 2024</div>
-        </div>
-        <div class="album-info">
-          <h3>Letný výlet 2024</h3>
-          <p>Výlet prijímateľov do prírody – slnko, príroda a nezabudnuteľné zážitky.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Výlety</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 11 -->
-      <div class="album-card" data-year="2024" data-month="3" onclick="openAlbum('Oslava MDŽ 2024', 'Marec 2024', 'foto/obr11.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr11.jpg" alt="Oslava MDŽ 2024" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            20 foto
-          </div>
-          <div class="album-date-badge">Marec 2024</div>
-        </div>
-        <div class="album-info">
-          <h3>Oslava MDŽ 2024</h3>
-          <p>Kytica úsmevu a pohodu pri slávení Medzinárodného dňa žien.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Oslavy</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Album 12 -->
-      <div class="album-card" data-year="2023" data-month="12" onclick="openAlbum('Vianočná besiedka 2023', 'December 2023', 'foto/obr12.jpg')">
-        <div class="album-cover">
-          <img src="foto/obr12.jpg" alt="Vianočná besiedka 2023" />
-          <div class="album-cover-overlay"></div>
-          <div class="album-photo-count">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            33 foto
-          </div>
-          <div class="album-date-badge">December 2023</div>
-        </div>
-        <div class="album-info">
-          <h3>Vianočná besiedka 2023</h3>
-          <p>Tradičné vianočné stretnutie s darčekmi a koliadami.</p>
-          <div class="album-info-footer">
-            <span class="album-tag">Vianoce</span>
-            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
-          </div>
-        </div>
-      </div>
-
+      <!-- dynamicky doplnené z data/galeria.json -->
     </div><!-- /albums-grid -->
 
     <!-- Prázdny stav -->
@@ -993,6 +711,16 @@
   bar.style.top = header.offsetHeight + 'px';
 })();
 
+// ── GALÉRIA — KATEGÓRIE ───────────────────────────────────
+var KATEGORIE = {
+  podujatia: 'Podujatia', oslavy: 'Oslavy', aktivity: 'Aktivity',
+  udalosti: 'Udalosti', vianoce: 'Vianoce', karneval: 'Karneval',
+  vylety: 'Výlety', ostatne: 'Ostatné'
+};
+
+var mesiaceMen = ['', 'Január', 'Február', 'Marec', 'Apríl', 'Máj', 'Jún',
+                  'Júl', 'August', 'September', 'Október', 'November', 'December'];
+
 // ── FEATURED – PREPÍNANIE HLAVNEJ FOTKY ───────────────────
 function switchFeatured(thumb) {
   document.querySelectorAll('.featured-thumb').forEach(function(t) {
@@ -1000,15 +728,12 @@ function switchFeatured(thumb) {
   });
   thumb.classList.add('active');
   document.getElementById('featuredImg').src = thumb.dataset.img;
+  document.getElementById('featuredImg').alt = thumb.dataset.title;
   document.getElementById('featuredTitle').textContent = thumb.dataset.title;
   document.getElementById('featuredDesc').textContent = thumb.dataset.desc;
 }
 
 // ── LIGHTBOX ──────────────────────────────────────────────
-var lightboxAlbumImg = '';
-var lightboxAlbumTitle = '';
-var lightboxAlbumDesc = '';
-
 function openFeaturedLightbox() {
   var img = document.getElementById('featuredImg').src;
   var title = document.getElementById('featuredTitle').textContent;
@@ -1039,13 +764,13 @@ function closeLightboxOnBg(e) {
 }
 
 function lightboxNav(dir) {
-  // Prechod medzi viditeľnými albumami
   var cards = Array.from(document.querySelectorAll('.album-card')).filter(function(c) {
     return c.style.display !== 'none';
   });
   var currentSrc = document.getElementById('lightboxImg').src;
   var idx = cards.findIndex(function(c) {
-    return c.querySelector('img') && currentSrc.includes(c.querySelector('img').getAttribute('src').replace('foto/', ''));
+    var cardImg = c.querySelector('img');
+    return cardImg && currentSrc.includes(cardImg.getAttribute('src').replace(/^.*foto\//, 'foto/'));
   });
   if (idx === -1) return;
   var next = (idx + dir + cards.length) % cards.length;
@@ -1059,7 +784,6 @@ function lightboxNav(dir) {
   document.getElementById('lightboxCounter').textContent = (next + 1) + ' / ' + cards.length;
 }
 
-// Klavesnica
 document.addEventListener('keydown', function(e) {
   if (!document.getElementById('lightbox').classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
@@ -1071,39 +795,27 @@ document.addEventListener('keydown', function(e) {
 var activeYear = 'all';
 var activeMonth = 'all';
 
-var mesiaceMen = ['', 'Január', 'Február', 'Marec', 'Apríl', 'Máj', 'Jún',
-                  'Júl', 'August', 'September', 'Október', 'November', 'December'];
-
 function applyFilter() {
   var cards = document.querySelectorAll('.album-card');
   var visible = 0;
   cards.forEach(function(card) {
-    var y = card.dataset.year;
-    var m = card.dataset.month;
-    var showYear = (activeYear === 'all' || y === activeYear);
-    var showMonth = (activeMonth === 'all' || m === activeMonth);
-    if (showYear && showMonth) {
-      card.style.display = '';
-      visible++;
-    } else {
-      card.style.display = 'none';
-    }
+    var showYear = (activeYear === 'all' || card.dataset.year === activeYear);
+    var showMonth = (activeMonth === 'all' || card.dataset.month === activeMonth);
+    card.style.display = (showYear && showMonth) ? '' : 'none';
+    if (showYear && showMonth) visible++;
   });
 
-  // Počty pri mesiacoch (iba pre aktívny rok)
   document.querySelectorAll('.filter-month-btn[data-month]').forEach(function(btn) {
     var m = btn.dataset.month;
     if (m === 'all') { btn.removeAttribute('data-count'); return; }
     var count = 0;
     cards.forEach(function(card) {
-      var matchYear = (activeYear === 'all' || card.dataset.year === activeYear);
-      if (matchYear && card.dataset.month === m) count++;
+      if ((activeYear === 'all' || card.dataset.year === activeYear) && card.dataset.month === m) count++;
     });
     if (count > 0) btn.setAttribute('data-count', count);
     else btn.removeAttribute('data-count');
   });
 
-  // Nadpis
   var heading = document.getElementById('albumsHeading');
   var countEl = document.getElementById('albumsCount');
   if (activeYear === 'all' && activeMonth === 'all') {
@@ -1119,30 +831,24 @@ function applyFilter() {
 
   var emptyEl = document.getElementById('albumsEmpty');
   var gridEl = document.getElementById('albumsGrid');
-  if (visible === 0) {
-    emptyEl.style.display = 'block';
-    gridEl.style.display = 'none';
-  } else {
-    emptyEl.style.display = 'none';
-    gridEl.style.display = '';
-  }
+  emptyEl.style.display = visible === 0 ? 'block' : 'none';
+  gridEl.style.display  = visible === 0 ? 'none'  : '';
 }
 
-// Rok buttons
-document.querySelectorAll('.filter-year-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
+function attachYearListeners() {
+  document.getElementById('filterYears').addEventListener('click', function(e) {
+    var btn = e.target.closest('.filter-year-btn');
+    if (!btn) return;
     document.querySelectorAll('.filter-year-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
     activeYear = btn.dataset.year;
-    // Reset mesiac pri zmene roku
     activeMonth = 'all';
     document.querySelectorAll('.filter-month-btn').forEach(function(b) { b.classList.remove('active'); });
     document.querySelector('.filter-month-btn[data-month="all"]').classList.add('active');
     applyFilter();
   });
-});
+}
 
-// Mesiac buttons
 document.querySelectorAll('.filter-month-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.filter-month-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -1152,8 +858,97 @@ document.querySelectorAll('.filter-month-btn').forEach(function(btn) {
   });
 });
 
-// Inicializácia počtov
-applyFilter();
+// ── NAČÍTANIE ALBUMOV Z JSON ──────────────────────────────
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function renderAlbumCard(album) {
+  var cat   = escHtml(KATEGORIE[album.category] || album.category);
+  var month = escHtml(mesiaceMen[album.month]);
+  var desc  = escHtml(album.description || '');
+  var cover = escHtml(album.cover || '');
+  var title = escHtml(album.title);
+  var lbDesc = escHtml(mesiaceMen[album.month] + ' ' + album.year + ' · ' + album.photo_count + ' fotografií');
+  var photoSvg = '<svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+  var arrowSvg = '<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>';
+  return '<div class="album-card" data-year="' + album.year + '" data-month="' + album.month + '"' +
+    ' onclick="openAlbum(' + JSON.stringify(album.title) + ',' + JSON.stringify(mesiaceMen[album.month] + ' ' + album.year + ' · ' + album.photo_count + ' fotografií') + ',' + JSON.stringify(album.cover) + ')">' +
+    '<div class="album-cover">' +
+    '<img src="' + cover + '" alt="' + title + '" loading="lazy" />' +
+    '<div class="album-cover-overlay"></div>' +
+    '<div class="album-photo-count">' + photoSvg + ' ' + album.photo_count + ' foto</div>' +
+    '<div class="album-date-badge">' + month + ' ' + album.year + '</div>' +
+    '</div>' +
+    '<div class="album-info">' +
+    '<h3>' + title + '</h3>' +
+    '<p>' + desc + '</p>' +
+    '<div class="album-info-footer">' +
+    '<span class="album-tag">' + cat + '</span>' +
+    '<span class="album-arrow">Otvoriť ' + arrowSvg + '</span>' +
+    '</div></div></div>';
+}
+
+function buildFeatured(albums) {
+  if (!albums.length) return;
+  var top4 = albums.slice(0, 4);
+  var first = top4[0];
+  var firstDesc = mesiaceMen[first.month] + ' ' + first.year + ' · ' + first.photo_count + ' fotografií';
+  document.getElementById('featuredImg').src = first.cover;
+  document.getElementById('featuredImg').alt = first.title;
+  document.getElementById('featuredTitle').textContent = first.title;
+  document.getElementById('featuredDesc').textContent = firstDesc;
+
+  var thumbsContainer = document.querySelector('.featured-thumbs');
+  thumbsContainer.querySelectorAll('.featured-thumb').forEach(function(t) { t.remove(); });
+  top4.forEach(function(album, i) {
+    var d = mesiaceMen[album.month] + ' ' + album.year + ' · ' + album.photo_count + ' fotografií';
+    var div = document.createElement('div');
+    div.className = 'featured-thumb' + (i === 0 ? ' active' : '');
+    div.dataset.img   = album.cover;
+    div.dataset.title = album.title;
+    div.dataset.desc  = d;
+    div.onclick = function() { switchFeatured(div); };
+    div.innerHTML =
+      '<img class="featured-thumb-img" src="' + escHtml(album.cover) + '" alt="" />' +
+      '<div class="featured-thumb-info">' +
+      '<span>' + escHtml(album.title) + '</span>' +
+      '<small>' + escHtml(mesiaceMen[album.month] + ' ' + album.year) + '</small>' +
+      '</div>';
+    thumbsContainer.appendChild(div);
+  });
+}
+
+function buildYearButtons(albums) {
+  var years = albums.map(function(a) { return a.year; })
+    .filter(function(y, i, arr) { return arr.indexOf(y) === i; })
+    .sort(function(a, b) { return b - a; });
+  var container = document.getElementById('filterYears');
+  container.innerHTML = '<button class="filter-year-btn active" data-year="all">Všetky</button>' +
+    years.map(function(y) { return '<button class="filter-year-btn" data-year="' + y + '">' + y + '</button>'; }).join('');
+}
+
+attachYearListeners();
+
+fetch('data/galeria.json')
+  .then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
+  .then(function(data) {
+    var albums = data.filter(function(a) { return a.published !== false; });
+    document.getElementById('albumsGrid').innerHTML = albums.map(renderAlbumCard).join('');
+    buildFeatured(albums);
+    buildYearButtons(albums);
+    applyFilter();
+  })
+  .catch(function() {
+    document.getElementById('albumsEmpty').style.display = 'block';
+    document.getElementById('albumsGrid').style.display = 'none';
+    document.getElementById('albumsCount').textContent = '';
+  });
 </script>
 
 </body>
