@@ -1,0 +1,747 @@
+<?php
+// Načítanie albumov z JSON
+$_dataDir = is_dir(__DIR__ . '/data') ? __DIR__ . '/data' : __DIR__ . '/studienka_admin_final/data';
+$galeriajson = $_dataDir . '/galeria.json';
+$allAlbums   = [];
+if (file_exists($galeriajson)) {
+    $data = json_decode(file_get_contents($galeriajson), true);
+    if (is_array($data)) $allAlbums = $data;
+}
+// Iba publikované albumy, zoradené: najnovšie napred
+$albums = array_values(array_filter($allAlbums, fn($a) => $a['published'] ?? true));
+usort($albums, function($a, $b) {
+    if ($b['year'] !== $a['year']) return $b['year'] - $a['year'];
+    return $b['month'] - $a['month'];
+});
+// Featured: prvé 4
+$featured = array_slice($albums, 0, 4);
+// Unikátne roky pre filter
+$years = [];
+foreach ($albums as $a) { $years[$a['year']] = true; }
+krsort($years);
+$years = array_keys($years);
+
+$MONTHS = ['','Január','Február','Marec','Apríl','Máj','Jún','Júl','August','September','Október','November','December'];
+function esc($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+function monthLabel(int $m, int $y, array $MONTHS): string {
+    return ($MONTHS[$m] ?? $m) . ' ' . $y;
+}
+function photoDesc(int $m, int $y, int $count, array $MONTHS): string {
+    return ($MONTHS[$m] ?? $m) . ' ' . $y . ' · ' . $count . ' fotografií';
+}
+?><!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fotogaléria – CSS Studienka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #1A4A96;
+      --teal:    #4A6DB8;
+      --teal-lt: #7A9ED4;
+      --gold:    #E07818;
+      --green:   #7AB020;
+      --cream:   #FAFAF7;
+      --white:   #ffffff;
+      --gray-lt: #F2F0EB;
+      --gray-md: #8A8A82;
+      --text:    #252520;
+      --radius:  8px;
+      --shadow:  0 4px 24px rgba(30,48,85,.09);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; color: var(--text); background: var(--cream); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HLAVIČKA ── */
+    header { background: #2B6CC8; color: var(--white); position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    .header-top { background: #7AB020; text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .04em; padding: .45rem 1rem; color: rgba(255,255,255,.95); }
+    .header-top a { color: inherit; }
+    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start; gap: 1rem; padding: .5rem 2rem; }
+    .logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
+    .logo-icon { width: 110px; height: 110px; flex-shrink: 0; overflow: hidden; }
+    .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white); }
+    .logo-text .logo-sub { font-size: 1.3rem; font-weight: 600; color: var(--white); display: block; }
+    nav { display: flex; align-items: center; gap: .1rem; flex-wrap: nowrap; position: relative; margin-left: auto; }
+    nav > a, nav > .nav-item > a { font-size: .8rem; font-weight: 500; letter-spacing: .02em; padding: .45rem .5rem; border-radius: var(--radius); transition: background .2s, color .2s; color: rgba(255,255,255,.88); white-space: nowrap; display: flex; align-items: center; gap: .25rem; }
+    nav > a:hover, nav > .nav-item > a:hover { background: rgba(255,255,255,.12); color: var(--white); }
+    nav > a.active, nav > .nav-item > a.active { background: #E07818; color: var(--white); }
+    .nav-item { position: relative; }
+    .nav-item > a::after { content: '▾'; font-size: .65rem; opacity: .7; margin-left: .1rem; }
+    .dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--navy); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius); min-width: 230px; box-shadow: 0 8px 32px rgba(0,0,0,.35); z-index: 300; padding: .4rem 0; margin-top: 0; }
+    .dropdown::before { content: ''; position: absolute; top: -8px; left: 0; width: 100%; height: 8px; background: transparent; }
+    .nav-item:hover .dropdown, .nav-item:focus-within .dropdown { display: block; }
+    .dropdown a { display: block; padding: .55rem 1.1rem; font-size: .85rem; color: rgba(255,255,255,.82); transition: background .15s, color .15s; white-space: nowrap; }
+    .dropdown a:hover { background: rgba(255,255,255,.09); color: var(--white); }
+    .dropdown a.active { color: #E07818; font-weight: 600; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .5rem; border: none; background: transparent; z-index: 200; margin-left: auto; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-nav { display: none; flex-direction: column; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); max-height: 85vh; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav > a { font-size: .95rem; font-weight: 500; color: rgba(255,255,255,.85); padding: .75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06); transition: color .2s; display: block; }
+    .mobile-nav > a:hover, .mobile-nav > a.active { color: #E07818; }
+    .mob-group { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .mob-group-btn { width: 100%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: .75rem 1.5rem; color: rgba(255,255,255,.85); font-size: .95rem; font-weight: 500; font-family: inherit; transition: color .2s; text-align: left; }
+    .mob-group-btn:hover, .mob-group-btn.open { color: #E07818; }
+    .mob-group-btn .mob-arrow { font-size: .65rem; transition: transform .25s; opacity: .7; }
+    .mob-group-btn.open .mob-arrow { transform: rotate(180deg); }
+    .mob-sub-list { display: none; background: rgba(0,0,0,.2); }
+    .mob-sub-list.open { display: block; }
+    .mob-sub-list a { display: block; font-size: .88rem; color: rgba(255,255,255,.65); padding: .6rem 1.5rem .6rem 2.25rem; transition: color .2s; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .mob-sub-list a:last-child { border-bottom: none; }
+    .mob-sub-list a:hover, .mob-sub-list a.active { color: #E07818; }
+
+    /* ── PÄTIČKA ── */
+    footer { background: #1A3478; color: rgba(255,255,255,.8); }
+    .footer-main { max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem 2rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; }
+    .footer-col h4 { color: var(--white); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid #E07818; display: inline-block; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: .55rem; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; }
+    .footer-col ul li a:hover { color: #E07818; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); text-align: center; padding: 1.25rem 2rem; font-size: .8rem; color: rgba(255,255,255,.4); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb { background: var(--white); border-bottom: 1px solid var(--gray-lt); padding: .75rem 2rem; }
+    .breadcrumb-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: .5rem; font-size: .83rem; color: var(--gray-md); }
+    .breadcrumb-inner a { color: var(--teal); transition: color .2s; }
+    .breadcrumb-inner a:hover { color: var(--navy); }
+
+    /* ── PAGE HERO ── */
+    .page-hero { background: linear-gradient(135deg, #13316E 0%, #2B57BB 55%, #3d5fad 100%); color: var(--white); padding: 3.5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .page-hero-inner { position: relative; }
+    .page-hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: .5rem; }
+    .page-hero p { font-size: .97rem; color: rgba(255,255,255,.75); }
+
+    .featured-section { background: var(--navy); padding: 2.5rem 2rem; }
+    .featured-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: start; }
+    .featured-main-img { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16/9; background: rgba(255,255,255,.08); cursor: pointer; }
+    .featured-main-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+    .featured-main-img:hover img { transform: scale(1.03); }
+    .featured-main-img .feat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,30,70,.75) 0%, transparent 55%); pointer-events: none; }
+    .featured-main-img .feat-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.25rem 1.5rem; color: var(--white); }
+    .feat-tag { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #E07818; margin-bottom: .4rem; position: relative; padding-left: 1.6rem; }
+    .feat-tag::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 1.2rem; height: 2px; background: #E07818; }
+    .feat-caption h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; line-height: 1.3; margin-bottom: .3rem; }
+    .feat-caption p { font-size: .85rem; color: rgba(255,255,255,.75); }
+    .feat-zoom-btn { position: absolute; top: 1rem; right: 1rem; width: 38px; height: 38px; background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; backdrop-filter: blur(4px); }
+    .feat-zoom-btn:hover { background: rgba(255,255,255,.28); }
+    .feat-zoom-btn svg { width: 18px; height: 18px; fill: var(--white); }
+    .featured-thumbs { display: flex; flex-direction: column; gap: 1rem; }
+    .featured-thumbs-title { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: .25rem; }
+    .featured-thumb { display: flex; align-items: center; gap: .75rem; background: rgba(255,255,255,.07); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: background .2s, transform .2s; border: 2px solid transparent; }
+    .featured-thumb:hover { background: rgba(255,255,255,.13); transform: translateX(4px); }
+    .featured-thumb.active { border-color: #E07818; background: rgba(224,120,24,.12); }
+    .featured-thumb-img { width: 80px; height: 60px; flex-shrink: 0; object-fit: cover; display: block; }
+    .featured-thumb-info { padding: .4rem .5rem .4rem 0; flex: 1; min-width: 0; }
+    .featured-thumb-info span { display: block; font-size: .78rem; color: rgba(255,255,255,.85); font-weight: 600; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .featured-thumb-info small { font-size: .7rem; color: rgba(255,255,255,.45); }
+
+    .filter-bar { background: var(--white); border-bottom: 3px solid var(--green); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(30,48,85,.07); }
+    .filter-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: stretch; gap: 0; }
+    .filter-years { display: flex; align-items: center; gap: 0; border-right: 1px solid var(--gray-lt); padding-right: 1rem; margin-right: 1rem; flex-shrink: 0; }
+    .filter-year-btn { background: none; border: none; cursor: pointer; font-family: inherit; font-size: .88rem; font-weight: 700; color: var(--gray-md); padding: 1rem .75rem; border-bottom: 3px solid transparent; margin-bottom: -3px; transition: color .2s, border-color .2s; white-space: nowrap; }
+    .filter-year-btn:hover { color: var(--navy); }
+    .filter-year-btn.active { color: var(--navy); border-bottom-color: #E07818; }
+    .filter-months { display: flex; align-items: center; gap: 0; overflow-x: auto; flex: 1; scrollbar-width: none; }
+    .filter-months::-webkit-scrollbar { display: none; }
+    .filter-month-btn { background: none; border: none; cursor: pointer; font-family: inherit; font-size: .82rem; font-weight: 500; color: var(--gray-md); padding: 1rem .65rem; border-bottom: 3px solid transparent; margin-bottom: -3px; transition: color .2s, border-color .2s; white-space: nowrap; }
+    .filter-month-btn:hover { color: var(--teal); }
+    .filter-month-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+    .filter-month-btn[data-count]::after { content: attr(data-count); display: inline-block; margin-left: .3rem; font-size: .65rem; font-weight: 700; background: var(--gray-lt); color: var(--gray-md); padding: .1rem .4rem; border-radius: 2rem; vertical-align: middle; }
+
+    .albums-section { padding: 3rem 2rem 5rem; }
+    .albums-inner { max-width: 1200px; margin: 0 auto; }
+    .albums-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
+    .albums-header h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy); font-weight: 700; }
+    .albums-count { font-size: .82rem; color: var(--gray-md); font-weight: 500; }
+    .albums-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .album-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: transform .25s, box-shadow .25s; border: 2px solid transparent; }
+    .album-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(26,46,68,.18); border-color: var(--teal-lt); }
+    .album-cover { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--gray-lt); }
+    .album-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+    .album-card:hover .album-cover img { transform: scale(1.07); }
+    .album-cover-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,30,70,.72) 0%, rgba(15,30,70,.1) 60%); pointer-events: none; }
+    .album-photo-count { position: absolute; top: .75rem; right: .75rem; background: rgba(0,0,0,.55); color: var(--white); font-size: .72rem; font-weight: 700; padding: .25rem .65rem; border-radius: 2rem; display: flex; align-items: center; gap: .3rem; backdrop-filter: blur(4px); }
+    .album-photo-count svg { width: 12px; height: 12px; fill: var(--white); }
+    .album-date-badge { position: absolute; bottom: .75rem; left: .75rem; background: #E07818; color: var(--white); font-size: .7rem; font-weight: 700; padding: .2rem .65rem; border-radius: 2rem; letter-spacing: .04em; }
+    .album-info { padding: 1rem 1.25rem 1.25rem; }
+    .album-info h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--navy); font-weight: 700; line-height: 1.35; margin-bottom: .3rem; }
+    .album-info p { font-size: .82rem; color: var(--gray-md); line-height: 1.5; }
+    .album-info-footer { display: flex; align-items: center; justify-content: space-between; margin-top: .75rem; padding-top: .75rem; border-top: 1px solid var(--gray-lt); }
+    .album-tag { display: inline-block; background: var(--gray-lt); color: var(--teal); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .6rem; border-radius: 2rem; }
+    .album-arrow { display: flex; align-items: center; gap: .3rem; font-size: .78rem; color: var(--teal); font-weight: 600; transition: gap .2s; }
+    .album-card:hover .album-arrow { gap: .5rem; }
+    .album-arrow svg { width: 14px; height: 14px; fill: var(--teal); }
+    .albums-empty { text-align: center; padding: 4rem 2rem; color: var(--gray-md); display: none; }
+    .albums-empty svg { width: 56px; height: 56px; fill: var(--gray-lt); margin-bottom: 1rem; }
+    .albums-empty p { font-size: 1rem; }
+
+    .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(5,15,40,.95); align-items: center; justify-content: center; padding: 1rem; }
+    .lightbox.open { display: flex; }
+    .lightbox-inner { position: relative; max-width: 1000px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; align-items: center; }
+    .lightbox-img { max-width: 100%; max-height: 78vh; border-radius: var(--radius); box-shadow: 0 20px 80px rgba(0,0,0,.6); object-fit: contain; display: block; }
+    .lightbox-caption { margin-top: 1rem; text-align: center; color: rgba(255,255,255,.8); font-size: .9rem; }
+    .lightbox-caption strong { color: var(--white); display: block; font-size: 1rem; margin-bottom: .2rem; }
+    .lightbox-close { position: absolute; top: -2.5rem; right: 0; background: rgba(255,255,255,.12); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; color: var(--white); font-size: 1.2rem; font-family: inherit; }
+    .lightbox-close:hover { background: rgba(255,255,255,.25); }
+    .lightbox-prev, .lightbox-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; }
+    .lightbox-prev { left: -3.5rem; }
+    .lightbox-next { right: -3.5rem; }
+    .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,.25); }
+    .lightbox-prev svg, .lightbox-next svg { width: 20px; height: 20px; fill: var(--white); }
+    .lightbox-counter { position: absolute; bottom: -2rem; left: 50%; transform: translateX(-50%); font-size: .75rem; color: rgba(255,255,255,.4); }
+
+    @media (max-width: 1024px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .header-main { padding: .85rem 1.25rem; }
+      .featured-inner { grid-template-columns: 1fr; }
+      .featured-thumbs { flex-direction: row; overflow-x: auto; }
+      .featured-thumb { flex-direction: column; min-width: 110px; }
+      .featured-thumb-img { width: 100%; height: 70px; }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+      .lightbox-prev { left: -.5rem; }
+      .lightbox-next { right: -.5rem; }
+    }
+    @media (max-width: 640px) {
+      .featured-section { padding: 1.5rem 1rem; }
+      .filter-inner { padding: 0 1rem; }
+      .albums-section { padding: 2rem 1rem 4rem; }
+      .albums-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .footer-main { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.5rem 1.5rem; }
+      .lightbox-prev { left: 0; top: auto; bottom: 5rem; transform: none; }
+      .lightbox-next { right: 0; top: auto; bottom: 5rem; transform: none; }
+    }
+    @media (max-width: 400px) {
+      .albums-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="mobile.css" />
+</head>
+<body>
+
+<!-- ═══════ HLAVIČKA ═══════ -->
+<header>
+  <div class="header-top">
+    Otvorené: Po–Pia 07:00–15:30 &nbsp;|&nbsp; Tel: 043/559 01 97 &nbsp;|&nbsp;
+    <a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a>
+  </div>
+  <div class="header-main">
+    <a href="domov.html" class="logo">
+      <div class="logo-icon">
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+      </div>
+      <div class="logo-text">
+        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
+      </div>
+    </a>
+    <nav>
+      <a href="domov.html">Domov</a>
+      <div class="nav-item">
+        <a href="onas.html">O nás</a>
+        <div class="dropdown">
+          <a href="onas.html">O zariadení</a>
+          <a href="onas.html#historia">História</a>
+          <a href="onas.html#nastim">Náš tím</a>
+          <a href="onas.html#poslanie">Poslanie a vízia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="nasesluzby.php">Naše služby</a>
+        <div class="dropdown">
+          <a href="nasesluzby.php">Ponúkame</a>
+          <a href="nasesluzby.php#zariadenie">Zariadenie pre seniorov</a>
+          <a href="nasesluzby.php#dss">Domov soc. služieb</a>
+          <a href="nasesluzby.php#specializovane">Špecializované zariadenie</a>
+          <a href="nasesluzby.php#denne">Denné centrum</a>
+          <a href="nasesluzby.php#jedalen">Jedáleň</a>
+          <a href="nasesluzby.php#preprava">Prepravná služba</a>
+          <a href="nasesluzby.php#odlahcovacia">Odľahčovacia služba</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="informacieprevas.php">Pre záujemcov</a>
+        <div class="dropdown">
+          <a href="informacieprevas.php">Ako začať</a>
+          <a href="informacieprevas.php#podmienky">Podmienky prijatia</a>
+          <a href="informacieprevas.php#cennik">Cenník služieb</a>
+          <a href="informacieprevas.php#volne-miesta">Voľné miesta</a>
+          <a href="informacieprevas.php#ziadatel">Ako podať žiadosť</a>
+          <a href="informacieprevas.php#ekonomicky">Ekon. oprávnené náklady</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="prerodiny.html">Pre rodiny</a>
+        <div class="dropdown">
+          <a href="prerodiny.html">Informácie pre príbuzných</a>
+          <a href="prerodiny.html#navstevy">Návštevy</a>
+          <a href="prerodiny.html#otvaracie">Otvárací čas</a>
+          <a href="prerodiny.html#vychadzky">Vychádzky</a>
+          <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="aktuality.html">Aktuality</a>
+        <div class="dropdown">
+          <a href="aktuality.html">Všetky aktuality</a>
+          <a href="galeria.php" class="active">Fotogaléria</a>
+        </div>
+      </div>
+      <a href="nastiahnutie.php">Na stiahnutie</a>
+      <a href="povinnezverejnovanie.php">Povinné zverejňovanie</a>
+      <a href="oz-pelikan.php">OZ Pelikán</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="domov.html">Domov</a>
+    <div class="mob-group">
+      <button class="mob-group-btn">O nás<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="onas.html">O zariadení</a>
+        <a href="onas.html#historia">História</a>
+        <a href="onas.html#nastim">Náš tím</a>
+        <a href="onas.html#poslanie">Poslanie a vízia</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="nasesluzby.php">Ponúkame</a>
+        <a href="nasesluzby.php#zariadenie">Zariadenie pre seniorov</a>
+        <a href="nasesluzby.php#dss">Domov soc. služieb</a>
+        <a href="nasesluzby.php#specializovane">Špecializované zariadenie</a>
+        <a href="nasesluzby.php#denne">Denné centrum</a>
+        <a href="nasesluzby.php#jedalen">Jedáleň</a>
+        <a href="nasesluzby.php#preprava">Prepravná služba</a>
+        <a href="nasesluzby.php#odlahcovacia">Odľahčovacia služba</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Pre záujemcov<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="informacieprevas.php">Ako začať</a>
+        <a href="informacieprevas.php#podmienky">Podmienky prijatia</a>
+        <a href="informacieprevas.php#cennik">Cenník služieb</a>
+        <a href="informacieprevas.php#volne-miesta">Voľné miesta</a>
+        <a href="informacieprevas.php#ziadatel">Ako podať žiadosť</a>
+        <a href="informacieprevas.php#ekonomicky">Ekon. oprávnené náklady</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Pre rodiny<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="prerodiny.html">Informácie pre príbuzných</a>
+        <a href="prerodiny.html#navstevy">Návštevy</a>
+        <a href="prerodiny.html#otvaracie">Otvárací čas</a>
+        <a href="prerodiny.html#vychadzky">Vychádzky</a>
+        <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Aktuality<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="aktuality.html">Všetky aktuality</a>
+        <a href="galeria.php" class="active">Fotogaléria</a>
+      </div>
+    </div>
+    <a href="nastiahnutie.php">Na stiahnutie</a>
+    <a href="povinnezverejnovanie.php">Povinné zverejňovanie</a>
+    <a href="oz-pelikan.php">OZ Pelikán</a>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+</header>
+
+<!-- ═══════ BREADCRUMB ═══════ -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="domov.html">Domov</a>
+    <span>›</span>
+    <a href="aktuality.html">Aktuality</a>
+    <span>›</span>
+    <span>Fotogaléria</span>
+  </div>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <h2>Fotogaléria</h2>
+    <p>Zachytené momenty zo života nášho centra</p>
+  </div>
+</div>
+
+<?php if (!empty($featured)): $first = $featured[0]; ?>
+<!-- ═══════ HLAVNÁ FOTKA (FEATURED ALBUM) ═══════ -->
+<section class="featured-section">
+  <div class="featured-inner">
+
+    <div class="featured-main-img" id="featuredMain" onclick="openFeaturedLightbox()">
+      <img id="featuredImg" src="<?= esc($first['cover']) ?>" alt="<?= esc($first['title']) ?>" />
+      <div class="feat-overlay"></div>
+      <div class="feat-caption">
+        <div class="feat-tag">Odporúčaný album</div>
+        <h3 id="featuredTitle"><?= esc($first['title']) ?></h3>
+        <p id="featuredDesc"><?= esc(photoDesc((int)$first['month'], (int)$first['year'], (int)$first['photo_count'], $MONTHS)) ?></p>
+      </div>
+      <button class="feat-zoom-btn" aria-label="Zobraziť">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </div>
+
+    <div class="featured-thumbs">
+      <div class="featured-thumbs-title">Najnovšie albumy</div>
+      <?php foreach ($featured as $i => $fa): ?>
+      <div class="featured-thumb <?= $i === 0 ? 'active' : '' ?>"
+           data-img="<?= esc($fa['cover']) ?>"
+           data-title="<?= esc($fa['title']) ?>"
+           data-desc="<?= esc(photoDesc((int)$fa['month'], (int)$fa['year'], (int)$fa['photo_count'], $MONTHS)) ?>"
+           onclick="switchFeatured(this)">
+        <img class="featured-thumb-img" src="<?= esc($fa['cover']) ?>" alt="" />
+        <div class="featured-thumb-info">
+          <span><?= esc($fa['title']) ?></span>
+          <small><?= esc($MONTHS[(int)$fa['month']] ?? '') ?> <?= (int)$fa['year'] ?></small>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+  </div>
+</section>
+<?php endif; ?>
+
+<!-- ═══════ FILTER LIŠTA ═══════ -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-inner">
+    <div class="filter-years" id="filterYears">
+      <button class="filter-year-btn active" data-year="all">Všetky</button>
+      <?php foreach ($years as $y): ?>
+      <button class="filter-year-btn" data-year="<?= (int)$y ?>"><?= (int)$y ?></button>
+      <?php endforeach; ?>
+    </div>
+    <div class="filter-months" id="filterMonths">
+      <button class="filter-month-btn active" data-month="all">Všetky mesiace</button>
+      <button class="filter-month-btn" data-month="1">Január</button>
+      <button class="filter-month-btn" data-month="2">Február</button>
+      <button class="filter-month-btn" data-month="3">Marec</button>
+      <button class="filter-month-btn" data-month="4">Apríl</button>
+      <button class="filter-month-btn" data-month="5">Máj</button>
+      <button class="filter-month-btn" data-month="6">Jún</button>
+      <button class="filter-month-btn" data-month="7">Júl</button>
+      <button class="filter-month-btn" data-month="8">August</button>
+      <button class="filter-month-btn" data-month="9">September</button>
+      <button class="filter-month-btn" data-month="10">Október</button>
+      <button class="filter-month-btn" data-month="11">November</button>
+      <button class="filter-month-btn" data-month="12">December</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ ALBUMY ═══════ -->
+<section class="albums-section">
+  <div class="albums-inner">
+
+    <div class="albums-header">
+      <h2 id="albumsHeading">Všetky fotoalbumy</h2>
+      <span class="albums-count" id="albumsCount">Zobrazuje sa <?= count($albums) ?> albumov</span>
+    </div>
+
+    <div class="albums-grid" id="albumsGrid">
+      <?php foreach ($albums as $album):
+        $cover = esc($album['cover']);
+        $title = esc($album['title']);
+        $desc  = esc($album['description']);
+        $tag   = esc(ucfirst($album['category']));
+        $month = (int)$album['month'];
+        $year  = (int)$album['year'];
+        $count = (int)$album['photo_count'];
+        $dateLabel = esc(($MONTHS[$month] ?? '') . ' ' . $year);
+        $descLabel = esc(photoDesc($month, $year, $count, $MONTHS));
+      ?>
+      <div class="album-card" data-year="<?= $year ?>" data-month="<?= $month ?>"
+           onclick="openAlbum('<?= addslashes($title) ?>', '<?= addslashes($descLabel) ?>', '<?= addslashes($cover) ?>')">
+        <div class="album-cover">
+          <?php if ($cover): ?>
+          <img src="<?= $cover ?>" alt="<?= $title ?>" />
+          <?php else: ?>
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#e8e6e0;">
+            <svg viewBox="0 0 24 24" style="width:40px;fill:#c0bdb6"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+          </div>
+          <?php endif; ?>
+          <div class="album-cover-overlay"></div>
+          <div class="album-photo-count">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <?= $count ?> foto
+          </div>
+          <div class="album-date-badge"><?= $dateLabel ?></div>
+        </div>
+        <div class="album-info">
+          <h3><?= $title ?></h3>
+          <p><?= $desc ?></p>
+          <div class="album-info-footer">
+            <span class="album-tag"><?= $tag ?></span>
+            <span class="album-arrow">Otvoriť <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+    <div class="albums-empty" id="albumsEmpty">
+      <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+      <p>Pre zvolený filter nie sú žiadne albumy.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════ LIGHTBOX ═══════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Zavrieť">&times;</button>
+    <button class="lightbox-prev" onclick="lightboxNav(-1)" aria-label="Predošlé">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <button class="lightbox-next" onclick="lightboxNav(1)" aria-label="Nasledujúce">
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </button>
+    <div class="lightbox-caption">
+      <strong id="lightboxTitle"></strong>
+      <span id="lightboxDesc"></span>
+    </div>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+</div>
+
+<!-- ═══════ PÄTIČKA ═══════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <h3>Centrum sociálnych služieb STUDIENKA Novoť</h3>
+      <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
+      <div style="display:flex;align-items:center;gap:1.25rem;margin-top:13px;">
+        <img src="foto/erb.png" alt="Erb ZSK" style="height:130px;opacity:.85;vertical-align:middle;" />
+        <img src="logo/logo.png" alt="Logo CSS Studienka" style="height:130px;mix-blend-mode:screen;opacity:.85;vertical-align:middle;" />
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigácia</h4>
+      <ul>
+        <li><a href="domov.html">Domov</a></li>
+        <li><a href="nasesluzby.php">Ponúkame</a></li>
+        <li><a href="informacieprevas.php">Pre záujemcov</a></li>
+        <li><a href="prerodiny.html">Pre rodiny</a></li>
+        <li><a href="aktuality.html">Aktuality</a></li>
+        <li><a href="galeria.php">Fotogaléria</a></li>
+        <li><a href="povinnezverejnovanie.php">Povinné zverejňovanie</a></li>
+        <li><a href="onas.html">O nás</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li>Novoť 976, 029 55</li>
+        <li><a href="tel:+421435590197">043 / 559 01 97</a></li>
+        <li><a href="tel:+421435590287">043 / 559 02 87</a></li>
+        <li><a href="tel:+421948985019">0948 985 019</a></li>
+        <li><a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a></li>
+        <li style="margin-top:.75rem; padding-top:.75rem; border-top:1px solid rgba(255,255,255,.1);">
+          <a href="https://www.osobnyudaj.sk/informovanie/00632830" target="_blank" rel="noopener">Ochrana osobných údajov</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Centrum sociálnych služieb STUDIENKA Novoť &nbsp;·&nbsp; Všetky práva vyhradené
+  </div>
+</footer>
+
+<script>
+// ── NAVIGÁCIA ──
+(function() {
+  var hbg = document.getElementById('hamburger');
+  var mNav = document.getElementById('mobileNav');
+  if (!hbg || !mNav) return;
+  hbg.addEventListener('click', function(e) {
+    e.stopPropagation();
+    hbg.classList.toggle('open');
+    mNav.classList.toggle('open');
+  });
+  mNav.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      hbg.classList.remove('open');
+      mNav.classList.remove('open');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!hbg.contains(e.target) && !mNav.contains(e.target)) {
+      hbg.classList.remove('open');
+      mNav.classList.remove('open');
+    }
+  });
+  mNav.querySelectorAll('.mob-group-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var sub = btn.nextElementSibling;
+      btn.classList.toggle('open');
+      if (sub) sub.classList.toggle('open');
+    });
+  });
+})();
+
+// ── KOMPENZÁCIA STICKY HEADERU ──
+(function() {
+  var header = document.querySelector('header');
+  var bar = document.getElementById('filterBar');
+  if (!bar || !header) return;
+  bar.style.top = header.offsetHeight + 'px';
+})();
+
+// ── FEATURED ──
+function switchFeatured(thumb) {
+  document.querySelectorAll('.featured-thumb').forEach(function(t) { t.classList.remove('active'); });
+  thumb.classList.add('active');
+  document.getElementById('featuredImg').src = thumb.dataset.img;
+  document.getElementById('featuredTitle').textContent = thumb.dataset.title;
+  document.getElementById('featuredDesc').textContent = thumb.dataset.desc;
+}
+
+// ── LIGHTBOX ──
+var lightboxAlbumImg = '';
+function openFeaturedLightbox() {
+  var img = document.getElementById('featuredImg').src;
+  var title = document.getElementById('featuredTitle').textContent;
+  var desc = document.getElementById('featuredDesc').textContent;
+  openLightboxWith(img, title, desc);
+}
+function openAlbum(title, desc, img) {
+  openLightboxWith(img, title, desc);
+}
+function openLightboxWith(img, title, desc) {
+  document.getElementById('lightboxImg').src = img;
+  document.getElementById('lightboxTitle').textContent = title;
+  document.getElementById('lightboxDesc').textContent = desc;
+  document.getElementById('lightboxCounter').textContent = '';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeLightboxOnBg(e) {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+}
+function lightboxNav(dir) {
+  var cards = Array.from(document.querySelectorAll('.album-card')).filter(function(c) {
+    return c.style.display !== 'none';
+  });
+  var currentSrc = document.getElementById('lightboxImg').src;
+  var idx = cards.findIndex(function(c) {
+    var imgEl = c.querySelector('img');
+    if (!imgEl) return false;
+    var src = imgEl.getAttribute('src');
+    return currentSrc.includes(src.replace(/^.*\//, ''));
+  });
+  if (idx === -1) return;
+  var next = (idx + dir + cards.length) % cards.length;
+  var card = cards[next];
+  var imgEl = card.querySelector('img');
+  var img = imgEl ? imgEl.src : '';
+  var titleEl = card.querySelector('h3');
+  var descEl = card.querySelector('p');
+  document.getElementById('lightboxImg').src = img;
+  document.getElementById('lightboxTitle').textContent = titleEl ? titleEl.textContent : '';
+  document.getElementById('lightboxDesc').textContent = descEl ? descEl.textContent : '';
+  document.getElementById('lightboxCounter').textContent = (next + 1) + ' / ' + cards.length;
+}
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  if (e.key === 'ArrowRight') lightboxNav(1);
+});
+
+// ── FILTER ALBUMOV ──
+var activeYear = 'all';
+var activeMonth = 'all';
+var mesiaceMen = ['','Január','Február','Marec','Apríl','Máj','Jún','Júl','August','September','Október','November','December'];
+
+function applyFilter() {
+  var cards = document.querySelectorAll('.album-card');
+  var visible = 0;
+  cards.forEach(function(card) {
+    var y = card.dataset.year;
+    var m = card.dataset.month;
+    var showYear  = (activeYear  === 'all' || y === activeYear);
+    var showMonth = (activeMonth === 'all' || m === activeMonth);
+    if (showYear && showMonth) { card.style.display = ''; visible++; }
+    else { card.style.display = 'none'; }
+  });
+  document.querySelectorAll('.filter-month-btn[data-month]').forEach(function(btn) {
+    var m = btn.dataset.month;
+    if (m === 'all') { btn.removeAttribute('data-count'); return; }
+    var count = 0;
+    cards.forEach(function(card) {
+      var matchYear = (activeYear === 'all' || card.dataset.year === activeYear);
+      if (matchYear && card.dataset.month === m) count++;
+    });
+    if (count > 0) btn.setAttribute('data-count', count);
+    else btn.removeAttribute('data-count');
+  });
+  var heading = document.getElementById('albumsHeading');
+  var countEl = document.getElementById('albumsCount');
+  if (activeYear === 'all' && activeMonth === 'all') {
+    heading.textContent = 'Všetky fotoalbumy';
+  } else if (activeYear !== 'all' && activeMonth === 'all') {
+    heading.textContent = 'Albumy – ' + activeYear;
+  } else if (activeYear === 'all' && activeMonth !== 'all') {
+    heading.textContent = 'Albumy – ' + mesiaceMen[parseInt(activeMonth)];
+  } else {
+    heading.textContent = 'Albumy – ' + mesiaceMen[parseInt(activeMonth)] + ' ' + activeYear;
+  }
+  countEl.textContent = 'Zobrazuje sa ' + visible + (visible === 1 ? ' album' : visible < 5 ? ' albumy' : ' albumov');
+  var emptyEl = document.getElementById('albumsEmpty');
+  var gridEl  = document.getElementById('albumsGrid');
+  if (visible === 0) { emptyEl.style.display = 'block'; gridEl.style.display = 'none'; }
+  else { emptyEl.style.display = 'none'; gridEl.style.display = ''; }
+}
+document.querySelectorAll('.filter-year-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-year-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeYear = btn.dataset.year;
+    activeMonth = 'all';
+    document.querySelectorAll('.filter-month-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelector('.filter-month-btn[data-month="all"]').classList.add('active');
+    applyFilter();
+  });
+});
+document.querySelectorAll('.filter-month-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-month-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeMonth = btn.dataset.month;
+    applyFilter();
+  });
+});
+applyFilter();
+</script>
+
+</body>
+</html>
