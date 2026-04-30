@@ -6,6 +6,103 @@
   <title>Centrum Sociálnych Služieb Studienka v Novoti</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --navy:    #1A4A96;
+      --teal:    #4A6DB8;
+      --teal-lt: #7A9ED4;
+      --gold:    #E07818;
+      --green:   #7AB020;
+      --cream:   #FAFAF7;
+      --white:   #ffffff;
+      --gray-lt: #F2F0EB;
+      --gray-md: #8A8A82;
+      --text:    #252520;
+      --radius:  8px;
+      --shadow:  0 4px 24px rgba(30,48,85,.09);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; color: var(--text); background: var(--cream); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HLAVIČKA ── */
+    header { background: #2B6CC8; color: var(--white); position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    .header-top { background: #7AB020; text-align: center; font-size: .85rem; font-weight: 500; letter-spacing: .04em; padding: .45rem 1rem; color: rgba(255,255,255,.95); }
+    .header-top a { color: inherit; }
+    .header-main { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .5rem 2rem; }
+    .logo { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; text-decoration: none; }
+    .logo-icon { width: 110px; height: 110px; flex-shrink: 0; overflow: hidden; }
+    .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15; color: var(--white); }
+    .logo-text .logo-sub { font-size: 2.1rem; font-weight: 800; color: var(--white); display: block; }
+    .logo-text .tagline { font-size: .8rem; color: #E07818; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; display: block; margin-top: .25rem; }
+    /* ── NAV s dropdown ── */
+    nav { display: flex; align-items: center; gap: .1rem; flex-wrap: nowrap; position: relative; }
+    nav > a, nav > .nav-item > a {
+      font-size: .8rem; font-weight: 500; letter-spacing: .02em;
+      padding: .45rem .5rem; border-radius: var(--radius);
+      transition: background .2s, color .2s;
+      color: rgba(255,255,255,.88); white-space: nowrap;
+      display: flex; align-items: center; gap: .25rem;
+    }
+    nav > a:hover, nav > .nav-item > a:hover { background: rgba(255,255,255,.12); color: var(--white); }
+    nav > a.active, nav > .nav-item > a.active { background: #E07818; color: var(--white); }
+    .nav-item { position: relative; }
+    .nav-item > a::after { content: '▾'; font-size: .65rem; opacity: .7; margin-left: .1rem; }
+    .dropdown {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: var(--navy); border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius); min-width: 230px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35); z-index: 300;
+      padding: .4rem 0 .4rem;
+      /* Neviditeľný mostík — predĺži hover zónu medzi tlačidlom a menu */
+      margin-top: 0;
+    }
+    .dropdown::before {
+      content: ''; position: absolute; top: -8px; left: 0;
+      width: 100%; height: 8px; background: transparent;
+    }
+    .nav-item:hover .dropdown,
+    .nav-item:focus-within .dropdown { display: block; }
+    .dropdown a {
+      display: block; padding: .55rem 1.1rem;
+      font-size: .85rem; color: rgba(255,255,255,.82);
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .dropdown a:hover { background: rgba(255,255,255,.09); color: var(--white); }
+    .dropdown a.active { color: #E07818; font-weight: 600; }
+    .dropdown-divider { height: 1px; background: rgba(255,255,255,.08); margin: .3rem 0; }
+    /* ── HAMBURGER ── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .5rem; border: none; background: transparent; z-index: 200; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* ── MOBILE NAV ── */
+    .mobile-nav { display: none; flex-direction: column; background: var(--navy); border-top: 1px solid rgba(255,255,255,.1); max-height: 85vh; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    /* Priame linky (Domov, Kontakt) */
+    .mobile-nav > a { font-size: .95rem; font-weight: 500; color: rgba(255,255,255,.85); padding: .75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06); transition: color .2s; display: block; }
+    .mobile-nav > a:hover, .mobile-nav > a.active { color: #E07818; }
+    /* Akordeón skupina */
+    .mob-group { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .mob-group-btn {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 1.5rem; color: rgba(255,255,255,.85);
+      font-size: .95rem; font-weight: 500; font-family: inherit;
+      transition: color .2s; text-align: left;
+    }
+    .mob-group-btn:hover { color: #E07818; }
+    .mob-group-btn.open { color: #E07818; }
+    .mob-group-btn .mob-arrow { font-size: .65rem; transition: transform .25s; opacity: .7; }
+    .mob-group-btn.open .mob-arrow { transform: rotate(180deg); }
+    /* Podpoložky */
+    .mob-sub-list { display: none; background: rgba(0,0,0,.2); }
+    .mob-sub-list.open { display: block; }
+    .mob-sub-list a { display: block; font-size: .88rem; color: rgba(255,255,255,.65); padding: .6rem 1.5rem .6rem 2.25rem; transition: color .2s; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .mob-sub-list a:last-child { border-bottom: none; }
+    .mob-sub-list a:hover, .mob-sub-list a.active { color: #E07818; }
+
     /* ══════════════════════════════
        HERO SLIDER
     ══════════════════════════════ */
@@ -34,6 +131,15 @@
     .slide-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; color: var(--white); line-height: 1.18; margin-bottom: 1rem; }
     .slide-text p { font-size: 1.05rem; color: rgba(255,255,255,.82); max-width: 460px; margin-bottom: 2rem; line-height: 1.7; }
     .slide-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.8rem; border-radius: 4px; font-weight: 600; font-size: .92rem; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; font-family: inherit; border: none; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+    .btn-primary { background: #E07818; color: var(--white); }
+    .btn-primary:hover { background: #c96810; }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.55); }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.08); }
+    .btn-outline-dark { background: transparent; color: var(--navy); border: 2px solid var(--navy); transition: background .2s, color .2s; }
+    .btn-outline-dark:hover { background: var(--navy); color: var(--white); }
 
     /* Dots */
     .slider-nav { position: absolute; bottom: 2.5rem; left: 7%; z-index: 10; display: flex; align-items: center; gap: .6rem; }
@@ -154,10 +260,35 @@
     .btn-submit { background: var(--teal); color: var(--white); border: none; width: 100%; padding: .85rem; font-size: .95rem; border-radius: var(--radius); cursor: pointer; font-family: inherit; font-weight: 600; transition: background .2s; }
     .btn-submit:hover { background: var(--navy); }
 
+    /* ── PÄTIČKA ── */
+    footer { background: #1A3478; color: rgba(255,255,255,.8); }
+    .footer-main { max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem 2rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
+    .footer-brand .f-tag { font-size: .75rem; color: #E07818; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; }
+    .footer-col h4 { color: var(--white); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid #E07818; display: inline-block; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: .55rem; }
+    .footer-col ul li a { font-size: .88rem; transition: color .2s; }
+    .footer-col ul li a:hover { color: #E07818; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); text-align: center; padding: 1.25rem 2rem; font-size: .8rem; color: rgba(255,255,255,.4); }
+
     /* ── RESPONZÍVNOSŤ ── */
     @media (max-width: 1024px) {
       .cards { grid-template-columns: repeat(2,1fr); }
       .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+        @media (max-width: 1100px) {
+      nav > .nav-item > a, nav > a { font-size: .8rem; padding: .45rem .55rem; }
+    }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .header-main { padding: .85rem 1.25rem; }
+      .logo-text h1 { font-size: 1.4rem; }
+      .logo-text .logo-sub { font-size: .95rem; }
     }
     @media (max-width: 768px) {
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -167,6 +298,9 @@
       .slider { height: 58vh; min-height: 380px; }
       .cards { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-brand { grid-column: auto; }
+      
       .slide-content { padding: 0 5%; }
       .slide-diagonal::after { width: 100%; background: rgba(30,48,85,.65); }
       .slider-arrow { width: 36px; height: 36px; }
@@ -309,13 +443,13 @@
 <!-- ═══════ HLAVIČKA ═══════ -->
 <header>
   <div class="header-top">
-    Otvorené: Po–Pia 07:00–15:30 &nbsp;|&nbsp; Tel: 043/559 01 97 &nbsp;|&nbsp;
+    Tel: 043/559 01 97 &nbsp;|&nbsp;
     <a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a>
   </div>
   <div class="header-main">
     <a href="domov.html" class="logo">
       <div class="logo-icon">
-        <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:140px;height:140px;object-fit:contain;display:block;mix-blend-mode:screen;" />
       </div>
       <div class="logo-text">
         <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
@@ -348,7 +482,6 @@
       <div class="nav-item">
         <a href="informacieprevas.html">Pre záujemcov</a>
         <div class="dropdown">
-        <a href="informacieprevas.html">Ako začať</a>
         <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
         <a href="informacieprevas.html#cennik">Cenník služieb</a>
         <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
@@ -357,20 +490,19 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="prerodiny.html">Pre rodiny</a>
+        <a href="prerodiny.html">Pre príbuzných</a>
         <div class="dropdown">
         <a href="prerodiny.html">Informácie pre príbuzných</a>
         <a href="prerodiny.html#navstevy">Návštevy</a>
-        <a href="prerodiny.html#otvaracie">Otvárací čas</a>
-        <a href="prerodiny.html#vychadzky">Vychádzky</a>
         <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
         </div>
       </div>
       <div class="nav-item">
         <a href="aktuality.html">Aktuality</a>
         <div class="dropdown">
-        <a href="aktuality.html">Všetky aktuality</a>
+        <a href="aktuality.html">Informácie zo života</a>
         <a href="galeria.html">Fotogaléria</a>
+        <a href="planyaktivit.html">Plány aktivít</a>
         </div>
       </div>
       <a href="nastiahnutie.html">Na stiahnutie</a>
@@ -409,7 +541,6 @@
   <div class="mob-group">
     <button class="mob-group-btn">Pre záujemcov<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
-      <a href="informacieprevas.html">Ako začať</a>
       <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
       <a href="informacieprevas.html#cennik">Cenník služieb</a>
       <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
@@ -417,19 +548,18 @@
     </div>
   </div>
   <div class="mob-group">
-    <button class="mob-group-btn">Pre rodiny<span class="mob-arrow">▾</span></button>
+    <button class="mob-group-btn">Pre príbuzných<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
       <a href="prerodiny.html">Informácie pre príbuzných</a>
       <a href="prerodiny.html#navstevy">Návštevy</a>
-      <a href="prerodiny.html#otvaracie">Otvárací čas</a>
-      <a href="prerodiny.html#vychadzky">Vychádzky</a>
     </div>
   </div>
   <div class="mob-group">
     <button class="mob-group-btn">Aktuality<span class="mob-arrow">▾</span></button>
     <div class="mob-sub-list">
-      <a href="aktuality.html">Všetky aktuality</a>
+      <a href="aktuality.html">Informácie zo života</a>
       <a href="galeria.html">Fotogaléria</a>
+      <a href="planyaktivit.html">Plány aktivít</a>
     </div>
   </div>
     <a href="nastiahnutie.html">Na stiahnutie</a>
@@ -450,11 +580,10 @@
     <div class="slide-content">
       <div class="slide-text">
         <div class="slide-tag">Centrum Studienka, Novoť</div>
-        <h2>Váš domov,<br>naša starostlivosť</h2>
+        <h2>Miesto, kde na Vás záleží</h2>
         <p>Poskytujeme sociálne služby v malebnom prostredí Hornej Oravy, kde každý deň prináša radosť, pohyb a ľudské teplo.</p>
         <div class="slide-btns">
           <a href="nasesluzby.html" class="btn btn-primary">Naše služby</a>
-          <a href="informacieprevas.html" class="btn btn-outline">Ako začať</a>
           <a href="kontakt.html" class="btn btn-outline">Kontaktujte nás</a>
         </div>
       </div>
@@ -690,7 +819,7 @@
     <div class="section-header">
       <div class="section-tag">Naša história</div>
       <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700;color:var(--navy);margin-bottom:.75rem;">Sme tu pre vás od roku 1989</h2>
-      <p style="color:var(--gray-md);max-width:500px;margin:0 auto;">Od malého zariadenia po moderné centrum sociálnych služieb — príbeh odhodlania a starostlivosti.</p>
+      <p style="color:var(--gray-md);max-width:500px;margin:0 auto;">Od domova dôchodcov po moderné centrum sociálnych služieb</p>
       <div class="divider"></div>
     </div>
     <div class="timeline">
@@ -731,7 +860,7 @@
         <div class="tl-dot">2013</div>
         <div class="tl-right"><div class="tl-card">
           <div class="tl-year">Rok 2013</div>
-          <div class="tl-title">Rozšírenie a modernizácia</div>
+          <div class="tl-title">Rozšírenie sociálnych služieb a modernizácia</div>
           <div class="tl-desc">Snoezelen miestnosť, rehabilitačné pracovisko a aktivity sociálnej terapie.</div>
         </div></div>
       </div>
@@ -777,7 +906,7 @@
       </div>
       <div class="about-content">
         <div class="section-tag" style="font-size:.8rem; letter-spacing:.14em;">O zariadení</div>
-        <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Náš tým<br>odborníkov</h2>
+        <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Náš tím</h2>
         <p>Chod zariadenia a starostlivosť o prijímateľov zabezpečuje celkovo <strong>76 zamestnancov</strong> (72,5 prepočítaných pracovných úväzkov). Naši zamestnanci sú odborne kvalifikovaní a pravidelne sa vzdelávajú, aby mohli poskytovať čo najvyššiu kvalitu starostlivosti.</p>
         <p>Tím zahŕňa zdravotníckych pracovníkov, sociálnych pracovníkov, terapeutov, opatrovateľov a prevádzkový personál. Zariadenie umožňuje otvorený kontakt s príbuznými aj s ostatnými občanmi Novote a okolia každý deň.</p>
         <ul class="feature-list">
@@ -883,7 +1012,7 @@
     </div>
     <div class="news-footer">
       <a href="aktuality.html" class="btn-news-all">
-        Všetky aktuality
+        Informácie zo života
         <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </a>
     </div>
@@ -920,10 +1049,6 @@
           <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
           <div><h4>E-mail</h4><p><a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a></p></div>
         </div>
-        <div class="contact-card">
-          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
-          <div><h4>Úradné hodiny</h4><p>Pondelok – Piatok, 07:00 – 15:30</p></div>
-        </div>
       </div>
       <form class="contact-form-wrap" method="post" action="mailto:studienka@zask.sk" enctype="text/plain">
         <h3>Napíšte nám</h3>
@@ -951,7 +1076,7 @@
         <li><a href="nasesluzby.html">Ponúkame</a></li>
         <li><a href="informacieprevas.html">Pre záujemcov</a></li>
         
-        <li><a href="prerodiny.html">Pre rodiny</a></li>
+        <li><a href="prerodiny.html">Pre príbuzných</a></li>
         <li><a href="aktuality.html">Aktuality</a></li>
         <li><a href="povinnezverejnovanie.html">Povinné zverejňovanie</a></li>
         <li><a href="onas.html">O nás</a></li>
@@ -977,7 +1102,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── TIMELINE ANIMÁCIA ───────────────────
 (function() {
   var tlItems = document.querySelectorAll('.tl-item');
@@ -1086,89 +1211,6 @@ sliderImgs.forEach(src => { const img = new Image(); img.src = src; });
     });
   }
 })();
-
-document.addEventListener('DOMContentLoaded', function() {
-
-// ── HERO SLIDER ──────────────────────────────
-const slides   = document.querySelectorAll('.slide');
-const dots     = document.querySelectorAll('.slider-dot');
-const progress = document.getElementById('sliderProgress');
-const DURATION = 6000;
-let current = 0;
-let timer   = null;
-
-function goTo(idx) {
-  slides[current].classList.remove('active');
-  dots[current].classList.remove('active');
-  current = (idx + slides.length) % slides.length;
-  slides[current].classList.add('active');
-  dots[current].classList.add('active');
-  // reset progress bar
-  progress.style.transition = 'none';
-  progress.style.width = '0%';
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    progress.style.transition = `width ${DURATION}ms linear`;
-    progress.style.width = '100%';
-  }));
-}
-
-function next() { goTo(current + 1); }
-function prev() { goTo(current - 1); }
-
-function startAuto() {
-  clearInterval(timer);
-  timer = setInterval(next, DURATION);
-}
-
-// Štart
-goTo(0);
-startAuto();
-
-// Dots
-dots.forEach(dot => dot.addEventListener('click', () => {
-  clearInterval(timer);
-  goTo(parseInt(dot.dataset.index));
-  startAuto();
-}));
-
-// Arrows
-document.getElementById('nextArrow').addEventListener('click', () => { clearInterval(timer); next(); startAuto(); });
-document.getElementById('prevArrow').addEventListener('click', () => { clearInterval(timer); prev(); startAuto(); });
-
-// Swipe na mobile
-let tx = 0;
-const sl = document.querySelector('.slider');
-sl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
-sl.addEventListener('touchend', e => {
-  const d = tx - e.changedTouches[0].clientX;
-  if (Math.abs(d) > 50) { clearInterval(timer); d > 0 ? next() : prev(); startAuto(); }
-});
-
-// Pauza pri hover
-sl.addEventListener('mouseenter', () => clearInterval(timer));
-sl.addEventListener('mouseleave', startAuto);
-
-// ── SCROLL ANIMÁCIE KARIET ───────────────────
-const newsCards = document.querySelectorAll('.news-card');
-newsCards.forEach((card, i) => {
-  card.style.transitionDelay = (i * 0.12) + 's';
-});
-const newsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); newsObserver.unobserve(e.target); } });
-}, { threshold: 0.12 });
-newsCards.forEach(c => newsObserver.observe(c));
-
-const cardObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      cardObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
-
-}); // DOMContentLoaded
 
 </script>
 </body>

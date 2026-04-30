@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krízový plán | CSS STUDIENKA Novoť</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-hero {
+      background: #2B6CC8;
+      color: #fff;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+    .page-hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,.75);
+    }
+    .breadcrumb {
+      background: #f2f0eb;
+      padding: .65rem 2rem;
+      font-size: .82rem;
+      color: #8A8A82;
+    }
+    .breadcrumb a { color: #4A6DB8; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .content-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+    }
+    .content-wrap h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #1A4A96;
+      margin: 2.5rem 0 .9rem;
+      padding-bottom: .4rem;
+      border-bottom: 2px solid #E07818;
+      display: inline-block;
+    }
+    .content-wrap p {
+      color: #444;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: .97rem;
+    }
+    .content-wrap ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .content-wrap ol li {
+      color: #444;
+      line-height: 1.8;
+      font-size: .97rem;
+      padding: .2rem 0;
+    }
+    .content-wrap ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1.25rem;
+    }
+    .content-wrap ul li {
+      color: #444;
+      line-height: 1.8;
+      font-size: .97rem;
+      padding: .25rem 0 .25rem 1.5rem;
+      position: relative;
+      border-bottom: 1px solid #f0eeea;
+    }
+    .content-wrap ul li:last-child { border-bottom: none; }
+    .content-wrap ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #E07818;
+      font-weight: 700;
+    }
+    .info-box {
+      background: #f4f7ee;
+      border-left: 4px solid #7AB020;
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0;
+      font-size: .95rem;
+      color: #444;
+      line-height: 1.75;
+    }
+    .info-box strong { color: #1A4A96; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ HLAVIČKA ═══════ -->
+<header>
+  <div class="header-top">
+    Tel: 043/559 01 97 &nbsp;|&nbsp;
+    <a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a>
+  </div>
+  <div class="header-main">
+    <a href="domov.html" class="logo">
+      <div class="logo-icon">
+        <img src="logo/logo.png" alt="CSS Studienka" style="width:110px;height:110px;object-fit:contain;display:block;mix-blend-mode:screen;" />
+      </div>
+      <div class="logo-text">
+        <h1>Centrum sociálnych služieb<br><span class="logo-sub">STUDIENKA Novoť</span></h1>
+      </div>
+    </a>
+    <nav>
+      <a href="domov.html">Domov</a>
+      <div class="nav-item">
+        <a href="onas.html">O nás</a>
+        <div class="dropdown">
+          <a href="onas.html">O zariadení</a>
+          <a href="onas.html#historia">História</a>
+          <a href="onas.html#nastim">Náš tím</a>
+          <a href="onas.html#poslanie">Poslanie a vízia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="nasesluzby.html">Naše služby</a>
+        <div class="dropdown">
+          <a href="nasesluzby.html">Ponúkame</a>
+          <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
+          <a href="nasesluzby.html#dss">Domov soc. služieb</a>
+          <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
+          <a href="nasesluzby.html#denne">Denné centrum</a>
+          <a href="nasesluzby.html#jedalen">Jedáleň</a>
+          <a href="nasesluzby.html#preprava">Prepravná služba</a>
+          <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="informacieprevas.html">Pre záujemcov</a>
+        <div class="dropdown">
+          <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
+          <a href="informacieprevas.html#cennik">Cenník služieb</a>
+          <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
+          <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+          <a href="informacieprevas.html#ekonomicky">Ekon. oprávnené náklady</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="prerodiny.html">Pre príbuzných</a>
+        <div class="dropdown">
+          <a href="prerodiny.html">Informácie pre príbuzných</a>
+          <a href="prerodiny.html#navstevy">Návštevy</a>
+          <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="aktuality.html">Aktuality</a>
+        <div class="dropdown">
+          <a href="aktuality.html">Informácie zo života</a>
+          <a href="galeria.html">Fotogaléria</a>
+          <a href="planyaktivit.html">Plány aktivít</a>
+        </div>
+      </div>
+      <a href="nastiahnutie.html">Na stiahnutie</a>
+      <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+      <a href="oz-pelikan.html">OZ Pelikán</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="domov.html">Domov</a>
+    <div class="mob-group">
+      <button class="mob-group-btn">O nás<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="onas.html">O zariadení</a>
+        <a href="onas.html#historia">História</a>
+        <a href="onas.html#nastim">Náš tím</a>
+        <a href="onas.html#poslanie">Poslanie a vízia</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Naše služby<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="nasesluzby.html">Ponúkame</a>
+        <a href="nasesluzby.html#zariadenie">Zariadenie pre seniorov</a>
+        <a href="nasesluzby.html#dss">Domov soc. služieb</a>
+        <a href="nasesluzby.html#specializovane">Špecializované zariadenie</a>
+        <a href="nasesluzby.html#denne">Denné centrum</a>
+        <a href="nasesluzby.html#jedalen">Jedáleň</a>
+        <a href="nasesluzby.html#preprava">Prepravná služba</a>
+        <a href="nasesluzby.html#odlahcovacia">Odľahčovacia služba</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Pre záujemcov<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="informacieprevas.html#podmienky">Podmienky prijatia</a>
+        <a href="informacieprevas.html#cennik">Cenník služieb</a>
+        <a href="informacieprevas.html#volne-miesta">Voľné miesta</a>
+        <a href="informacieprevas.html#ziadatel">Ako podať žiadosť</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Pre príbuzných<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="prerodiny.html">Informácie pre príbuzných</a>
+        <a href="prerodiny.html#navstevy">Návštevy</a>
+        <a href="prerodiny.html#pobyt">Pobyt mimo zariadenia</a>
+      </div>
+    </div>
+    <div class="mob-group">
+      <button class="mob-group-btn">Aktuality<span class="mob-arrow">▾</span></button>
+      <div class="mob-sub-list">
+        <a href="aktuality.html">Informácie zo života</a>
+        <a href="galeria.html">Fotogaléria</a>
+        <a href="planyaktivit.html">Plány aktivít</a>
+      </div>
+    </div>
+    <a href="nastiahnutie.html">Na stiahnutie</a>
+    <a href="povinnezverejnovanie.html">Povinné zverejňovanie</a>
+    <a href="oz-pelikan.html">OZ Pelikán</a>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+</header>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="page-hero">
+  <h1>Krízový plán</h1>
+  <p>Centrum sociálnych služieb STUDIENKA Novoť</p>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="domov.html">Domov</a> › Krízový plán
+</div>
+
+<!-- ═══════ OBSAH ═══════ -->
+<div class="content-wrap">
+
+  <p>
+    <strong>Centrum sociálnych služieb STUDIENKA</strong> Novoť má vypracovaný <strong>KRÍZOVÝ PLÁN</strong> pri riadení činností zameraných na predchádzanie vzniku a šíreniu Covid-19, resp. iných prenosných ochorení zo dňa 18. 4. 2020.
+  </p>
+
+  <h2>Štruktúra krízového plánu</h2>
+  <p>Krízový plán je vypracovaný v štruktúre nasledovných 20 bodov:</p>
+  <ol>
+    <li>Účel a záväznosť krízového plánu</li>
+    <li>Krízové riadenie</li>
+    <li>Interný krízový tím</li>
+    <li>Činnosti krízového tímu</li>
+    <li>Systém komunikácie</li>
+    <li>Informačná povinnosť zamestnancov</li>
+    <li>Preventívne opatrenia</li>
+    <li>Riadenie rizík</li>
+    <li>Krízová komunikácia</li>
+    <li>Všeobecné usmernenia zamerané na osobnú prevenciu</li>
+    <li>Všeobecné zásady pre prevenciu vzniku a šírenia respiračných vírusov</li>
+    <li>Pravidlá prevencie a kontroly infekcií a špeciálne opatrenia v prevádzke</li>
+    <li>Organizácia návštev v prevádzke</li>
+    <li>Organizácia odborných procesov v prípade karantény</li>
+    <li>Organizácia obslužných činností</li>
+    <li>Organizácia starostlivosti o zamestnancov a ďalšie osoby podieľajúce sa na starostlivosti</li>
+    <li>Prijímanie nových zamestnancov</li>
+    <li>Prijímanie nových klientov</li>
+    <li>Validácia krízového plánu a validácia organizačných aj odborných postupov</li>
+    <li>Záverečné ustanovenia</li>
+  </ol>
+
+  <h2>Prílohy krízového plánu</h2>
+  <ul>
+    <li>Príloha 01: Terminologický slovník</li>
+    <li>Príloha 02: Záznam o preventívnych opatreniach</li>
+    <li>Príloha 03: Dokument postupu k riešeniu udalosti výskytu koronavírusu</li>
+    <li>Príloha 04: Psychologické intervencie</li>
+    <li>Príloha 05: Záznam o prevencii a dezinfekčných opatreniach v opatrovateľskom procese</li>
+    <li>Príloha 06: Záznam o prevencii a dezinfekčných opatreniach v procese upratovania</li>
+    <li>Príloha 07: Zoznam vecí zamestnanca v službe</li>
+    <li>Príloha 08: Sledovanie prijímateľa sociálnej služby (sledovanie príznakov u klienta s podozrením na infekčné ochorenie horných dýchacích ciest — chrípka, COVID-19 …)</li>
+    <li>Príloha 09: Výber činnosti v krízovom riadení</li>
+    <li>Príloha 10: Plán reprofilizácie lôžok</li>
+    <li>Príloha 11: Postup k dočasnému opusteniu zariadenia</li>
+    <li>Príloha 12: Odporúčania k príjmu prijímateľa sociálnej služby do zariadenia sociálnych služieb</li>
+    <li>Príloha 13: Záznam o mimoriadnej udalosti</li>
+    <li>Príloha 14: Protokol o obmedzení</li>
+    <li>Príloha 15: Požiadavky na OOPP</li>
+    <li>Príloha 16: Kontaktný formulár</li>
+  </ul>
+
+  <h2>Implementácia a správa plánu</h2>
+  <div class="info-box">
+    S krízovým plánom pracuje ustanovený <strong>interný krízový tím</strong>, ktorý zasadá pravidelne každý pracovný deň a podľa potreby. Zo stretnutí interného krízového tímu sa vystavuje záznam/zápisnica. Záznam o preventívnych opatreniach sa dopĺňa aktuálne každý deň, alebo podľa potreby. Prílohu č. 05 a 06 — Záznamy o prevencii a dezinfekčných opatreniach — kontroluje a dopĺňa vedúca ošetrovateľsko-opatrovateľského úseku.
+  </div>
+  <p>
+    V prípade vzniku mimoriadnej udalosti sa vypĺňa záznam o mimoriadnej udalosti. Protokol o obmedzení sa vypĺňa len pri individuálnom obmedzení v zmysle Zákona o sociálnych službách č. 448/2008 Z. z. v ZNP, ktoré sa netýka všeobecného zákazu návštev a opustenia zariadenia prijímateľom sociálnych služieb, ktoré je vydané pre všetkých PSS na základe odporúčania MPSVR.
+  </p>
+  <p>
+    Krízový plán a prílohy sú k dispozícii všetkým kontrolným orgánom v zmysle legislatívy SR.
+  </p>
+
+</div>
+
+<!-- ═══════ PÄTIČKA ═══════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <h3>Centrum sociálnych služieb STUDIENKA Novoť</h3>
+      <p>Sme v zriaďovateľskej pôsobnosti Žilinského samosprávneho kraja. Poskytujeme sociálne služby v Novoti od roku 1989 s rešpektom k dôstojnosti každého prijímateľa.</p>
+      <div style="display:flex;align-items:center;gap:1.25rem;margin-top:13px;">
+        <img src="foto/erb.png" alt="Erb ZSK" style="height:130px;opacity:.85;vertical-align:middle;" />
+        <img src="logo/logo.png" alt="Logo CSS Studienka" style="height:130px;mix-blend-mode:screen;opacity:.85;vertical-align:middle;" />
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigácia</h4>
+      <ul>
+        <li><a href="domov.html">Domov</a></li>
+        <li><a href="nasesluzby.html">Ponúkame</a></li>
+        <li><a href="informacieprevas.html">Pre záujemcov</a></li>
+        <li><a href="prerodiny.html">Pre príbuzných</a></li>
+        <li><a href="aktuality.html">Aktuality</a></li>
+        <li><a href="povinnezverejnovanie.html">Povinné zverejňovanie</a></li>
+        <li><a href="onas.html">O nás</a></li>
+        <li><a href="nastiahnutie.html">Na stiahnutie</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li>Novoť 976, 029 55</li>
+        <li><a href="tel:+421435590197">043 / 559 01 97</a></li>
+        <li><a href="tel:+421435590287">043 / 559 02 87</a></li>
+        <li><a href="tel:+421948985019">0948 985 019</a></li>
+        <li><a href="mailto:css.studienka@vucilina.sk">css.studienka@vucilina.sk</a></li>
+        <li style="margin-top:.75rem; padding-top:.75rem; border-top:1px solid rgba(255,255,255,.1);">
+          <a href="https://www.osobnyudaj.sk/informovanie/00632830" target="_blank" rel="noopener">Ochrana osobných údajov</a>
+        </li>
+        <li><a href="krizovyplan.html">Krízový plán</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Centrum sociálnych služieb STUDIENKA Novoť &nbsp;·&nbsp; Všetky práva vyhradené
+  </div>
+</footer>
+
+<script>
+(function() {
+  var hbg = document.getElementById('hamburger');
+  var mNav = document.getElementById('mobileNav');
+  if (hbg && mNav) {
+    hbg.addEventListener('click', function(e) {
+      e.stopPropagation();
+      hbg.classList.toggle('open');
+      mNav.classList.toggle('open');
+    });
+    mNav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hbg.contains(e.target) && !mNav.contains(e.target)) {
+        hbg.classList.remove('open');
+        mNav.classList.remove('open');
+      }
+    });
+  }
+  document.querySelectorAll('.mob-group-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var isOpen = btn.classList.contains('open');
+      document.querySelectorAll('.mob-group-btn').forEach(function(b) {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.nextElementSibling.classList.add('open');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
